@@ -1,0 +1,102 @@
+"use client";
+import React from "react";
+import { TracingBeam } from "@/components/ui/tracing-beam";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
+import { AspectRatio } from "../ui/aspect-ratio";
+import { PointerHighlight } from "@/components/ui/pointer-highlight";
+import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+
+export default function TargetSection() {
+  const words = 
+    "Chương trình đào tạo chất lượng cao Tài chính Ngân hàng ứng dụng Công nghệ FinTech.";
+
+  return (
+    <section id="target-section" className="py-8 lg:py-16">
+      <div className="max-w-4xl mx-auto flex flex-col items-center justify-center min-h-[16rem] sm:min-h-[18rem] lg:min-h-[20rem] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl lg:max-w-4xl text-center mb-6 sm:mb-8 lg:mb-12">
+          <PointerHighlight>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-red-600 px-2 sm:px-4 py-2 sm:py-4">Mục tiêu của chương trình</h2>
+          </PointerHighlight>
+        </div>
+        <div className="w-full max-w-3xl">
+          <TextGenerateEffect words={words} align="flex justify-center items-center gap-2 flex-wrap text-center text-sm sm:text-base lg:text-lg"/>
+        </div>
+      </div>
+      <TracingBeam className="px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl lg:max-w-6xl mx-auto antialiased pt-4 relative">
+          {targetContent.map((item, index) => (
+            <div key={`content-${index}`} className="mb-8 sm:mb-10 lg:mb-12 p-4">
+              <h2 className="bg-black text-white rounded-full text-xs sm:text-sm w-fit px-3 sm:px-4 py-1 sm:py-2 mb-3 sm:mb-4">
+                {item.badge}
+              </h2>
+
+              <p className={cn("text-lg sm:text-xl lg:text-2xl mb-4 sm:mb-6 font-semibold")}>
+                {item.title}
+              </p>
+
+              <div className="prose prose-sm sm:prose-base lg:prose-lg dark:prose-invert max-w-none">
+                <AspectRatio ratio={16 / 9} className="mb-4 sm:mb-6 lg:mb-8">
+                  {item?.image && (
+                    <Image
+                      src={item.image}
+                      alt="blog thumbnail"
+                      fill
+                      className="rounded-lg object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+                    />
+                  )}
+                </AspectRatio>
+                <div className="text-sm sm:text-base lg:text-lg leading-relaxed">
+                  {item.description}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </TracingBeam>
+    </section>
+  );
+}
+
+const targetContent = [
+  {
+    badge: "Kiến thức toàn diện",
+    title: "Kiến thức toàn diện về Tài chính - Ngân hàng và Công nghệ",
+    description: (
+      <>
+        <p className="text-lg">
+          Chương trình cung cấp hệ thống kiến thức toàn diện về các lĩnh vực tài chính – ngân hàng cốt lõi như tài chính doanh nghiệp, ngân hàng thương mại, thị trường tài chính, quản trị rủi ro, đầu tư và thanh toán quốc tế. Cùng với đó, sinh viên được trang bị những kiến thức mới nhất về công nghệ tài chính, giúp họ hiểu rõ cách thức ứng dụng trí tuệ nhân tạo (AI), học máy (Machine Learning), dữ liệu lớn (Big Data), chuỗi khối (Blockchain), và hợp đồng thông minh (Smart Contracts) vào các hoạt động tài chính. Đây là những yếu tố cốt lõi trong việc đổi mới mô hình kinh doanh ngân hàng và tạo ra các sản phẩm tài chính số hiện đại.
+        </p>
+      </>
+    ),
+    image:
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+  {
+    badge: "Công nghệ tài chính",
+    title: "Ứng dụng Công nghệ Tài chính (FinTech)",
+    description: (
+      <>
+        <p className="text-lg">
+          Chương trình cung cấp hệ thống kiến thức toàn diện về các lĩnh vực tài chính – ngân hàng cốt lõi như tài chính doanh nghiệp, ngân hàng thương mại, thị trường tài chính, quản trị rủi ro, đầu tư và thanh toán quốc tế. Cùng với đó, sinh viên được trang bị những kiến thức mới nhất về công nghệ tài chính, giúp họ hiểu rõ cách thức ứng dụng trí tuệ nhân tạo (AI), học máy (Machine Learning), dữ liệu lớn (Big Data), chuỗi khối (Blockchain), và hợp đồng thông minh (Smart Contracts) vào các hoạt động tài chính. Đây là những yếu tố cốt lõi trong việc đổi mới mô hình kinh doanh ngân hàng và tạo ra các sản phẩm tài chính số hiện đại.
+        </p>
+      </>
+    ),
+    image:
+      "https://images.unsplash.com/photo-1665686306574-1ace09918530?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+  {
+    badge: "Thực hành và ứng dụng",
+    title: "Thực hành và Ứng dụng thực tế",
+    description: (
+      <>
+        <p className="text-lg">
+          Không dừng lại ở lý thuyết, chương trình CLC còn tập trung vào thực hành, giúp sinh viên phát triển kỹ năng ứng dụng công nghệ vào tài chính – ngân hàng. Sinh viên có cơ hội tiếp cận các phòng thí nghiệm chuỗi khối, phòng học máy và trang thiết bị hiện đại, từ đó rèn luyện tư duy sáng tạo, khả năng phân tích dữ liệu và quản lý tài chính cá nhân bằng các công cụ số hóa. Chương trình cũng mang đến các môn học chuyên sâu như Nguyên lý và kỹ thuật học máy trong FinTech, Chuỗi khối và tiền mã hóa, Trí tuệ nhân tạo trong tài chính ngân hàng, Trí tuệ nhân tạo trong giao dịch định lượng, Phân tích dữ liệu lớn trong tài chính ngân hàng, giúp sinh viên nhanh chóng bắt nhịp với các xu hướng đổi mới trong ngành
+        </p>
+      </>
+    ),
+    image:
+      "https://images.unsplash.com/photo-1556740758-90de374c12ad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+];
