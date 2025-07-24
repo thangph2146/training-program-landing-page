@@ -13,7 +13,7 @@ export function TrainingProgramStructure() {
             title: "Thông tin chung",
             value: "thong-tin-chung",
             content: (
-                <div className="w-full overflow-hidden relative h-full rounded-3xl p-4 sm:p-6 md:p-8 text-slate-800 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 shadow-xl border border-slate-200">
+                <div className="w-full overflow-hidden relative h-full rounded-3xl p-4 text-slate-800 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 shadow-xl border border-slate-200">
                     <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent rounded-3xl"></div>
                     <div className="relative z-10">
                         <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
@@ -82,7 +82,7 @@ export function TrainingProgramStructure() {
             title: "Mục tiêu chương trình",
             value: "muc-tieu",
             content: (
-                <div className="w-full overflow-hidden relative h-full rounded-3xl p-4 sm:p-6 md:p-8 lg:p-12 text-slate-800 bg-gradient-to-br from-cyan-50 via-sky-50 to-blue-100 shadow-xl border border-slate-200">
+                <div className="w-full overflow-hidden relative h-full rounded-3xl p-4 text-slate-800 bg-gradient-to-br from-cyan-50 via-sky-50 to-blue-100 shadow-xl border border-slate-200">
                     <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent rounded-3xl"></div>
                     <div className="relative z-10">
                         <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
@@ -117,7 +117,7 @@ export function TrainingProgramStructure() {
             title: "Khối kiến thức",
             value: "khoi-kien-thuc",
             content: (
-                <div className="w-full overflow-hidden relative h-full rounded-3xl p-4 sm:p-6 md:p-8 lg:p-12 text-slate-800 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-100 shadow-xl border border-slate-200">
+                <div className="w-full overflow-hidden relative h-full rounded-3xl p-4 text-slate-800 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-100 shadow-xl border border-slate-200">
                     <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent rounded-3xl"></div>
                     <div className="relative z-10">
                         <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
@@ -158,7 +158,7 @@ export function TrainingProgramStructure() {
             title: "Đặc điểm CLC",
             value: "dac-diem-clc",
             content: (
-                <div className="w-full overflow-hidden relative h-full rounded-3xl p-4 sm:p-6 md:p-8 lg:p-12 text-slate-800 bg-gradient-to-br from-amber-50 via-orange-50 to-red-100 shadow-xl border border-slate-200">
+                <div className="w-full overflow-hidden relative h-full rounded-3xl p-4 text-slate-800 bg-gradient-to-br from-amber-50 via-orange-50 to-red-100 shadow-xl border border-slate-200">
                     <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent rounded-3xl"></div>
                     <div className="relative z-10">
                         <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
@@ -223,7 +223,7 @@ export function TrainingProgramStructure() {
             title: "Ma trận phân bổ PLO",
             value: "ma-tran-phan-bo",
             content: (
-                <div className="w-full overflow-hidden relative h-full rounded-3xl p-4 sm:p-6 md:p-8 lg:p-12 text-slate-800 bg-gradient-to-br from-purple-50 via-indigo-50 to-blue-100 shadow-xl border border-slate-200">
+                <div className="w-full overflow-hidden relative h-full rounded-3xl p-4 text-slate-800 bg-gradient-to-br from-purple-50 via-indigo-50 to-blue-100 shadow-xl border border-slate-200">
                     <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent rounded-3xl"></div>
                     <div className="relative z-10">
                         <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
@@ -306,8 +306,8 @@ export function TrainingProgramStructure() {
 
 const Content = ({ description, image }: { description: string | React.ReactNode, image?: string }) => {
     return (
-        <ScrollArea className="w-full h-80 sm:h-96">
-            <div className="p-3 sm:p-4 space-y-4 sm:space-y-6">
+        <ScrollArea className="w-full h-120">
+            <div className="p-4">
                 <div className={cn("text-sm sm:text-base md:text-lg font-normal text-neutral-200 text-left space-y-3 sm:space-y-4", image ? "md:w-1/2" : "w-full")}>{description}</div>
                 {image && (
                     <div className="w-full md:w-1/2 flex justify-center">

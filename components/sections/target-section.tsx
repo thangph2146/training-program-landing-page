@@ -5,22 +5,15 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { AspectRatio } from "../ui/aspect-ratio";
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
-import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 
 export default function TargetSection() {
-  const words = 
-    "Chương trình đào tạo chất lượng cao Tài chính Ngân hàng ứng dụng Công nghệ FinTech.";
-
   return (
     <section id="target-section" className="py-8 lg:py-16">
-      <div className="max-w-4xl mx-auto flex flex-col items-center justify-center min-h-[16rem] sm:min-h-[18rem] lg:min-h-[20rem] px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto flex flex-col items-end justify-end px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:max-w-4xl text-center mb-6 sm:mb-8 lg:mb-12">
           <PointerHighlight>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-red-600 px-2 sm:px-4 py-2 sm:py-4">Mục tiêu của chương trình</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold px-2 sm:px-4 py-2 sm:py-4">Mục tiêu của chương trình đào tạo</h2>
           </PointerHighlight>
-        </div>
-        <div className="w-full max-w-3xl">
-          <TextGenerateEffect words={words} align="flex justify-center items-center gap-2 flex-wrap text-center text-sm sm:text-base lg:text-lg"/>
         </div>
       </div>
       <TracingBeam className="px-4 sm:px-6 lg:px-8">
