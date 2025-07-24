@@ -13,8 +13,8 @@ export function TrainingProgramStructure() {
             title: "Thông tin chung",
             value: "thong-tin-chung",
             content: (
-                <div className="w-full overflow-hidden relative h-full rounded-3xl p-4 text-slate-800 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 shadow-xl border border-slate-200">
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent rounded-3xl"></div>
+                <div className="w-full overflow-hidden relative h-full rounded-3xl p-4 text-slate-800 bg-gradient-to-b from-slate-50 via-blue-50 to-indigo-100 shadow-xl border border-slate-200">
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent rounded-3xl"></div>
                     <div className="relative z-10">
                         <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
                             <div className="w-3 h-3 bg-indigo-400 rounded-full animate-pulse"></div>
@@ -82,8 +82,8 @@ export function TrainingProgramStructure() {
             title: "Mục tiêu chương trình",
             value: "muc-tieu",
             content: (
-                <div className="w-full overflow-hidden relative h-full rounded-3xl p-4 text-slate-800 bg-gradient-to-br from-cyan-50 via-sky-50 to-blue-100 shadow-xl border border-slate-200">
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent rounded-3xl"></div>
+                <div className="w-full overflow-hidden relative h-full rounded-3xl p-4 text-slate-800 bg-gradient-to-b from-cyan-50 via-sky-50 to-blue-100 shadow-xl border border-slate-200">
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent rounded-3xl"></div>
                     <div className="relative z-10">
                         <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
                             <div className="w-3 h-3 bg-blue-400 rounded-full animate-pulse"></div>
@@ -117,8 +117,8 @@ export function TrainingProgramStructure() {
             title: "Khối kiến thức",
             value: "khoi-kien-thuc",
             content: (
-                <div className="w-full overflow-hidden relative h-full rounded-3xl p-4 text-slate-800 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-100 shadow-xl border border-slate-200">
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent rounded-3xl"></div>
+                <div className="w-full overflow-hidden relative h-full rounded-3xl p-4 text-slate-800 bg-gradient-to-b from-emerald-50 via-green-50 to-teal-100 shadow-xl border border-slate-200">
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent rounded-3xl"></div>
                     <div className="relative z-10">
                         <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
                             <div className="w-3 h-3 bg-emerald-400 rounded-full animate-pulse"></div>
@@ -158,8 +158,8 @@ export function TrainingProgramStructure() {
             title: "Đặc điểm CLC",
             value: "dac-diem-clc",
             content: (
-                <div className="w-full overflow-hidden relative h-full rounded-3xl p-4 text-slate-800 bg-gradient-to-br from-amber-50 via-orange-50 to-red-100 shadow-xl border border-slate-200">
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent rounded-3xl"></div>
+                <div className="w-full overflow-hidden relative h-full rounded-3xl p-4 text-slate-800 bg-gradient-to-b from-amber-50 via-orange-50 to-red-100 shadow-xl border border-slate-200">
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent rounded-3xl"></div>
                     <div className="relative z-10">
                         <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
                             <div className="w-3 h-3 bg-orange-400 rounded-full animate-pulse"></div>
@@ -223,8 +223,8 @@ export function TrainingProgramStructure() {
             title: "Ma trận phân bổ PLO",
             value: "ma-tran-phan-bo",
             content: (
-                <div className="w-full overflow-hidden relative h-full rounded-3xl p-4 text-slate-800 bg-gradient-to-br from-purple-50 via-indigo-50 to-blue-100 shadow-xl border border-slate-200">
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent rounded-3xl"></div>
+                <div className="w-full overflow-hidden relative h-full rounded-3xl p-4 text-slate-800 bg-gradient-to-b from-purple-50 via-indigo-50 to-blue-100 shadow-xl border border-slate-200">
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent rounded-3xl"></div>
                     <div className="relative z-10">
                         <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
                             <div className="w-3 h-3 bg-indigo-400 rounded-full animate-pulse"></div>
@@ -288,7 +288,7 @@ export function TrainingProgramStructure() {
         "Chương trình đào tạo Tài chính - Ngân hàng TABP CLC được thiết kế toàn diện với cấu trúc khoa học, cân bằng giữa kiến thức cơ bản và chuyên ngành.";
 
     return (
-        <div className="py-10 sm:py-16 md:py-20 bg-gradient-to-br from-zinc-50 via-gray-100 to-zinc-50">
+        <div className="py-10 sm:py-16 md:py-20 bg-gradient-to-b from-zinc-50 via-gray-100 to-zinc-50">
             <div className="max-w-6xl mx-auto flex flex-col items-center justify-center min-h-[16rem] sm:min-h-[18rem] md:min-h-[20rem] p-4">
                 <div className="mx-auto max-w-lg sm:max-w-xl md:max-w-2xl text-xl sm:text-2xl font-bold tracking-tight md:text-3xl lg:text-4xl p-2 sm:p-4">
                     <PointerHighlight>

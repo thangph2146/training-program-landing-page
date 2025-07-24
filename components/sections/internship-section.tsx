@@ -1,18 +1,13 @@
 import React from 'react';
-import { Badge } from '@/components/ui/badge';
 import { PointerHighlight } from '@/components/ui/pointer-highlight';
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
-import { CometCard } from '@/components/ui/comet-card';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import {
   Briefcase,
   Building2,
-  Clock,
-  Users,
   Award,
-  MapPin,
   TrendingUp,
   CheckCircle,
-  Calendar,
   Target
 } from 'lucide-react';
 
@@ -27,6 +22,7 @@ interface InternshipProgram {
   icon: React.ReactNode;
   badge: string;
   level: string;
+  src: string;
 }
 
 const InternshipSection: React.FC = () => {
@@ -49,7 +45,8 @@ const InternshipSection: React.FC = () => {
       partners: ["Vietcombank", "BIDV", "Techcombank", "MB Bank"],
       icon: <Briefcase className="w-6 h-6" />,
       badge: "Phổ biến",
-      level: "Trung cấp"
+      level: "Trung cấp",
+      src: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     },
     {
       title: "Kiến tập Quản trị Kinh doanh",
@@ -69,7 +66,8 @@ const InternshipSection: React.FC = () => {
       partners: ["Vingroup", "FPT", "Saigon Co.op", "Masan Group"],
       icon: <Building2 className="w-6 h-6" />,
       badge: "Mới",
-      level: "Cơ bản"
+      level: "Cơ bản",
+      src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     },
     {
       title: "Thực tập Khoa học Dữ liệu",
@@ -89,9 +87,10 @@ const InternshipSection: React.FC = () => {
       partners: ["VNG", "Tiki", "Shopee", "Grab"],
       icon: <TrendingUp className="w-6 h-6" />,
       badge: "Hot",
-      level: "Nâng cao"
+      level: "Nâng cao",
+      src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     },
-    {
+      {
       title: "Thực tập Marketing Digital",
       duration: "3-5 tháng",
       type: "Thực tập sáng tạo",
@@ -109,7 +108,8 @@ const InternshipSection: React.FC = () => {
       partners: ["Unilever", "P&G", "Coca-Cola", "Nestle"],
       icon: <Target className="w-6 h-6" />,
       badge: "Sáng tạo",
-      level: "Trung cấp"
+      level: "Trung cấp",
+      src: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     },
     {
       title: "Kiến tập Luật Kinh tế",
@@ -129,7 +129,8 @@ const InternshipSection: React.FC = () => {
       partners: ["Tòa án TP.HCM", "Công ty Luật ANVI", "Công ty Luật Bình Minh"],
       icon: <Award className="w-6 h-6" />,
       badge: "Chuyên môn",
-      level: "Trung cấp"
+      level: "Trung cấp",
+      src: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     },
     {
       title: "Thực tập Kế toán - Kiểm toán",
@@ -149,48 +150,22 @@ const InternshipSection: React.FC = () => {
       partners: ["PwC", "Deloitte", "EY", "KPMG"],
       icon: <CheckCircle className="w-6 h-6" />,
       badge: "Uy tín",
-      level: "Chuyên nghiệp"
-    }
-  ];
-
-  const stats = [
-    {
-      number: "500+",
-      label: "Doanh nghiệp đối tác",
-      icon: <Building2 className="w-5 h-5" />,
-      color: "text-blue-600 dark:text-blue-400"
-    },
-    {
-      number: "95%",
-      label: "Sinh viên có việc làm",
-      icon: <TrendingUp className="w-5 h-5" />,
-      color: "text-green-600 dark:text-green-400"
-    },
-    {
-      number: "3-6",
-      label: "Tháng thực tập",
-      icon: <Clock className="w-5 h-5" />,
-      color: "text-purple-600 dark:text-purple-400"
-    },
-    {
-      number: "24/7",
-      label: "Hỗ trợ sinh viên",
-      icon: <Users className="w-5 h-5" />,
-      color: "text-orange-600 dark:text-orange-400"
+      level: "Chuyên nghiệp",
+      src: "https://images.unsplash.com/photo-1554224154-26032fced8bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     }
   ];
 
   return (
     <section className="py-12 md:py-20 relative overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-zinc-50 via-slate-100 to-zinc-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700" />
+      <div className="absolute inset-0 bg-gradient-to-b from-zinc-50 via-slate-100 to-zinc-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700" />
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
           <div className='w-full flex justify-end'> 
             <PointerHighlight>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-gray-900 dark:text-white p-4">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white p-4">
                 Cơ hội Thực tập Nghề nghiệp
               </h2>
             </PointerHighlight>
@@ -205,103 +180,49 @@ const InternshipSection: React.FC = () => {
         </div>
 
         {/* Programs Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 md:mb-16">
           {internshipPrograms.map((program, index) => (
-            <CometCard
-              key={index}
-              className="h-full"
-              rotateDepth={12}
-              translateDepth={12}
-            >
-              <div className="group relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl p-6 border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-2xl hover:shadow-green-500/20 transition-all duration-500 h-full">
-                {/* Header */}
-                <div className="mb-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-2">
-                      <div className="p-2 bg-gradient-to-br from-green-500 to-blue-600 rounded-lg text-white">
-                        {program.icon}
-                      </div>
-                      <Badge className="bg-gradient-to-r from-green-500 to-blue-600 text-white border-0 text-xs">
-                        {program.badge}
-                      </Badge>
-                    </div>
-                    <Badge variant="outline" className="text-xs bg-gray-50 dark:bg-gray-800">
-                      {program.level}
-                    </Badge>
+            <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
+              <CardHeader>
+                <div className="flex items-center gap-3 mb-2">
+                  {program.icon}
+                  <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                    {program.badge}
+                  </span>
+                </div>
+                <CardTitle className="text-xl">{program.title}</CardTitle>
+                <CardDescription className="text-sm text-gray-500">
+                  {program.duration} • {program.type}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 mb-4">{program.description}</p>
+                <div className="space-y-3">
+                  <div>
+                    <h4 className="font-semibold text-sm mb-2">Yêu cầu:</h4>
+                    <ul className="text-sm text-gray-600 space-y-1">
+                      {program.requirements.slice(0, 2).map((req, idx) => (
+                        <li key={idx} className="flex items-start gap-2">
+                          <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                          {req}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 leading-tight">
-                    {program.title}
-                  </h3>
-
-                  <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-3">
-                    <div className="flex items-center gap-1">
-                      <Clock className="w-4 h-4" />
-                      {program.duration}
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <MapPin className="w-4 h-4" />
-                      {program.type}
-                    </div>
-                  </div>
-
-                  <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-                    {program.description}
-                  </p>
-                </div>
-
-                {/* Requirements */}
-                <div className="mb-4">
-                  <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-1">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    Yêu cầu:
-                  </h4>
-                  <ul className="space-y-1">
-                    {program.requirements.slice(0, 2).map((req, reqIndex) => (
-                      <li key={reqIndex} className="text-xs text-gray-600 dark:text-gray-400 flex items-start gap-1">
-                        <span className="w-1 h-1 bg-green-500 rounded-full mt-2 flex-shrink-0" />
-                        {req}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Benefits */}
-                <div className="mb-4">
-                  <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-1">
-                    <Award className="w-4 h-4 text-blue-500" />
-                    Lợi ích:
-                  </h4>
-                  <ul className="space-y-1">
-                    {program.benefits.slice(0, 2).map((benefit, benIndex) => (
-                      <li key={benIndex} className="text-xs text-gray-600 dark:text-gray-400 flex items-start gap-1">
-                        <span className="w-1 h-1 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
-                        {benefit}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Partners */}
-                <div>
-                  <h4 className="font-semibold text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-1">
-                    <Building2 className="w-4 h-4 text-purple-500" />
-                    Đối tác:
-                  </h4>
-                  <div className="flex flex-wrap gap-1">
-                    {program.partners.slice(0, 3).map((partner, partnerIndex) => (
-                      <Badge
-                        key={partnerIndex}
-                        variant="outline"
-                        className="bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-700"
-                      >
-                        {partner}
-                      </Badge>
-                    ))}
+                  <div>
+                    <h4 className="font-semibold text-sm mb-2">Lợi ích:</h4>
+                    <ul className="text-sm text-gray-600 space-y-1">
+                      {program.benefits.slice(0, 2).map((benefit, idx) => (
+                        <li key={idx} className="flex items-start gap-2">
+                          <Award className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
+                          {benefit}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
-              </div>
-            </CometCard>
+              </CardContent>
+            </Card>
           ))}
         </div>
 

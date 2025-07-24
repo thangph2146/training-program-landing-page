@@ -8,7 +8,7 @@ import { PointerHighlight } from "@/components/ui/pointer-highlight";
 
 export default function TargetSection() {
   return (
-    <section id="target-section" className="py-8 lg:py-16 bg-gradient-to-br from-zinc-50 via-gray-100 to-zinc-50">
+    <section id="target-section" className="py-8 lg:py-16 bg-gradient-to-b from-zinc-50 via-gray-100 to-zinc-50">
       <div className="max-w-4xl mx-auto flex flex-col items-end justify-end px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:max-w-4xl text-center mb-6 sm:mb-8 lg:mb-12">
           <PointerHighlight>

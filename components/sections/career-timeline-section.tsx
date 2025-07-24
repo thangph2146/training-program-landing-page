@@ -62,41 +62,8 @@ export function CareerTimelineSection() {
     }
   ];
 
-  const careerPaths = [
-    {
-      title: "Ngân hàng truyền thống",
-      roles: ["Chuyên viên tín dụng", "Chuyên viên đầu tư", "Quản lý rủi ro", "Giám đốc chi nhánh"],
-      icon: "🏦",
-      color: "bg-blue-100 text-blue-800"
-    },
-    {
-      title: "FinTech & Startup",
-      roles: ["Product Manager", "Data Analyst", "Blockchain Developer", "Founder/Co-founder"],
-      icon: "💡",
-      color: "bg-purple-100 text-purple-800"
-    },
-    {
-      title: "Tư vấn tài chính",
-      roles: ["Tư vấn đầu tư", "Phân tích tài chính", "Quản lý tài sản", "Chuyên gia M&A"],
-      icon: "📊",
-      color: "bg-green-100 text-green-800"
-    },
-    {
-      title: "Nghiên cứu & Giảng dạy",
-      roles: ["Nghiên cứu viên", "Giảng viên", "Chuyên gia chính sách", "Tác giả/Blogger"],
-      icon: "🎓",
-      color: "bg-amber-100 text-amber-800"
-    }
-  ];
-
   return (
-    <section className="py-16 lg:py-24 bg-gradient-to-br from-zinc-50 via-gray-100 to-zinc-50 relative overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-gradient-to-br from-blue-400/10 to-purple-600/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-72 h-72 bg-gradient-to-br from-emerald-400/10 to-cyan-600/10 rounded-full blur-3xl"></div>
-      </div>
-
+    <section className="py-16 lg:py-24 bg-gradient-to-b from-zinc-50 via-gray-100 to-zinc-50 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="text-center mb-16">
@@ -122,7 +89,7 @@ export function CareerTimelineSection() {
           
           {/* Timeline items */}
           <div className="space-y-8 md:space-y-16">
-            {careerTimeline.map((item, index) => (
+            {careerTimeline.map((item) => (
               <div
                 key={item.id}
                 className={cn(
@@ -143,7 +110,7 @@ export function CareerTimelineSection() {
                   <div 
                     className={cn(
                       "w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center text-lg md:text-2xl cursor-pointer transition-all duration-300 border-4 border-white shadow-lg mx-auto",
-                      `bg-gradient-to-br ${item.color}`,
+                      `bg-gradient-to-b ${item.color}`,
                       activePhase === item.id ? "scale-125 shadow-2xl" : "hover:scale-110"
                     )}
                     onClick={() => setActivePhase(activePhase === item.id ? -1 : item.id)}

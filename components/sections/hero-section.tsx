@@ -9,7 +9,7 @@ import Image from "next/image";
 
 function HeroSection() {
   return (
-    <div className="relative w-full min-h-screen bg-gradient-to-br from-zinc-50 via-gray-100 to-zinc-50">
+    <div className="relative w-full min-h-screen bg-gradient-to-b from-zinc-50 via-gray-100 to-zinc-50">
       <HeroHighlight containerClassName="w-full min-h-screen relative z-10">
       <div className="w-full mx-auto px-4 py-8 lg:py-16">
         <Grid columns={{xs: '1', lg: '2'}} gap={{xs: '6', lg: '8'}} width="auto" className="items-center min-h-[80vh] lg:min-h-[70vh]">
@@ -27,12 +27,13 @@ function HeroSection() {
               <span className="block text-red-700 dark:text-red-300 text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold">Tài chính - Ngân hàng Tiếng Anh Bán Phần</span>
             </motion.h1>
           </div>
-            <AspectRatio ratio={1} className="w-full">
+            <AspectRatio ratio={1} className="w-full relative">
               <Image
                 src="/logo truong/HUB logo-01.png"
                 alt="HUB Logo"
-                layout="fill"
-                className="object-contain w-full h-full"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-contain"
                 priority
               />
             </AspectRatio>

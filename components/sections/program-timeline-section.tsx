@@ -146,13 +146,7 @@ export function ProgramTimelineSection() {
   ];
 
   return (
-    <section className="py-16 lg:py-24 bg-gradient-to-br from-zinc-50 via-gray-100 to-zinc-50 relative overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-gradient-to-br from-blue-400/10 to-purple-600/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-72 h-72 bg-gradient-to-br from-emerald-400/10 to-cyan-600/10 rounded-full blur-3xl"></div>
-      </div>
-
+    <section className="py-16 lg:py-24 bg-gradient-to-b from-zinc-50 via-gray-100 to-zinc-50 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="text-center mb-16">
@@ -199,7 +193,7 @@ export function ProgramTimelineSection() {
                   <div 
                     className={cn(
                       "w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center text-lg md:text-2xl cursor-pointer transition-all duration-300 border-4 border-white shadow-lg mx-auto",
-                      `bg-gradient-to-br ${section.color}`,
+                      `bg-gradient-to-b ${section.color}`,
                       activeSection === section.id ? "scale-125 shadow-2xl" : "hover:scale-110"
                     )}
                     onClick={() => setActiveSection(activeSection === section.id ? -1 : section.id)}

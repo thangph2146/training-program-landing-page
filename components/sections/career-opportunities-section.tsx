@@ -4,63 +4,10 @@ import React from "react";
 import WorldMap from "@/components/ui/world-map";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
-import {
-  TrendingUp,
-  Building2,
-  Calculator,
-  Zap,
-} from "lucide-react";
-
-
-interface IndustryData {
-  sector: string;
-  demand: number;
-  avgSalary: string;
-  positions: number;
-  icon: React.ReactNode;
-}
-
-const industryData: IndustryData[] = [
-  {
-    sector: "Ngân hàng Thương mại",
-    demand: 95,
-    avgSalary: "25-45 triệu",
-    positions: 15000,
-    icon: <Building2 className="h-5 w-5" />
-  },
-  {
-    sector: "Chứng khoán & Đầu tư",
-    demand: 88,
-    avgSalary: "30-60 triệu",
-    positions: 8000,
-    icon: <TrendingUp className="h-5 w-5" />
-  },
-  {
-    sector: "Fintech & Công nghệ",
-    demand: 92,
-    avgSalary: "35-70 triệu",
-    positions: 5000,
-    icon: <Zap className="h-5 w-5" />
-  },
-  {
-    sector: "Tài chính Doanh nghiệp",
-    demand: 85,
-    avgSalary: "20-50 triệu",
-    positions: 12000,
-    icon: <Calculator className="h-5 w-5" />
-  }
-];
 
 const CareerOpportunitiesSection = () => {
-
   return (
-    <section className="py-16 lg:py-24 bg-gradient-to-br from-zinc-50 via-gray-100 to-zinc-50 relative overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-gradient-to-br from-blue-400/10 to-purple-600/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-72 h-72 bg-gradient-to-br from-emerald-400/10 to-cyan-600/10 rounded-full blur-3xl"></div>
-      </div>
-
+    <section className="py-16 lg:py-24 bg-gradient-to-b from-zinc-50 via-gray-100 to-zinc-50 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="text-center mb-16">

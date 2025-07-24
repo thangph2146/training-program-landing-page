@@ -115,13 +115,7 @@ const featuredCourses: Course[] = [
 
 export default function FeaturedCoursesSection() {
   return (
-    <section className="py-16 lg:py-24 bg-gradient-to-br from-zinc-50 via-slate-100 to-zinc-50 relative overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-gradient-to-br from-blue-400/10 to-purple-600/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-72 h-72 bg-gradient-to-br from-emerald-400/10 to-cyan-600/10 rounded-full blur-3xl"></div>
-      </div>
-
+    <section className="py-16 lg:py-24 bg-gradient-to-b from-zinc-50 via-slate-100 to-zinc-50 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="text-center mb-16">
@@ -142,14 +136,14 @@ export default function FeaturedCoursesSection() {
 
         {/* Courses Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredCourses.map((course, index) => {
+          {featuredCourses.map((course) => {
             const IconComponent = course.icon;
             return (
               <div key={course.id} className="group cursor-pointer">
                 <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 sm:p-8 border border-white/50 shadow-xl transition-all duration-300 group-hover:shadow-2xl group-hover:scale-105 h-full">
                   {/* Header */}
                   <div className="flex items-start gap-4 mb-6">
-                    <div className="p-3 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors flex-shrink-0">
+                    <div className="p-3 bg-gradient-to-b from-blue-100 to-indigo-100 rounded-2xl group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors flex-shrink-0">
                       <IconComponent className="w-6 h-6" />
                     </div>
                     <div className="flex-1 min-w-0">

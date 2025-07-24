@@ -32,12 +32,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background transition-colors`}
       >
         <Theme>
-          <main className="w-full flex flex-col">  
-            {children}
-          </main>
-          {process.env.NODE_ENV === "development" && (
-            <StagewiseToolbar config={{ plugins: [ReactPlugin] }} />
-          )}
+            <main className="w-full flex flex-col">
+              {children}
+            </main>
+         
         </Theme>
       </body>
     </html>
