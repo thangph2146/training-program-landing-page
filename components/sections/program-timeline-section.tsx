@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
@@ -8,6 +9,63 @@ import { BookOpen, Target, Users, Globe, Award, GraduationCap, Clock, Building }
 
 export function ProgramTimelineSection() {
   const [activeSection, setActiveSection] = useState<number>(0);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const headerVariants = {
+            hidden: { opacity: 0, y: -60, scale: 0.9 },
+            visible: {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              transition: {
+                type: "spring" as const,
+                stiffness: 100,
+                damping: 15,
+                duration: 0.8
+              }
+            }
+          };
+
+  const timelineVariants = {
+            hidden: { opacity: 0, scaleY: 0 },
+            visible: {
+              opacity: 1,
+              scaleY: 1,
+              transition: {
+                type: "spring" as const,
+                stiffness: 80,
+                damping: 20,
+                duration: 1.5
+              }
+            }
+          };
+
+  const cardVariants = {
+    hidden: { opacity: 0, x: 100, y: 50 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 15,
+        duration: 0.8
+      }
+    }
+  };
 
   const programSections = [
     {
@@ -146,34 +204,67 @@ export function ProgramTimelineSection() {
   ];
 
   return (
-    <section className="py-16 lg:py-24 bg-gradient-to-b from-zinc-50 via-gray-100 to-zinc-50 relative overflow-hidden">
+    <motion.section 
+      ref={ref}
+      className="py-16 lg:py-24 bg-gradient-to-b from-zinc-50 via-gray-100 to-zinc-50 relative overflow-hidden"
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      variants={containerVariants}
+    >
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-br from-blue-100/30 to-purple-100/30"
+        initial={{ opacity: 0, scale: 1.2 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 2 }}
+      />
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div className="text-center mb-16">
+        <motion.div 
+          className="text-center mb-16"
+          variants={headerVariants}
+        >
           <div className='w-full flex justify-end'>
           <PointerHighlight>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-800 p-4">
+            <motion.h2 
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-800 p-4"
+              whileHover={{ 
+                scale: 1.05,
+                color: "#3b82f6",
+                transition: { duration: 0.3 }
+              }}
+            >
               Cấu trúc Chương trình Đào tạo
-            </h2>
+            </motion.h2>
           </PointerHighlight>
           </div>
-          <div className="max-w-3xl mx-auto">
+          <motion.div 
+            className="max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+          >
             <TextGenerateEffect 
               words="Với cấu trúc khoa học, tích hợp yếu tố quốc tế và định hướng thực tiễn mạnh mẽ."
               className="text-lg text-slate-600"
             />
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Timeline */}
-        <div className="relative mb-16">
+        <motion.div className="relative mb-16" variants={timelineVariants}></motion.div>
           {/* Central line - Hidden on mobile */}
-          <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-blue-400 via-green-400 via-purple-400 to-orange-400 rounded-full"></div>
+          <motion.div 
+            className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-blue-400 via-green-400 via-purple-400 to-orange-400 rounded-full"
+            initial={{ scaleY: 0, originY: 0 }}
+            animate={{ scaleY: 1 }}
+            transition={{ duration: 2, delay: 0.5 }}
+          />
           
           {/* Timeline items */}
           <div className="space-y-8 md:space-y-16">
             {programSections.map((section, index) => (
-              <div
+              <motion.div
                 key={section.id}
                 className={cn(
                   "relative flex items-center",
@@ -181,6 +272,18 @@ export function ProgramTimelineSection() {
                   "justify-center md:justify-start",
                   section.position === "right" && "md:justify-end"
                 )}
+                initial={{ opacity: 0, y: 100 }}
+                whileInView={{ 
+                  opacity: 1, 
+                  y: 0,
+                  transition: {
+                    type: "spring",
+                    stiffness: 100,
+                    damping: 15,
+                    delay: index * 0.2
+                  }
+                }}
+                viewport={{ once: true, amount: 0.3 }}
               >
                 {/* Timeline dot */}
                 <div className={cn(
@@ -190,20 +293,38 @@ export function ProgramTimelineSection() {
                   // Mobile: show above content
                   "mb-4 md:mb-0"
                 )}>
-                  <div 
+                  <motion.div 
                     className={cn(
                       "w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center text-lg md:text-2xl cursor-pointer transition-all duration-300 border-4 border-white shadow-lg mx-auto",
                       `bg-gradient-to-b ${section.color}`,
                       activeSection === section.id ? "scale-125 shadow-2xl" : "hover:scale-110"
                     )}
                     onClick={() => setActiveSection(activeSection === section.id ? -1 : section.id)}
+                    initial={{ scale: 0, rotate: -180 }}
+                    whileInView={{ 
+                      scale: 1, 
+                      rotate: 0,
+                      transition: {
+                        type: "spring",
+                        stiffness: 200,
+                        damping: 15,
+                        delay: index * 0.2 + 0.3
+                      }
+                    }}
+                    viewport={{ once: true }}
+                    whileHover={{
+                      scale: 1.2,
+                      rotate: 10,
+                      transition: { duration: 0.3 }
+                    }}
+                    whileTap={{ scale: 0.95 }}
                   >
                     {section.icon}
-                  </div>
+                  </motion.div>
                 </div>
 
                 {/* Content card */}
-                <div 
+                <motion.div 
                   className={cn(
                     "w-full transition-all duration-500 cursor-pointer",
                     // Mobile: full width with padding, Desktop: max-width with side padding
@@ -213,11 +334,39 @@ export function ProgramTimelineSection() {
                     activeSection === section.id ? "scale-105" : "hover:scale-102"
                   )}
                   onClick={() => setActiveSection(activeSection === section.id ? -1 : section.id)}
+                  initial={{ 
+                    opacity: 0, 
+                    x: section.position === "left" ? -100 : 100,
+                    y: 50
+                  }}
+                  whileInView={{ 
+                    opacity: 1, 
+                    x: 0, 
+                    y: 0,
+                    transition: {
+                      type: "spring",
+                      stiffness: 100,
+                      damping: 15,
+                      delay: index * 0.2 + 0.5
+                    }
+                  }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  whileHover={{
+                    scale: 1.02,
+                    y: -5,
+                    transition: { duration: 0.3 }
+                  }}
                 >
-                  <div className={cn(
-                    "bg-white/80 backdrop-blur-sm rounded-2xl md:rounded-3xl p-4 md:p-8 border border-white/50 shadow-xl transition-all duration-300",
-                    activeSection === section.id ? "shadow-2xl ring-4 ring-blue-500/20" : ""
-                  )}>
+                  <motion.div 
+                    className={cn(
+                      "bg-white/80 backdrop-blur-sm rounded-2xl md:rounded-3xl p-4 md:p-8 border border-white/50 shadow-xl transition-all duration-300",
+                      activeSection === section.id ? "shadow-2xl ring-4 ring-blue-500/20" : ""
+                    )}
+                    whileHover={{
+                      boxShadow: "0 25px 50px rgba(0, 0, 0, 0.15)",
+                      transition: { duration: 0.3 }
+                    }}
+                  >
                     {/* Header */}
                     <div className="mb-4 md:mb-6">
                       <div className={cn(
@@ -318,41 +467,12 @@ export function ProgramTimelineSection() {
                         )}
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
+                  </motion.div>
+                </motion.div>
+              </motion.div>
             ))}
           </div>
         </div>
-
-        {/* PLO Matrix */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl md:rounded-3xl p-4 md:p-8 border border-white/50 shadow-xl mb-16">
-          <h3 className="text-xl md:text-2xl font-bold text-slate-800 text-center mb-6 md:mb-8">
-            Ma trận Kết quả Học tập (PLO)
-          </h3>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {ploMatrix.map((item, index) => {
-              const IconComponent = item.icon;
-              return (
-                <div key={index} className="text-center group cursor-pointer">
-                  <div className="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-105">
-                    <IconComponent className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-3 md:mb-4 text-slate-600" />
-                    <h4 className="font-bold text-slate-800 mb-1.5 md:mb-2 text-sm md:text-base">{item.category}</h4>
-                    <div className={cn(
-                      "px-2.5 py-1 md:px-3 md:py-1 rounded-lg text-xs md:text-sm font-medium mb-1.5 md:mb-2",
-                      item.color
-                    )}>
-                      {item.level}
-                    </div>
-                    <p className="text-xs md:text-sm text-slate-600">{item.description}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    </section>
+    </motion.section>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
+import { motion, useInView } from "framer-motion";
 import { Tabs } from "@/components/ui/tabs";
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
@@ -8,6 +9,49 @@ import { cn } from "@/lib/utils";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 
 export function TrainingProgramStructure() {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, amount: 0.2 });
+
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.3,
+                delayChildren: 0.2
+            }
+        }
+    };
+
+    const headerVariants = {
+                        hidden: { opacity: 0, y: -60, scale: 0.9 },
+                        visible: {
+                            opacity: 1,
+                            y: 0,
+                            scale: 1,
+                            transition: {
+                                type: "spring" as const,
+                                stiffness: 100,
+                                damping: 15,
+                                duration: 0.8
+                            }
+                        }
+                    };
+
+    const tabsVariants = {
+                    hidden: { opacity: 0, y: 80 },
+                    visible: {
+                        opacity: 1,
+                        y: 0,
+                        transition: {
+                            type: "spring" as const,
+                            stiffness: 80,
+                            damping: 20,
+                            duration: 1
+                        }
+                    }
+                };
+
     const tabs = [
         {
             title: "Thông tin chung",
@@ -288,19 +332,53 @@ export function TrainingProgramStructure() {
         "Chương trình đào tạo Tài chính - Ngân hàng TABP CLC được thiết kế toàn diện với cấu trúc khoa học, cân bằng giữa kiến thức cơ bản và chuyên ngành.";
 
     return (
-        <div className="py-10 sm:py-16 md:py-20 bg-gradient-to-b from-zinc-50 via-gray-100 to-zinc-50">
-            <div className="max-w-6xl mx-auto flex flex-col items-center justify-center min-h-[16rem] sm:min-h-[18rem] md:min-h-[20rem] p-4">
-                <div className="mx-auto max-w-lg sm:max-w-xl md:max-w-2xl text-xl sm:text-2xl font-bold tracking-tight md:text-3xl lg:text-4xl p-2 sm:p-4">
+        <motion.div 
+            ref={ref}
+            className="py-10 sm:py-16 md:py-20 bg-gradient-to-b from-zinc-50 via-gray-100 to-zinc-50 relative overflow-hidden"
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            variants={containerVariants}
+        >
+            <motion.div 
+                className="absolute inset-0 bg-gradient-to-r from-purple-100/20 to-blue-100/20"
+                initial={{ opacity: 0, rotate: -5 }}
+                animate={{ opacity: 1, rotate: 0 }}
+                transition={{ duration: 2 }}
+            />
+            
+            <div className="max-w-6xl mx-auto flex flex-col items-center justify-center min-h-[16rem] sm:min-h-[18rem] md:min-h-[20rem] p-4 relative z-10">
+                <motion.div 
+                    className="mx-auto max-w-lg sm:max-w-xl md:max-w-2xl text-xl sm:text-2xl font-bold tracking-tight md:text-3xl lg:text-4xl p-2 sm:p-4"
+                    variants={headerVariants}
+                >
                     <PointerHighlight>
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6 sm:mb-8 md:mb-12 text-red-600 p-2 sm:p-4">Cấu trúc chương trình</h2>
+                        <motion.h2 
+                            className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6 sm:mb-8 md:mb-12 text-red-600 p-2 sm:p-4"
+                            whileHover={{ 
+                                scale: 1.05,
+                                color: "#3b82f6",
+                                transition: { duration: 0.3 }
+                            }}
+                        >
+                            Cấu trúc chương trình
+                        </motion.h2>
                     </PointerHighlight>
-                </div>
-                <TextGenerateEffect words={words} align="flex justify-center items-center gap-2 flex-wrap text-center" />
+                </motion.div>
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5, duration: 0.8 }}
+                >
+                    <TextGenerateEffect words={words} align="flex justify-center items-center gap-2 flex-wrap text-center" />
+                </motion.div>
             </div>
-            <div className="h-[25rem] sm:h-[30rem] md:h-[35rem] lg:h-[40rem] [perspective:1000px] relative flex flex-col max-w-6xl mx-auto w-full items-start justify-start my-6 sm:my-8 md:my-10 px-4">
+            <motion.div 
+                className="h-[25rem] sm:h-[30rem] md:h-[35rem] lg:h-[40rem] [perspective:1000px] relative flex flex-col max-w-6xl mx-auto w-full items-start justify-start my-6 sm:my-8 md:my-10 px-4"
+                variants={tabsVariants}
+            >
                 <Tabs tabs={tabs} />
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 }
 

@@ -1,9 +1,12 @@
-import React from 'react';
+'use client'
+
+import React, { useRef } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { PointerHighlight } from '@/components/ui/pointer-highlight';
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { GraduationCap, Award, BookOpen, Users, Star, User } from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
 
 interface FacultyMember {
   name: string;
@@ -18,6 +21,77 @@ interface FacultyMember {
 }
 
 const FeaturedFacultySection: React.FC = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3
+      }
+    }
+  };
+
+  const headerVariants = {
+    hidden: { opacity: 0, y: -60, scale: 0.9 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: "spring" as const,
+        stiffness: 100,
+        damping: 15,
+        duration: 1
+      }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50, scale: 0.9 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: "spring" as const,
+        stiffness: 120,
+        damping: 15,
+        duration: 0.8
+      }
+    }
+  };
+
+  const avatarVariants = {
+    hidden: { scale: 0, rotate: -180 },
+    visible: {
+      scale: 1,
+      rotate: 0,
+      transition: {
+        type: "spring" as const,
+        stiffness: 200,
+        damping: 15,
+        delay: 0.2
+      }
+    }
+  };
+
+  const listItemVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: (index: number) => ({
+      opacity: 1,
+      x: 0,
+      transition: {
+        delay: index * 0.1 + 0.3,
+        duration: 0.5
+      }
+    })
+  };
+
   const facultyMembers: FacultyMember[] = [
     {
       name: "PGS.TS. Nguyễn Đức Trung",
@@ -112,75 +186,209 @@ const FeaturedFacultySection: React.FC = () => {
   ];
 
   return (
-    <section className="py-16 lg:py-24 bg-gradient-to-b from-zinc-50 via-gray-100 to-zinc-50 relative overflow-hidden">
+    <motion.section 
+      ref={ref}
+      className="py-16 lg:py-24 bg-gradient-to-b from-zinc-50 via-gray-100 to-zinc-50 relative overflow-hidden"
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      variants={containerVariants}
+    >
+      {/* Animated background elements */}
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-indigo-50/50"
+        initial={{ opacity: 0, scale: 1.2 }}
+        animate={{ 
+          opacity: isInView ? 1 : 0, 
+          scale: isInView ? 1 : 1.2,
+          transition: { duration: 2, ease: "easeOut" }
+        }}
+      />
+      
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
-        <div className="text-center mb-12 md:mb-16">
+        <motion.div 
+          className="text-center mb-12 md:mb-16"
+          variants={headerVariants}
+        >
           <div>
             <PointerHighlight>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-gray-900 dark:text-white p-4">
+              <motion.h2 
+                className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-gray-900 dark:text-white p-4"
+                initial={{ opacity: 0, x: -100 }}
+                animate={{ 
+                  opacity: isInView ? 1 : 0, 
+                  x: isInView ? 0 : -100,
+                  transition: { delay: 0.3, duration: 0.8, type: "spring", stiffness: 100 }
+                }}
+              >
                 Giảng viên Tiêu biểu
-              </h2>
+              </motion.h2>
             </PointerHighlight>
           </div>
-          <div className="max-w-3xl mx-auto">
+          <motion.div 
+            className="max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ 
+              opacity: isInView ? 1 : 0, 
+              y: isInView ? 0 : 30,
+              transition: { delay: 0.6, duration: 0.8 }
+            }}
+          >
             <TextGenerateEffect 
               words="Luôn tận tâm với sinh viên và tiên phong trong nghiên cứu khoa học."
               className="text-lg text-gray-600 dark:text-gray-300"
             />
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Faculty Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.2,
+                delayChildren: 0.8
+              }
+            }
+          }}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
           {facultyMembers.map((faculty, index) => (
-            <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
-              <CardHeader>
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                    <User className="w-8 h-8 text-white" />
+            <motion.div
+              key={index}
+              variants={cardVariants}
+              whileHover={{ 
+                scale: 1.05, 
+                y: -10,
+                transition: { duration: 0.3 }
+              }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <Card className="hover:shadow-lg transition-shadow duration-300 h-full">
+                <CardHeader>
+                  <div className="flex items-center gap-3 mb-3">
+                    <motion.div 
+                      className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center"
+                      variants={avatarVariants}
+                      whileHover={{ 
+                        scale: 1.1, 
+                        rotate: 5,
+                        boxShadow: "0 10px 30px rgba(0, 0, 0, 0.2)",
+                        transition: { duration: 0.3 }
+                      }}
+                    >
+                      <User className="w-8 h-8 text-white" />
+                    </motion.div>
+                    <div>
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{
+                          opacity: isInView ? 1 : 0,
+                          y: isInView ? 0 : 20,
+                          transition: { delay: index * 0.2 + 1.2, duration: 0.6 }
+                        }}
+                      >
+                        <CardTitle className="text-lg">{faculty.name}</CardTitle>
+                      </motion.div>
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{
+                          opacity: isInView ? 1 : 0,
+                          y: isInView ? 0 : 20,
+                          transition: { delay: index * 0.2 + 1.4, duration: 0.6 }
+                        }}
+                      >
+                        <CardDescription className="text-sm">{faculty.title}</CardDescription>
+                      </motion.div>
+                    </div>
                   </div>
-                  <div>
-                    <CardTitle className="text-lg">{faculty.name}</CardTitle>
-                    <CardDescription className="text-sm">{faculty.title}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{
+                        opacity: isInView ? 1 : 0,
+                        x: isInView ? 0 : -20,
+                        transition: { delay: index * 0.2 + 1.6, duration: 0.6 }
+                      }}
+                    >
+                      <p className="text-sm text-gray-600">
+                        <strong>Khoa/Phòng:</strong> {faculty.department}
+                      </p>
+                    </motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{
+                        opacity: isInView ? 1 : 0,
+                        x: isInView ? 0 : -20,
+                        transition: { delay: index * 0.2 + 1.8, duration: 0.6 }
+                      }}
+                    >
+                      <p className="text-sm text-gray-600">
+                        <strong>Chuyên môn:</strong> {faculty.specialization.slice(0, 2).join(', ')}
+                      </p>
+                    </motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{
+                        opacity: isInView ? 1 : 0,
+                        x: isInView ? 0 : -20,
+                        transition: { delay: index * 0.2 + 2.0, duration: 0.6 }
+                      }}
+                    >
+                      <p className="text-sm text-gray-600">
+                        <strong>Học vấn:</strong> {faculty.education}
+                      </p>
+                    </motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{
+                        opacity: isInView ? 1 : 0,
+                        y: isInView ? 0 : 20,
+                        transition: { delay: index * 0.2 + 2.2, duration: 0.6 }
+                      }}
+                    >
+                      <motion.h4 
+                        className="font-semibold text-sm mb-2"
+                        whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+                      >
+                        Thành tựu nổi bật:
+                      </motion.h4>
+                      <ul className="text-sm text-gray-600 space-y-1">
+                        {faculty.achievements.slice(0, 2).map((achievement, idx) => (
+                          <motion.li 
+                            key={idx} 
+                            className="flex items-start gap-2"
+                            variants={listItemVariants}
+                            custom={idx}
+                            initial="hidden"
+                            animate={isInView ? "visible" : "hidden"}
+                            whileHover={{ x: 5, transition: { duration: 0.2 } }}
+                          >
+                            <motion.div
+                              whileHover={{ rotate: 360, scale: 1.2 }}
+                              transition={{ duration: 0.3 }}
+                            >
+                              <Star className="w-4 h-4 text-yellow-500 mt-0.5 flex-shrink-0" />
+                            </motion.div>
+                            {achievement}
+                          </motion.li>
+                        ))}
+                      </ul>
+                    </motion.div>
                   </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div>
-                    <p className="text-sm text-gray-600">
-                      <strong>Khoa/Phòng:</strong> {faculty.department}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">
-                      <strong>Chuyên môn:</strong> {faculty.specialization.slice(0, 2).join(', ')}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">
-                      <strong>Học vấn:</strong> {faculty.education}
-                    </p>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-sm mb-2">Thành tựu nổi bật:</h4>
-                    <ul className="text-sm text-gray-600 space-y-1">
-                      {faculty.achievements.slice(0, 2).map((achievement, idx) => (
-                        <li key={idx} className="flex items-start gap-2">
-                          <Star className="w-4 h-4 text-yellow-500 mt-0.5 flex-shrink-0" />
-                          {achievement}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

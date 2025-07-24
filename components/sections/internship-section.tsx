@@ -1,4 +1,7 @@
-import React from 'react';
+'use client'
+
+import React, { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { PointerHighlight } from '@/components/ui/pointer-highlight';
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
@@ -26,6 +29,77 @@ interface InternshipProgram {
 }
 
 const InternshipSection: React.FC = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.1 });
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const headerVariants = {
+    hidden: { opacity: 0, y: -60, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: "spring" as const,
+        stiffness: 100,
+        damping: 15,
+        duration: 0.8
+      }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 80, rotateX: -15 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      rotateX: 0,
+      transition: {
+        type: "spring" as const,
+        stiffness: 100,
+        damping: 20,
+        duration: 0.7
+      }
+    }
+  };
+
+  const iconVariants = {
+    hidden: { scale: 0, rotate: -180 },
+    visible: {
+      scale: 1,
+      rotate: 0,
+      transition: {
+        type: "spring" as const,
+        stiffness: 200,
+        damping: 15,
+        delay: 0.3
+      }
+    }
+  };
+
+  const listItemVariants = {
+    hidden: { opacity: 0, x: -30 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        type: "spring" as const,
+        stiffness: 120,
+        damping: 20
+      }
+    }
+  };
+
   const internshipPrograms: InternshipProgram[] = [
     {
       title: "Thực tập Tài chính - Ngân hàng",
@@ -90,7 +164,7 @@ const InternshipSection: React.FC = () => {
       level: "Nâng cao",
       src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     },
-      {
+    {
       title: "Thực tập Marketing Digital",
       duration: "3-5 tháng",
       type: "Thực tập sáng tạo",
@@ -156,14 +230,28 @@ const InternshipSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-16 lg:py-24 relative overflow-hidden">
+    <motion.section
+      ref={ref}
+      className="py-16 lg:py-24 relative overflow-hidden"
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      variants={containerVariants}
+    >
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-zinc-50 via-slate-100 to-zinc-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700" />
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-b from-zinc-50 via-slate-100 to-zinc-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700"
+        initial={{ opacity: 0, scale: 1.1 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.2 }}
+      />
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
-        <div className="text-center mb-12 md:mb-16">
-          <div className='w-full flex justify-end'> 
+        <motion.div
+          className="text-center mb-12 md:mb-16"
+          variants={headerVariants}
+        >
+          <div className='w-full flex justify-end'>
             <PointerHighlight>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white p-4">
                 Cơ hội Thực tập Nghề nghiệp
@@ -177,57 +265,185 @@ const InternshipSection: React.FC = () => {
               className="text-lg text-gray-600 dark:text-gray-300"
             />
           </div>
-        </div>
+        </motion.div>
 
         {/* Programs Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 md:mb-16">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 md:mb-16"
+          variants={containerVariants}
+        >
           {internshipPrograms.map((program, index) => (
-            <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
-              <CardHeader>
-                <div className="flex items-center gap-3 mb-2">
-                  {program.icon}
-                  <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
-                    {program.badge}
-                  </span>
-                </div>
-                <CardTitle className="text-xl">{program.title}</CardTitle>
-                <CardDescription className="text-sm text-gray-500">
-                  {program.duration} • {program.type}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 mb-4">{program.description}</p>
-                <div className="space-y-3">
-                  <div>
-                    <h4 className="font-semibold text-sm mb-2">Yêu cầu:</h4>
-                    <ul className="text-sm text-gray-600 space-y-1">
-                      {program.requirements.slice(0, 2).map((req, idx) => (
-                        <li key={idx} className="flex items-start gap-2">
-                          <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                          {req}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-sm mb-2">Lợi ích:</h4>
-                    <ul className="text-sm text-gray-600 space-y-1">
-                      {program.benefits.slice(0, 2).map((benefit, idx) => (
-                        <li key={idx} className="flex items-start gap-2">
-                          <Award className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
-                          {benefit}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+            <motion.div
+              key={index}
+              variants={cardVariants}
+              whileHover={{
+                scale: 1.05,
+                y: -10,
+                rotateY: 5,
+                transition: { type: "spring", stiffness: 300, damping: 20 }
+              }}
+              whileTap={{ scale: 0.95 }}
+              className="perspective-1000"
+            >
+              <Card className="h-full relative overflow-hidden group cursor-pointer">
+                {/* Animated background overlay */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-purple-50/50 opacity-0 group-hover:opacity-100"
+                  transition={{ duration: 0.3 }}
+                />
 
+                <CardHeader className="relative z-10">
+                  <motion.div
+                    className="flex items-center gap-3 mb-2"
+                    initial="hidden"
+                    animate="visible"
+                    variants={{
+                      hidden: { opacity: 0 },
+                      visible: {
+                        opacity: 1,
+                        transition: {
+                          staggerChildren: 0.2,
+                          delayChildren: 0.3 + index * 0.1
+                        }
+                      }
+                    }}
+                  >
+                    <motion.div
+                      variants={iconVariants}
+                      whileHover={{
+                        rotate: 360,
+                        scale: 1.2,
+                        transition: { duration: 0.5 }
+                      }}
+                    >
+                      {program.icon}
+                    </motion.div>
+                    <motion.span
+                      className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full"
+                      variants={{
+                        hidden: { opacity: 0, scale: 0 },
+                        visible: {
+                          opacity: 1,
+                          scale: 1,
+                          transition: {
+                            type: "spring",
+                            stiffness: 200,
+                            damping: 15
+                          }
+                        }
+                      }}
+                      whileHover={{ scale: 1.1 }}
+                    >
+                      {program.badge}
+                    </motion.span>
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 + index * 0.1 }}
+                  >
+                    <CardTitle className="text-xl group-hover:text-blue-600 transition-colors">
+                      {program.title}
+                    </CardTitle>
+                    <CardDescription className="text-sm text-gray-500">
+                      {program.duration} • {program.type}
+                    </CardDescription>
+                  </motion.div>
+                </CardHeader>
+                <CardContent className="relative z-10">
+                  <motion.p
+                    className="text-gray-600 mb-4"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.5 + index * 0.1 }}
+                  >
+                    {program.description}
+                  </motion.p>
+                  <motion.div
+                    className="space-y-3"
+                    initial="hidden"
+                    animate="visible"
+                    variants={{
+                      hidden: { opacity: 0 },
+                      visible: {
+                        opacity: 1,
+                        transition: {
+                          staggerChildren: 0.1,
+                          delayChildren: 0.6 + index * 0.1
+                        }
+                      }
+                    }}
+                  >
+                    <motion.div variants={listItemVariants}>
+                      <h4 className="font-semibold text-sm mb-2">Yêu cầu:</h4>
+                      <ul className="text-sm text-gray-600 space-y-1">
+                        {program.requirements.slice(0, 2).map((req, idx) => (
+                          <motion.li
+                            key={idx}
+                            className="flex items-start gap-2"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{
+                              delay: 0.7 + index * 0.1 + idx * 0.1,
+                              type: "spring",
+                              stiffness: 120
+                            }}
+                          >
+                            <motion.div
+                              initial={{ scale: 0 }}
+                              animate={{ scale: 1 }}
+                              transition={{
+                                delay: 0.8 + index * 0.1 + idx * 0.1,
+                                type: "spring",
+                                stiffness: 200
+                              }}
+                            >
+                              <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                            </motion.div>
+                            {req}
+                          </motion.li>
+                        ))}
+                      </ul>
+                    </motion.div>
+                    <motion.div variants={listItemVariants}>
+                      <h4 className="font-semibold text-sm mb-2">Lợi ích:</h4>
+                      <ul className="text-sm text-gray-600 space-y-1">
+                        {program.benefits.slice(0, 2).map((benefit, idx) => (
+                          <motion.li
+                            key={idx}
+                            className="flex items-start gap-2"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{
+                              delay: 0.9 + index * 0.1 + idx * 0.1,
+                              type: "spring",
+                              stiffness: 120
+                            }}
+                          >
+                            <motion.div
+                              initial={{ scale: 0 }}
+                              animate={{ scale: 1 }}
+                              transition={{
+                                delay: 1.0 + index * 0.1 + idx * 0.1,
+                                type: "spring",
+                                stiffness: 200
+                              }}
+                            >
+                              <Award className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
+                            </motion.div>
+                            {benefit}
+                          </motion.li>
+                        ))}
+                      </ul>
+                    </motion.div>
+                  </motion.div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

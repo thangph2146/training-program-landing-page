@@ -1,6 +1,7 @@
 "use client";
 
-import React from 'react';
+import React, { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { Badge } from "@/components/ui/badge";
@@ -114,11 +115,89 @@ const featuredCourses: Course[] = [
 ];
 
 export default function FeaturedCoursesSection() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const headerVariants = {
+    hidden: { opacity: 0, y: -50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring" as const,
+        stiffness: 100,
+        damping: 15,
+        duration: 0.8
+      }
+    }
+  };
+
+  const cardVariants = {
+    hidden: {
+      opacity: 0,
+      y: 100,
+      scale: 0.8
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: "spring" as const,
+        stiffness: 100,
+        damping: 15,
+        duration: 0.6
+      }
+    }
+  };
+
+  const iconVariants = {
+    hidden: { scale: 0, rotate: -180 },
+    visible: {
+      scale: 1,
+      rotate: 0,
+      transition: {
+        type: "spring" as const,
+        stiffness: 200,
+        damping: 20,
+        delay: 0.2
+      }
+    }
+  };
+
+  const highlightVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
   return (
-    <section className="py-16 lg:py-24 bg-gradient-to-b from-zinc-50 via-slate-100 to-zinc-50 relative overflow-hidden">
+    <motion.section
+      ref={ref}
+      className="py-16 lg:py-24 bg-gradient-to-b from-zinc-50 via-slate-100 to-zinc-50 relative overflow-hidden"
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      variants={containerVariants}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div className="text-center mb-16">
+        <motion.div className="text-center mb-16" variants={headerVariants}>
           <div className='w-full flex justify-end'>
             <PointerHighlight>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-800 p-4">
@@ -132,62 +211,141 @@ export default function FeaturedCoursesSection() {
               className="text-lg text-slate-600"
             />
           </div>
-        </div>
+        </motion.div>
 
         {/* Courses Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredCourses.map((course) => {
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          variants={containerVariants}
+        >
+          {featuredCourses.map((course, index) => {
             const IconComponent = course.icon;
             return (
-              <div key={course.id} className="group cursor-pointer">
-                <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 sm:p-8 border border-white/50 shadow-xl transition-all duration-300 group-hover:shadow-2xl group-hover:scale-105 h-full">
-                  {/* Header */}
-                  <div className="flex items-start gap-4 mb-6">
-                    <div className="p-3 bg-gradient-to-b from-blue-100 to-indigo-100 rounded-2xl group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors flex-shrink-0">
-                      <IconComponent className="w-6 h-6" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <Badge variant="secondary" className="mb-2 text-xs">
-                        {course.category}
-                      </Badge>
-                      <h3 className="text-xl font-bold text-slate-800 mb-2 leading-tight">
-                        {course.title}
-                      </h3>
-                    </div>
-                  </div>
+              <motion.div
+                key={course.id}
+                className="group cursor-pointer"
+                variants={cardVariants}
+                whileHover={{
+                  scale: 1.05,
+                  y: -10,
+                  transition: { type: "spring", stiffness: 300, damping: 20 }
+                }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <motion.div
+                  className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 sm:p-8 border border-white/50 shadow-xl h-full relative overflow-hidden"
+                  whileHover={{
+                    boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+                    transition: { duration: 0.3 }
+                  }}
+                >
+                  {/* Animated background gradient */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-purple-50/50 rounded-3xl"
+                    initial={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  />
 
-                  {/* Description */}
-                  <p className="text-slate-600 mb-6 leading-relaxed">
-                    {course.description}
-                  </p>
-
-                  {/* Highlights */}
-                  <div className="mb-6">
-                    <h4 className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
-                      <Star className="h-4 w-4 text-yellow-500" />
-                      Điểm nổi bật
-                    </h4>
-                    <div className="space-y-2">
-                      {course.highlights.map((highlight, idx) => (
-                        <div key={idx} className="flex items-center gap-2 text-sm text-slate-600">
-                          <CheckCircle className="h-4 w-4 text-emerald-500 flex-shrink-0" />
-                          <span>{highlight}</span>
-                        </div>
-                      ))}
+                  <div className="relative z-10">
+                    {/* Header */}
+                    <div className="flex items-start gap-4 mb-6">
+                      <motion.div
+                        className="p-3 bg-gradient-to-b from-blue-100 to-indigo-100 rounded-2xl group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors flex-shrink-0"
+                        variants={iconVariants}
+                        whileHover={{
+                          rotate: 360,
+                          scale: 1.1,
+                          transition: { duration: 0.5 }
+                        }}
+                      >
+                        <IconComponent className="w-6 h-6" />
+                      </motion.div>
+                      <div className="flex-1 min-w-0">
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.3 + index * 0.1 }}
+                        >
+                          <Badge variant="secondary" className="mb-2 text-xs">
+                            {course.category}
+                          </Badge>
+                          <h3 className="text-xl font-bold text-slate-800 mb-2 leading-tight">
+                            {course.title}
+                          </h3>
+                        </motion.div>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Level */}
-                  <div className="pt-4 border-t border-slate-200">
-                    <p className="text-sm text-slate-500">Trình độ</p>
-                    <p className="font-semibold text-slate-700">{course.level}</p>
+                    {/* Description */}
+                    <motion.p
+                      className="text-slate-600 mb-6 leading-relaxed"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.4 + index * 0.1 }}
+                    >
+                      {course.description}
+                    </motion.p>
+
+                    {/* Highlights */}
+                    <motion.div
+                      className="mb-6"
+                      variants={highlightVariants}
+                      initial="hidden"
+                      animate="visible"
+                    >
+                      <h4 className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
+                        <motion.div
+                          animate={{ rotate: [0, 360] }}
+                          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                        >
+                          <Star className="h-4 w-4 text-yellow-500" />
+                        </motion.div>
+                        Điểm nổi bật
+                      </h4>
+                      <div className="space-y-2">
+                        {course.highlights.map((highlight, idx) => (
+                          <motion.div
+                            key={idx}
+                            className="flex items-center gap-2 text-sm text-slate-600"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.5 + index * 0.1 + idx * 0.1 }}
+                          >
+                            <motion.div
+                              initial={{ scale: 0 }}
+                              animate={{ scale: 1 }}
+                              transition={{
+                                delay: 0.6 + index * 0.1 + idx * 0.1,
+                                type: "spring",
+                                stiffness: 200
+                              }}
+                            >
+                              <CheckCircle className="h-4 w-4 text-emerald-500 flex-shrink-0" />
+                            </motion.div>
+                            <span>{highlight}</span>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </motion.div>
+
+                    {/* Level */}
+                    <motion.div
+                      className="pt-4 border-t border-slate-200"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.7 + index * 0.1 }}
+                    >
+                      <p className="text-sm text-slate-500">Trình độ</p>
+                      <p className="font-semibold text-slate-700">{course.level}</p>
+                    </motion.div>
                   </div>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 }
