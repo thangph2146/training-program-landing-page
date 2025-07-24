@@ -9,7 +9,8 @@ import Image from "next/image";
 
 function HeroSection() {
   return (
-    <HeroHighlight containerClassName="w-full min-h-screen">
+    <div className="relative w-full min-h-screen bg-gradient-to-br from-zinc-50 via-gray-100 to-zinc-50">
+      <HeroHighlight containerClassName="w-full min-h-screen relative z-10">
       <div className="w-full mx-auto px-4 py-8 lg:py-16">
         <Grid columns={{xs: '1', lg: '2'}} gap={{xs: '6', lg: '8'}} width="auto" className="items-center min-h-[80vh] lg:min-h-[70vh]">
           <div className="flex flex-col justify-center items-center lg:items-start text-center lg:text-left order-2 lg:order-1">
@@ -37,7 +38,8 @@ function HeroSection() {
             </AspectRatio>
         </Grid>
       </div>
-    </HeroHighlight>
+      </HeroHighlight>
+    </div>
   );
 }
 

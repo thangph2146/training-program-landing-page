@@ -146,7 +146,7 @@ export function ProgramTimelineSection() {
   ];
 
   return (
-    <section className="py-16 lg:py-24 bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50 relative overflow-hidden">
+    <section className="py-16 lg:py-24 bg-gradient-to-br from-zinc-50 via-gray-100 to-zinc-50 relative overflow-hidden">
       {/* Background decorations */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 left-20 w-72 h-72 bg-gradient-to-br from-blue-400/10 to-purple-600/10 rounded-full blur-3xl"></div>
@@ -156,14 +156,16 @@ export function ProgramTimelineSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="text-center mb-16">
+          <div className='w-full flex justify-end'>
           <PointerHighlight>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-800 mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-800 p-4">
               Cấu trúc Chương trình Đào tạo
             </h2>
           </PointerHighlight>
+          </div>
           <div className="max-w-3xl mx-auto">
             <TextGenerateEffect 
-              words="Tài chính - Ngân hàng TABP CLC - Chương trình đào tạo chất lượng cao với cấu trúc khoa học, tích hợp yếu tố quốc tế và định hướng thực tiễn mạnh mẽ."
+              words="Với cấu trúc khoa học, tích hợp yếu tố quốc tế và định hướng thực tiễn mạnh mẽ."
               className="text-lg text-slate-600"
             />
           </div>

@@ -3,6 +3,9 @@ import TargetSection from "@/components/sections/target-section";
 import { CareerTimelineSection } from "@/components/sections/career-timeline-section";
 import { ProgramTimelineSection } from "@/components/sections/program-timeline-section";
 import CareerOpportunitiesSection from "@/components/sections/career-opportunities-section";
+import FeaturedCoursesSection from "@/components/sections/featured-courses-section";
+import FeaturedFacultySection from "@/components/sections/featured-faculty-section";
+import InternshipSection from "@/components/sections/internship-section";
 
 export default function Home() {
   return (
@@ -11,6 +14,9 @@ export default function Home() {
       <TargetSection />
       <ProgramTimelineSection />
       <CareerTimelineSection />
+      <FeaturedCoursesSection />
+      <FeaturedFacultySection />
+      <InternshipSection />
       <CareerOpportunitiesSection />
     </>
   );

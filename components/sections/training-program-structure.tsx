@@ -288,7 +288,7 @@ export function TrainingProgramStructure() {
         "Chương trình đào tạo Tài chính - Ngân hàng TABP CLC được thiết kế toàn diện với cấu trúc khoa học, cân bằng giữa kiến thức cơ bản và chuyên ngành.";
 
     return (
-        <div className="py-10 sm:py-16 md:py-20">
+        <div className="py-10 sm:py-16 md:py-20 bg-gradient-to-br from-zinc-50 via-gray-100 to-zinc-50">
             <div className="max-w-6xl mx-auto flex flex-col items-center justify-center min-h-[16rem] sm:min-h-[18rem] md:min-h-[20rem] p-4">
                 <div className="mx-auto max-w-lg sm:max-w-xl md:max-w-2xl text-xl sm:text-2xl font-bold tracking-tight md:text-3xl lg:text-4xl p-2 sm:p-4">
                     <PointerHighlight>
