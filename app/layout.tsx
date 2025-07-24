@@ -3,9 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Theme } from '@radix-ui/themes';
 import "./globals.css";
 
-import { StagewiseToolbar } from "@stagewise/toolbar-next";
-import ReactPlugin from "@stagewise-plugins/react";
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -17,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Trang web đào tạo",
-  description: "Trang web đào tạo",
+  title: "Chương trình đào tạo chuyên sâu",
+  description: "Khám phá các khóa học, giảng viên, cơ hội nghề nghiệp và cấu trúc chương trình đào tạo chuyên sâu của chúng tôi.",
 };
 
 export default function RootLayout({
