@@ -156,7 +156,7 @@ const InternshipSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-12 md:py-20 relative overflow-hidden">
+    <section className="py-16 lg:py-24 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-zinc-50 via-slate-100 to-zinc-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700" />
 
