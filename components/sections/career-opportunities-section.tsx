@@ -7,7 +7,7 @@ import { PointerHighlight } from "@/components/ui/pointer-highlight";
 
 const CareerOpportunitiesSection = () => {
   return (
-    <section className="py-16 lg:py-24 bg-gradient-to-b from-zinc-50 via-gray-100 to-zinc-50 relative overflow-hidden">
+    <section className="py-16 lg:py-24 h-screen relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="text-center mb-16">
