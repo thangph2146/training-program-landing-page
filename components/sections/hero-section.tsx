@@ -8,7 +8,7 @@ import { useRef, useMemo, useCallback } from "react";
 import { ArrowDown, Sparkles, Star } from "lucide-react";
 import Image from "next/image";
 
-function HeroSection() {
+export function HeroSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
@@ -318,5 +318,3 @@ function HeroSection() {
     </motion.section>
   );
 }
-
-export default HeroSection

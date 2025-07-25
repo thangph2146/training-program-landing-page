@@ -823,4 +823,4 @@ const InternshipSection: React.FC = () => {
   );
 };
 
-export default InternshipSection;
+export { InternshipSection };

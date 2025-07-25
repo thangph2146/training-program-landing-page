@@ -646,7 +646,7 @@ const featuredCourses: Course[] = [
   }
 ];
 
-export default function FeaturedCoursesSection() {
+export function FeaturedCoursesSection() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);

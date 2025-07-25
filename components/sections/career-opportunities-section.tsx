@@ -273,4 +273,4 @@ const CareerOpportunitiesSection = () => {
   );
 };
 
-export default CareerOpportunitiesSection;
+export { CareerOpportunitiesSection };

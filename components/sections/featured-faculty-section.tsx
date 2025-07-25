@@ -590,4 +590,4 @@ const FeaturedFacultySection: React.FC = () => {
   );
 };
 
-export default FeaturedFacultySection;
+export { FeaturedFacultySection };

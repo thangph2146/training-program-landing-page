@@ -13,22 +13,16 @@ import {
   Play,
   X,
 } from "lucide-react";
+import { ScrollArea } from './scroll-area';
 
 // Base interfaces for carousel items
 interface CarouselItem {
   id: string;
   title: string;
   description: string;
-  icon: React.ComponentType<any>;
-  category: string;
-  highlights: string[];
   color: string;
-  level: string;
   modalContent?: React.ReactNode;
 }
-
-// Color mapping type
-type ColorName = 'red' | 'blue' | 'green' | 'purple' | 'orange' | 'pink' | 'slate';
 
 // Animation variants type
 interface AnimationVariants {
@@ -95,10 +89,6 @@ interface ItemCardProps {
 interface InfoPanelProps {
   activeItem: CarouselItem;
   customSections?: InfoPanelSection;
-  showLevelIndicator?: boolean;
-  showHighlights?: boolean;
-  levelIndicatorTitle?: string;
-  highlightsTitle?: string;
   colorClasses: {
     primary: string;
     secondary: string;
@@ -130,10 +120,6 @@ interface CustomizableCarouselProps {
   className?: string;
   onItemClick?: (item: CarouselItem) => void;
   // Custom props
-  levelIndicatorTitle?: string;
-  highlightsTitle?: string;
-  showLevelIndicator?: boolean;
-  showHighlights?: boolean;
   customColors?: {
     primary?: string;
     secondary?: string;
@@ -159,31 +145,11 @@ const ItemCard: React.FC<ItemCardProps> = ({
   randomRotateY,
   customCardSections
 }) => {
-  const IconComponent = item.icon;
 
   // Default card header
   const defaultCardHeader = (
     <div className="flex items-start gap-5 mb-8">
-      <motion.div
-        className={cn(
-          "p-4 rounded-2xl flex-shrink-0 transition-all duration-300",
-          "bg-gradient-to-br from-slate-100 to-slate-200",
-          customColors.primary ? `group-hover:from-${customColors.primary}-100 group-hover:to-${customColors.primary}-200` : 'group-hover:from-red-100 group-hover:to-red-200',
-          "shadow-lg group-hover:shadow-xl"
-        )}
-        variants={animationVariants.icon}
-        whileHover={{
-          rotate: [0, -8, 8, 0],
-          scale: 1.1,
-          transition: { duration: 0.6, ease: "easeInOut" }
-        }}
-      >
-        <IconComponent className={cn(
-          "w-7 h-7 transition-colors",
-          "text-slate-700",
-          getColorClasses(customColors.primary || 'red', 'text').replace('text-', 'group-hover:text-')
-        )} />
-      </motion.div>
+   
       
       <div className="flex-1 min-w-0">
         <motion.div
@@ -191,19 +157,6 @@ const ItemCard: React.FC<ItemCardProps> = ({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 + index * 0.1 }}
         >
-          <Badge 
-            variant="secondary" 
-            className={cn(
-              "mb-4 text-xs font-medium transition-all duration-300",
-              "bg-slate-100/80 text-slate-700 border border-slate-200/50",
-              customColors.primary ? `group-hover:bg-${customColors.primary}-100/80` : 'group-hover:bg-red-100/80',
-              customColors.primary ? getColorClasses(customColors.primary, 'text').replace('text-', 'group-hover:text-') : 'group-hover:text-red-600',
-              customColors.primary ? getColorClasses(customColors.primary, 'border').replace('border-', 'group-hover:border-') + '/50' : 'group-hover:border-red-200/50'
-            )}
-          >
-            {item.category}
-          </Badge>
-          
           <h3 className="text-xl font-bold text-slate-800 mb-3 leading-tight group-hover:text-slate-900 transition-colors">
             {item.title}
           </h3>
@@ -396,7 +349,9 @@ const ItemCard: React.FC<ItemCardProps> = ({
                 </button>
               </DrawerClose>
             </DrawerHeader>
-            {item.modalContent}
+            <ScrollArea className="h-[70vh]">
+              {item.modalContent}
+            </ScrollArea>
           </DrawerContent>
         )}
       </Drawer>
@@ -408,17 +363,11 @@ const ItemCard: React.FC<ItemCardProps> = ({
 const InfoPanel: React.FC<InfoPanelProps> = ({
   activeItem,
   customSections,
-  showLevelIndicator = true,
-  showHighlights = true,
-  levelIndicatorTitle = "Cấp độ",
-  highlightsTitle = "Điểm nổi bật",
-  colorClasses,
   customColors,
   onNext,
   onPrev,
   onItemSelect,
   items,
-  activeIndex,
   isActive,
   animationVariants,
   getColorClasses
@@ -432,46 +381,6 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
       <p className="text-slate-600 leading-relaxed">
         {activeItem?.description}
       </p>
-    </div>
-  );
-
-  // Default body content
-  const defaultBody = (
-    <div className="space-y-6">
-      {showLevelIndicator && (
-        <div className="space-y-2">
-          <span className="text-sm font-semibold text-slate-700">{levelIndicatorTitle}:</span>
-          <div className={cn(
-            "inline-block px-4 py-2 rounded-lg text-sm font-medium",
-            customColors.accent ? `bg-${customColors.accent}-50` : 'bg-red-50',
-            getColorClasses(customColors.accent || 'red', 'text'),
-            getColorClasses(customColors.accent || 'red', 'border')
-          )}>
-            {activeItem?.level}
-          </div>
-        </div>
-      )}
-      
-      {showHighlights && activeItem?.highlights && (
-        <div className="space-y-3">
-          <span className="text-sm font-semibold text-slate-700">{highlightsTitle}:</span>
-          <div className="flex flex-wrap gap-2">
-            {activeItem?.highlights.map((highlight, index) => (
-              <span
-                key={index}
-                className={cn(
-                  "px-3 py-1 rounded-full text-xs font-medium",
-                  customColors.secondary ? `bg-${customColors.secondary}-100 text-${customColors.secondary}-700` : 'bg-slate-100 text-slate-700',
-                  'border',
-                  getColorClasses(customColors.secondary || 'slate', 'border') + '/50'
-                )}
-              >
-                {highlight}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 
@@ -531,7 +440,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
         
         {/* Info Panel Body */}
         <div className="info-panel-body">
-          {customSections?.body || defaultBody}
+          {customSections?.body}
         </div>
         
         {/* Info Panel Footer */}
@@ -552,11 +461,6 @@ export default function CustomizableCarousel({
   enableAutoplay = false,
   flipped = false,
   className,
-  onItemClick,
-  levelIndicatorTitle = "Cấp độ",
-  highlightsTitle = "Điểm nổi bật",
-  showLevelIndicator = true,
-  showHighlights = true,
   customColors = {
     primary: "red",
     secondary: "slate",
@@ -720,7 +624,7 @@ export default function CustomizableCarousel({
     <motion.section
       ref={ref}
       className={cn(
-        "py-6 bg-gradient-to-br from-slate-50 via-slate-100/50 to-blue-50/30 relative overflow-hidden",
+        "w-full min-h-[100vh] h-fit flex flex-col items-center justify-center py-6 bg-gradient-to-br from-slate-50 via-slate-100/50 to-blue-50/30 relative overflow-hidden",
         className
       )}
       initial="hidden"
@@ -842,10 +746,6 @@ export default function CustomizableCarousel({
           <InfoPanel
             activeItem={items[activeItem]}
             customSections={customInfoPanelSections}
-            showLevelIndicator={showLevelIndicator}
-            showHighlights={showHighlights}
-            levelIndicatorTitle={levelIndicatorTitle}
-            highlightsTitle={highlightsTitle}
             colorClasses={colorClasses}
             customColors={customColors}
             onNext={handleNext}
