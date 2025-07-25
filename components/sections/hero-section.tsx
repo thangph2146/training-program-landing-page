@@ -119,18 +119,27 @@ function HeroSection() {
 
   return (
     <motion.section 
+      id="hero-section"
       ref={ref}
-      className="relative w-full min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-red-50/20 overflow-hidden"
+      className="relative w-full min-h-screen bg-gradient-to-br from-red-50 via-white to-red-50/30 overflow-hidden"
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       variants={animationVariants.container}
       role="banner"
       aria-label="Hero section"
     >
-      {/* Enhanced Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 via-transparent to-red-600/5" />
-      <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/10 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-red-400/10 rounded-full blur-3xl animate-pulse delay-1000" />
+      {/* Professional Academic Background */}
+      <div className="absolute inset-0 bg-gradient-to-r from-red-900/5 via-transparent to-red-800/5" />
+      <div className="absolute top-20 left-10 w-72 h-72 bg-red-600/8 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-red-700/8 rounded-full blur-3xl animate-pulse delay-1000" />
+      
+      {/* Academic Grid Pattern */}
+      <div className="absolute inset-0 opacity-[0.02]">
+        <div className="h-full w-full" style={{
+          backgroundImage: `linear-gradient(rgba(185, 28, 28, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(185, 28, 28, 0.1) 1px, transparent 1px)`,
+          backgroundSize: '50px 50px'
+        }} />
+      </div>
       
       {/* Floating Sparkles */}
       <AnimatePresence>
@@ -154,7 +163,7 @@ function HeroSection() {
               ease: "easeInOut"
             }}
           >
-            <Sparkles className="w-4 h-4 text-blue-400/40" />
+            <Sparkles className="w-4 h-4 text-red-400/30" />
           </motion.div>
         ))}
       </AnimatePresence>
@@ -166,12 +175,12 @@ function HeroSection() {
             className="flex justify-center mb-8"
             variants={animationVariants.badge}
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-500/10 to-blue-500/10 backdrop-blur-sm border border-red-200/30 rounded-full">
-              <Star className="w-4 h-4 text-red-600" />
-              <span className="text-sm font-semibold text-red-700 dark:text-red-400">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-50/80 to-red-100/80 backdrop-blur-sm border border-red-200/50 rounded-full shadow-sm">
+              <Star className="w-4 h-4 text-red-700" />
+              <span className="text-sm font-semibold text-red-800 dark:text-red-300">
                 Chương trình đào tạo chất lượng cao
               </span>
-              <Star className="w-4 h-4 text-red-600" />
+              <Star className="w-4 h-4 text-red-700" />
             </div>
           </motion.div>
 
@@ -186,10 +195,10 @@ function HeroSection() {
                 variants={animationVariants.text}
               >
                 <motion.div 
-                  className="inline-flex items-center gap-2 mb-4 px-3 py-1 bg-red-100/80 dark:bg-red-900/20 rounded-full"
+                  className="inline-flex items-center gap-2 mb-4 px-3 py-1 bg-red-100/80 dark:bg-red-900/20 rounded-full border border-red-200/30"
                   variants={animationVariants.line}
                 >
-                  <span className="text-xs sm:text-sm font-bold text-red-600 dark:text-red-400 uppercase tracking-wider">
+                  <span className="text-xs sm:text-sm font-bold text-red-700 dark:text-red-300 uppercase tracking-wider">
                     🎓 Tiếng Anh Bán Phần
                   </span>
                 </motion.div>
@@ -209,7 +218,7 @@ function HeroSection() {
                     variants={animationVariants.line}
                   >
                     Công nghệ{" "}
-                    <Highlight className="text-red-700 dark:text-red-300 px-2 py-1 rounded-lg">
+                    <Highlight className="text-red-800 dark:text-red-200 px-2 py-1 rounded-lg bg-red-100/50 dark:bg-red-900/30">
                       FinTech
                     </Highlight>
                   </motion.span>
@@ -220,7 +229,7 @@ function HeroSection() {
                     Khởi tạo tương lai với
                   </motion.span>
                   <motion.span 
-                    className="block bg-gradient-to-r from-red-600 via-red-700 to-red-800 bg-clip-text text-transparent text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-tight"
+                    className="block bg-gradient-to-r from-red-700 via-red-800 to-red-900 bg-clip-text text-transparent text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-tight"
                     variants={animationVariants.line}
                   >
                     Tài chính - Ngân hàng
@@ -238,7 +247,7 @@ function HeroSection() {
               
               {/* CTA Button */}
               <motion.button
-                className="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                className="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                 variants={animationVariants.line}
                 onClick={handleScrollDown}
                 whileHover={{ scale: 1.05 }}
@@ -261,8 +270,8 @@ function HeroSection() {
               }}
             >
               <div className="relative">
-                {/* Glow Effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-red-400/20 to-blue-400/20 rounded-full blur-2xl scale-110" />
+                {/* Professional Glow Effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-red-400/15 to-red-500/15 rounded-full blur-2xl scale-110" />
                 
                 <AspectRatio ratio={1} className="w-full relative z-10">
                   <Image
@@ -277,10 +286,10 @@ function HeroSection() {
                 
                 {/* Floating Elements around Logo */}
                 <motion.div
-                  className="absolute -top-4 -right-4 w-8 h-8 bg-red-500/20 rounded-full"
+                  className="absolute -top-4 -right-4 w-8 h-8 bg-red-600/15 rounded-full border border-red-200/20"
                   animate={{
                     scale: [1, 1.2, 1],
-                    opacity: [0.5, 1, 0.5]
+                    opacity: [0.4, 0.8, 0.4]
                   }}
                   transition={{
                     duration: 2,
@@ -289,10 +298,10 @@ function HeroSection() {
                   }}
                 />
                 <motion.div
-                  className="absolute -bottom-4 -left-4 w-6 h-6 bg-blue-500/20 rounded-full"
+                  className="absolute -bottom-4 -left-4 w-6 h-6 bg-red-700/15 rounded-full border border-red-300/20"
                   animate={{
                     scale: [1, 1.3, 1],
-                    opacity: [0.3, 0.8, 0.3]
+                    opacity: [0.2, 0.6, 0.2]
                   }}
                   transition={{
                     duration: 3,

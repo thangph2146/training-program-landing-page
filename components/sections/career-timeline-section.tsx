@@ -3,19 +3,33 @@ import React, { useState, useRef, useEffect, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { motion, useInView, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerClose } from "@/components/ui/drawer";
 import { BookOpen, Target, CheckCircle, GraduationCap, Star, Award, Lightbulb, Briefcase, MapPin, TrendingUp, Clock, X, Sparkles, Zap, Badge } from "lucide-react";
 
 export function CareerTimelineSection() {
   const [activePhase, setActivePhase] = useState<number>(0);
   const [isClient, setIsClient] = useState(false);
-  const ref = useRef(null);
+  const [height, setHeight] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   useEffect(() => {
     setIsClient(true);
+    if (ref.current) {
+      const rect = ref.current.getBoundingClientRect();
+      setHeight(rect.height);
+    }
   }, []);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 10%", "end 50%"],
+  });
+
+  const heightTransform = useTransform(scrollYProgress, [0, 1], [0, height]);
+  const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
 
   // Animation variants
   const containerVariants = {
@@ -111,20 +125,20 @@ export function CareerTimelineSection() {
       skills: ["Kiến thức nền tảng", "Tư duy phân tích", "Kỹ năng mềm", "Tiếng Anh chuyên ngành"],
       opportunities: ["Học bổng", "Tham gia CLB", "Hoạt động tình nguyện", "Kỹ năng thuyết trình"],
       icon: "🌱",
-      color: "from-green-500 to-emerald-500",
-      bgColor: "from-green-50 to-emerald-50",
+      color: "from-red-500 to-red-600",
+      bgColor: "from-red-50 to-red-100",
       position: "left",
       modalContent: (
         <div className="max-h-[80vh] overflow-y-auto">
           {/* Header */}
-          <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white p-6 rounded-t-2xl mb-6">
+          <div className="bg-gradient-to-r from-red-600 to-red-700 text-white p-6 rounded-t-2xl mb-6">
             <div className="flex items-center gap-4">
               <div className="p-3 bg-white/20 rounded-xl text-2xl">
                 🌱
               </div>
               <div>
                 <h2 className="text-2xl font-bold">Năm 1-2: Xây dựng nền tảng</h2>
-                <p className="text-green-100">Kiến thức cơ bản và định hướng</p>
+                <p className="text-red-100">Kiến thức cơ bản và định hướng</p>
               </div>
             </div>
           </div>
@@ -132,12 +146,12 @@ export function CareerTimelineSection() {
           {/* Content */}
           <div className="space-y-6">
             {/* Overview */}
-            <div className="bg-green-50 p-6 rounded-xl">
-              <h3 className="text-xl font-bold text-green-800 mb-4 flex items-center gap-2">
+            <div className="bg-red-50 p-6 rounded-xl border border-red-100">
+              <h3 className="text-xl font-bold text-red-800 mb-4 flex items-center gap-2">
                 <BookOpen className="w-5 h-5" />
                 Tổng quan giai đoạn
               </h3>
-              <p className="text-green-700 leading-relaxed">
+              <p className="text-red-700 leading-relaxed">
                 Giai đoạn đầu tiên trong hành trình học tập, sinh viên sẽ được trang bị những kiến thức nền tảng vững chắc về kinh tế, tài chính và ngân hàng. Đây là thời điểm quan trọng để hình thành tư duy phân tích và định hướng nghề nghiệp rõ ràng.
               </p>
             </div>
@@ -145,7 +159,7 @@ export function CareerTimelineSection() {
             {/* Learning Objectives */}
             <div>
               <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
-                <Target className="w-5 h-5 text-green-600" />
+                <Target className="w-5 h-5 text-red-600" />
                 Mục tiêu học tập
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -157,8 +171,8 @@ export function CareerTimelineSection() {
                   'Xây dựng nền tảng tiếng Anh',
                   'Định hướng chuyên ngành phù hợp'
                 ].map((objective, idx) => (
-                  <div key={idx} className="flex items-start gap-3 p-3 bg-white rounded-lg border border-green-100">
-                    <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <div key={idx} className="flex items-start gap-3 p-3 bg-white rounded-lg border border-red-100">
+                    <CheckCircle className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" />
                     <span className="text-slate-700">{objective}</span>
                   </div>
                 ))}
@@ -168,7 +182,7 @@ export function CareerTimelineSection() {
             {/* Key Subjects */}
             <div>
               <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
-                <GraduationCap className="w-5 h-5 text-green-600" />
+                <GraduationCap className="w-5 h-5 text-red-600" />
                 Môn học chính
               </h3>
               <div className="space-y-4">
@@ -190,7 +204,7 @@ export function CareerTimelineSection() {
                     <h4 className="font-semibold text-slate-800 mb-2">{category.category}</h4>
                     <div className="flex flex-wrap gap-2">
                       {category.subjects.map((subject, subjectIdx) => (
-                        <span key={subjectIdx} className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">
+                        <span key={subjectIdx} className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm">
                           {subject}
                         </span>
                       ))}
@@ -203,7 +217,7 @@ export function CareerTimelineSection() {
             {/* Activities & Opportunities */}
             <div>
               <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
-                <Star className="w-5 h-5 text-green-600" />
+                <Star className="w-5 h-5 text-red-600" />
                 Hoạt động và cơ hội
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -215,8 +229,8 @@ export function CareerTimelineSection() {
                   'Học bổng khuyến khích học tập',
                   'Giao lưu với sinh viên quốc tế'
                 ].map((activity, idx) => (
-                  <div key={idx} className="flex items-center gap-3 p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg">
-                    <Award className="w-5 h-5 text-green-600" />
+                  <div key={idx} className="flex items-center gap-3 p-3 bg-gradient-to-r from-red-50 to-red-100 rounded-lg border border-red-200">
+                    <Award className="w-5 h-5 text-red-600" />
                     <span className="text-slate-700 font-medium">{activity}</span>
                   </div>
                 ))}
@@ -235,20 +249,20 @@ export function CareerTimelineSection() {
       skills: ["AI trong tài chính", "Blockchain", "Phân tích dữ liệu", "Quản trị rủi ro"],
       opportunities: ["Dự án thực tế", "Thực tập ngắn hạn", "Chứng chỉ quốc tế", "Nghiên cứu khoa học"],
       icon: "🚀",
-      color: "from-blue-500 to-cyan-500",
-      bgColor: "from-blue-50 to-cyan-50",
+      color: "from-red-500 to-red-600",
+      bgColor: "from-red-50 to-red-100",
       position: "right",
       modalContent: (
         <div className="max-h-[80vh] overflow-y-auto">
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white p-6 rounded-t-2xl mb-6">
+          <div className="bg-gradient-to-r from-red-600 to-red-700 text-white p-6 rounded-t-2xl mb-6">
             <div className="flex items-center gap-4">
               <div className="p-3 bg-white/20 rounded-xl text-2xl">
                 🚀
               </div>
               <div>
                 <h2 className="text-2xl font-bold">Năm 3: Chuyên sâu và ứng dụng</h2>
-                <p className="text-blue-100">FinTech và công nghệ tài chính</p>
+                <p className="text-red-100">FinTech và công nghệ tài chính</p>
               </div>
             </div>
           </div>
@@ -256,12 +270,12 @@ export function CareerTimelineSection() {
           {/* Content */}
           <div className="space-y-6">
             {/* Overview */}
-            <div className="bg-blue-50 p-6 rounded-xl">
-              <h3 className="text-xl font-bold text-blue-800 mb-4 flex items-center gap-2">
+            <div className="bg-red-50 p-6 rounded-xl border border-red-100">
+              <h3 className="text-xl font-bold text-red-800 mb-4 flex items-center gap-2">
                 <BookOpen className="w-5 h-5" />
                 Tổng quan giai đoạn
               </h3>
-              <p className="text-blue-700 leading-relaxed">
+              <p className="text-red-700 leading-relaxed">
                 Giai đoạn chuyên sâu với trọng tâm là công nghệ tài chính hiện đại. Sinh viên sẽ tiếp cận với AI, Blockchain, Big Data và các công nghệ tiên tiến khác trong lĩnh vực tài chính. Đây là thời điểm bắt đầu ứng dụng kiến thức vào thực tế thông qua các dự án và thực tập.
               </p>
             </div>
@@ -269,7 +283,7 @@ export function CareerTimelineSection() {
             {/* Learning Objectives */}
             <div>
               <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
-                <Target className="w-5 h-5 text-blue-600" />
+                <Target className="w-5 h-5 text-red-600" />
                 Mục tiêu học tập
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -281,8 +295,8 @@ export function CareerTimelineSection() {
                   'Quản lý rủi ro hiện đại',
                   'Phát triển sản phẩm FinTech'
                 ].map((objective, idx) => (
-                  <div key={idx} className="flex items-start gap-3 p-3 bg-white rounded-lg border border-blue-100">
-                    <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <div key={idx} className="flex items-start gap-3 p-3 bg-white rounded-lg border border-red-100">
+                    <CheckCircle className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" />
                     <span className="text-slate-700">{objective}</span>
                   </div>
                 ))}
@@ -292,7 +306,7 @@ export function CareerTimelineSection() {
             {/* Key Subjects */}
             <div>
               <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
-                <GraduationCap className="w-5 h-5 text-blue-600" />
+                <GraduationCap className="w-5 h-5 text-red-600" />
                 Môn học chính
               </h3>
               <div className="space-y-4">
@@ -314,7 +328,7 @@ export function CareerTimelineSection() {
                     <h4 className="font-semibold text-slate-800 mb-2">{category.category}</h4>
                     <div className="flex flex-wrap gap-2">
                       {category.subjects.map((subject, subjectIdx) => (
-                        <span key={subjectIdx} className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">
+                        <span key={subjectIdx} className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm">
                           {subject}
                         </span>
                       ))}
@@ -327,7 +341,7 @@ export function CareerTimelineSection() {
             {/* Projects & Opportunities */}
             <div>
               <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
-                <Lightbulb className="w-5 h-5 text-blue-600" />
+                <Lightbulb className="w-5 h-5 text-red-600" />
                 Dự án và cơ hội
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -339,8 +353,8 @@ export function CareerTimelineSection() {
                   'Nghiên cứu khoa học NCKH',
                   'Startup Incubator Program'
                 ].map((opportunity, idx) => (
-                  <div key={idx} className="flex items-center gap-3 p-3 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg">
-                    <Award className="w-5 h-5 text-blue-600" />
+                  <div key={idx} className="flex items-center gap-3 p-3 bg-gradient-to-r from-red-50 to-red-100 rounded-lg border border-red-200">
+                    <Award className="w-5 h-5 text-red-600" />
                     <span className="text-slate-700 font-medium">{opportunity}</span>
                   </div>
                 ))}
@@ -359,20 +373,20 @@ export function CareerTimelineSection() {
       skills: ["Kinh nghiệm thực tế", "Quản lý dự án", "Kỹ năng lãnh đạo", "Mạng lưới nghề nghiệp"],
       opportunities: ["Thực tập có lương", "Cơ hội việc làm", "Luận văn xuất sắc", "Khởi nghiệp"],
       icon: "🎯",
-      color: "from-purple-500 to-violet-500",
-      bgColor: "from-purple-50 to-violet-50",
+      color: "from-red-500 to-red-600",
+      bgColor: "from-red-50 to-red-100",
       position: "left",
       modalContent: (
         <div className="max-h-[80vh] overflow-y-auto">
           {/* Header */}
-          <div className="bg-gradient-to-r from-purple-600 to-violet-600 text-white p-6 rounded-t-2xl mb-6">
+          <div className="bg-gradient-to-r from-red-600 to-red-700 text-white p-6 rounded-t-2xl mb-6">
             <div className="flex items-center gap-4">
               <div className="p-3 bg-white/20 rounded-xl text-2xl">
                 🎯
               </div>
               <div>
                 <h2 className="text-2xl font-bold">Năm 4: Chuẩn bị nghề nghiệp</h2>
-                <p className="text-purple-100">Thực tập và luận văn</p>
+                <p className="text-red-100">Thực tập và luận văn</p>
               </div>
             </div>
           </div>
@@ -380,12 +394,12 @@ export function CareerTimelineSection() {
           {/* Content */}
           <div className="space-y-6">
             {/* Overview */}
-            <div className="bg-purple-50 p-6 rounded-xl">
-              <h3 className="text-xl font-bold text-purple-800 mb-4 flex items-center gap-2">
+            <div className="bg-red-50 p-6 rounded-xl border border-red-100">
+              <h3 className="text-xl font-bold text-red-800 mb-4 flex items-center gap-2">
                 <BookOpen className="w-5 h-5" />
                 Tổng quan giai đoạn
               </h3>
-              <p className="text-purple-700 leading-relaxed">
+              <p className="text-red-700 leading-relaxed">
                 Giai đoạn cuối của chương trình đào tạo, tập trung vào việc ứng dụng toàn bộ kiến thức đã học vào thực tế nghề nghiệp. Sinh viên sẽ thực tập tại các tổ chức tài chính hàng đầu, hoàn thành luận văn tốt nghiệp và chuẩn bị sẵn sàng cho thị trường lao động.
               </p>
             </div>
@@ -393,7 +407,7 @@ export function CareerTimelineSection() {
             {/* Learning Objectives */}
             <div>
               <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
-                <Target className="w-5 h-5 text-purple-600" />
+                <Target className="w-5 h-5 text-red-600" />
                 Mục tiêu giai đoạn
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -405,8 +419,8 @@ export function CareerTimelineSection() {
                   'Chuẩn bị cho thị trường lao động',
                   'Định hướng nghề nghiệp rõ ràng'
                 ].map((objective, idx) => (
-                  <div key={idx} className="flex items-start gap-3 p-3 bg-white rounded-lg border border-purple-100">
-                    <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <div key={idx} className="flex items-start gap-3 p-3 bg-white rounded-lg border border-red-100">
+                    <CheckCircle className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" />
                     <span className="text-slate-700">{objective}</span>
                   </div>
                 ))}
@@ -416,7 +430,7 @@ export function CareerTimelineSection() {
             {/* Internship Programs */}
             <div>
               <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
-                <Briefcase className="w-5 h-5 text-purple-600" />
+                <Briefcase className="w-5 h-5 text-red-600" />
                 Chương trình thực tập
               </h3>
               <div className="space-y-4">
@@ -438,7 +452,7 @@ export function CareerTimelineSection() {
                     <h4 className="font-semibold text-slate-800 mb-2">{category.category}</h4>
                     <div className="flex flex-wrap gap-2">
                       {category.companies.map((company, companyIdx) => (
-                        <span key={companyIdx} className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">
+                        <span key={companyIdx} className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm">
                           {company}
                         </span>
                       ))}
@@ -451,7 +465,7 @@ export function CareerTimelineSection() {
             {/* Thesis Topics */}
             <div>
               <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
-                <GraduationCap className="w-5 h-5 text-purple-600" />
+                <GraduationCap className="w-5 h-5 text-red-600" />
                 Chủ đề luận văn phổ biến
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -463,8 +477,8 @@ export function CareerTimelineSection() {
                   'Sustainable Finance',
                   'Cryptocurrency và quy định'
                 ].map((topic, idx) => (
-                  <div key={idx} className="flex items-center gap-3 p-3 bg-gradient-to-r from-purple-50 to-violet-50 rounded-lg">
-                    <Award className="w-5 h-5 text-purple-600" />
+                  <div key={idx} className="flex items-center gap-3 p-3 bg-gradient-to-r from-red-50 to-red-100 rounded-lg border border-red-200">
+                    <Award className="w-5 h-5 text-red-600" />
                     <span className="text-slate-700 font-medium">{topic}</span>
                   </div>
                 ))}
@@ -483,20 +497,20 @@ export function CareerTimelineSection() {
       skills: ["Chuyên môn cao", "Tư duy chiến lược", "Quản lý nhóm", "Đổi mới sáng tạo"],
       opportunities: ["Vị trí quản lý", "Chuyên gia tư vấn", "Khởi nghiệp FinTech", "Nghiên cứu cao học"],
       icon: "👑",
-      color: "from-amber-500 to-orange-500",
-      bgColor: "from-amber-50 to-orange-50",
+      color: "from-red-500 to-red-600",
+      bgColor: "from-red-50 to-red-100",
       position: "right",
       modalContent: (
         <div className="max-h-[80vh] overflow-y-auto">
           {/* Header */}
-          <div className="bg-gradient-to-r from-amber-600 to-orange-600 text-white p-6 rounded-t-2xl mb-6">
+          <div className="bg-gradient-to-r from-red-600 to-red-700 text-white p-6 rounded-t-2xl mb-6">
             <div className="flex items-center gap-4">
               <div className="p-3 bg-white/20 rounded-xl text-2xl">
                 👑
               </div>
               <div>
                 <h2 className="text-2xl font-bold">Sau tốt nghiệp: Phát triển sự nghiệp</h2>
-                <p className="text-amber-100">Chuyên gia tài chính tương lai</p>
+                <p className="text-red-100">Chuyên gia tài chính tương lai</p>
               </div>
             </div>
           </div>
@@ -504,12 +518,12 @@ export function CareerTimelineSection() {
           {/* Content */}
           <div className="space-y-6">
             {/* Overview */}
-            <div className="bg-amber-50 p-6 rounded-xl">
-              <h3 className="text-xl font-bold text-amber-800 mb-4 flex items-center gap-2">
+            <div className="bg-red-50 p-6 rounded-xl border border-red-100">
+              <h3 className="text-xl font-bold text-red-800 mb-4 flex items-center gap-2">
                 <BookOpen className="w-5 h-5" />
                 Tổng quan giai đoạn
               </h3>
-              <p className="text-amber-700 leading-relaxed">
+              <p className="text-red-700 leading-relaxed">
                 Bước vào thị trường lao động với đầy đủ kiến thức và kỹ năng cần thiết. Cựu sinh viên sẽ có cơ hội làm việc tại các vị trí chuyên môn cao, phát triển sự nghiệp theo nhiều hướng khác nhau từ chuyên gia kỹ thuật đến lãnh đạo doanh nghiệp.
               </p>
             </div>
@@ -517,7 +531,7 @@ export function CareerTimelineSection() {
             {/* Career Paths */}
             <div>
               <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-amber-600" />
+                <MapPin className="w-5 h-5 text-red-600" />
                 Lộ trình nghề nghiệp
               </h3>
               <div className="space-y-4">
@@ -543,7 +557,7 @@ export function CareerTimelineSection() {
                     <h4 className="font-semibold text-slate-800 mb-2">{career.path}</h4>
                     <div className="flex flex-wrap gap-2">
                       {career.positions.map((position, positionIdx) => (
-                        <span key={positionIdx} className="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-sm">
+                        <span key={positionIdx} className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm">
                           {position}
                         </span>
                       ))}
@@ -556,7 +570,7 @@ export function CareerTimelineSection() {
             {/* Success Stories */}
             <div>
               <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
-                <TrendingUp className="w-5 h-5 text-amber-600" />
+                <TrendingUp className="w-5 h-5 text-red-600" />
                 Thành tựu tiêu biểu
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -568,8 +582,8 @@ export function CareerTimelineSection() {
                   'Nghiên cứu sinh tiến sĩ',
                   'Chuyên gia tư vấn quốc tế'
                 ].map((achievement, idx) => (
-                  <div key={idx} className="flex items-center gap-3 p-3 bg-gradient-to-r from-amber-50 to-orange-50 rounded-lg">
-                    <Award className="w-5 h-5 text-amber-600" />
+                  <div key={idx} className="flex items-center gap-3 p-3 bg-gradient-to-r from-red-50 to-red-100 rounded-lg border border-red-200">
+                    <Award className="w-5 h-5 text-red-600" />
                     <span className="text-slate-700 font-medium">{achievement}</span>
                   </div>
                 ))}
@@ -579,7 +593,7 @@ export function CareerTimelineSection() {
             {/* Continuous Learning */}
             <div>
               <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
-                <Clock className="w-5 h-5 text-amber-600" />
+                <Clock className="w-5 h-5 text-red-600" />
                 Học tập suốt đời
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -591,8 +605,8 @@ export function CareerTimelineSection() {
                   'Hội thảo quốc tế',
                   'Mạng lưới alumni'
                 ].map((learning, idx) => (
-                  <div key={idx} className="flex items-center gap-3 p-3 bg-white rounded-lg border border-amber-100">
-                    <CheckCircle className="w-5 h-5 text-green-500" />
+                  <div key={idx} className="flex items-center gap-3 p-3 bg-white rounded-lg border border-red-100">
+                    <CheckCircle className="w-5 h-5 text-red-500" />
                     <span className="text-slate-700">{learning}</span>
                   </div>
                 ))}
@@ -623,7 +637,7 @@ export function CareerTimelineSection() {
 
   return (
     <motion.section
-      ref={ref}
+      ref={containerRef}
       className="py-6 bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20 relative overflow-hidden"
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
@@ -697,7 +711,7 @@ export function CareerTimelineSection() {
                 delay: sparkle.delay
               }}
             >
-              <Sparkles className="w-6 h-6 text-blue-400" />
+              <Sparkles className="w-6 h-6 text-red-400" />
             </motion.div>
           ))}
         </AnimatePresence>
@@ -716,19 +730,19 @@ export function CareerTimelineSection() {
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
               transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.3 }}
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 backdrop-blur-sm border border-blue-200/30 rounded-full">
-                <MapPin className="w-4 h-4 text-blue-600" />
-                <span className="text-sm font-semibold text-blue-700 dark:text-blue-400">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-500/10 to-red-600/10 backdrop-blur-sm border border-red-200/30 rounded-full">
+                <MapPin className="w-4 h-4 text-red-600" />
+                <span className="text-sm font-semibold text-red-700 dark:text-red-400">
                   Hành trình 4 năm phát triển
                 </span>
-                <TrendingUp className="w-4 h-4 text-purple-600" />
+                <TrendingUp className="w-4 h-4 text-red-600" />
               </div>
             </motion.div>
 
             <div className='w-full flex justify-center mb-6'>
               <PointerHighlight>
                 <motion.h2
-                  className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent p-4 leading-tight"
+                  className="text-3xl font-bold bg-gradient-to-r from-red-600 via-red-700 to-red-800 bg-clip-text text-transparent p-4 leading-tight"
                   initial={{ opacity: 0, x: -100 }}
                   animate={{
                     opacity: isInView ? 1 : 0,
@@ -744,192 +758,116 @@ export function CareerTimelineSection() {
         </motion.div>
 
         {/* Timeline */}
-        <motion.div
-          className="relative mb-16"
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: isInView ? 1 : 0,
-            transition: { delay: 1, duration: 1 }
-          }}
-        >
-          {/* Central line - Hidden on mobile */}
-          <motion.div
-            className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-green-400 via-blue-400 via-purple-400 to-orange-400 rounded-full origin-top"
-            variants={{
-              hidden: { scaleY: 0, opacity: 0 },
-              visible: {
-                scaleY: 1,
-                opacity: 1,
-                transition: {
-                  duration: 2,
-                  ease: [0.43, 0.13, 0.23, 0.96], // Custom easing curve
-                  delay: 0.5
-                }
-              }
-            }}
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-          />
-
-          {/* Timeline items */}
-          <motion.div className="space-y-8 md:space-y-16">
-            {careerTimeline.map((item) => (
-              <Drawer key={item.id}>
-                <motion.div
-                  className={cn(
-                    "relative flex items-center",
-                    // Mobile: center everything, Desktop: alternate left/right
-                    "justify-center md:justify-start",
-                    item.position === "right" && "md:justify-end"
-                  )}
-                  variants={itemVariants}
-                  initial="hidden"
-                  animate={isInView ? "visible" : "hidden"}
-                  custom={{ position: item.position, index: item.id }}
-                  whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
-                >
-                  {/* Timeline dot */}
-                  <div className={cn(
-                    "z-20",
-                    // Mobile: relative positioning, Desktop: absolute center
-                    "relative md:absolute md:left-1/2 md:transform md:-translate-x-1/2",
-                    // Mobile: show above content
-                    "mb-4 md:mb-0"
-                  )}>
-                    <motion.div
-                      className={cn(
-                        "w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center text-lg md:text-2xl cursor-pointer transition-all duration-300 border-4 border-white shadow-lg mx-auto",
-                        `bg-gradient-to-b ${item.color}`,
-                        activePhase === item.id ? "scale-125 shadow-2xl" : "hover:scale-110"
-                      )}
-                      variants={dotVariants}
-                      initial="hidden"
-                      animate={isInView ? "visible" : "hidden"}
-                      custom={item.id}
-                      onClick={() => setActivePhase(activePhase === item.id ? -1 : item.id)}
-                      whileHover={{
-                        scale: 1.2,
-                        rotate: 10,
-                        boxShadow: "0 10px 30px rgba(0, 0, 0, 0.2)",
-                        transition: { duration: 0.3 }
-                      }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      {item.icon}
-                    </motion.div>
-                  </div>
-
-                  {/* Content card */}
+        <div ref={ref} className="relative max-w-7xl mx-auto pb-20">
+          {careerTimeline.map((item, index) => (
+            <Drawer key={item.id}>
+              <div className="flex justify-start pt-10 md:pt-40 md:gap-10">
+                <div className="sticky flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-xs lg:max-w-sm md:w-full">
                   <motion.div
                     className={cn(
-                      "w-full transition-all duration-500",
-                      // Mobile: full width with padding, Desktop: max-width with side padding
-                      "px-4 md:max-w-lg",
-                      // Desktop positioning
-                      item.position === "left" ? "md:mr-auto md:pr-16" : "md:ml-auto md:pl-16",
-                      activePhase === item.id ? "scale-105" : "hover:scale-102"
+                      "h-16 w-16 rounded-full flex items-center justify-center text-2xl cursor-pointer transition-all duration-300 border-4 border-white shadow-lg",
+                      `bg-gradient-to-b ${item.color}`,
+                      activePhase === item.id ? "scale-125 shadow-2xl" : "hover:scale-110"
                     )}
-                    variants={cardVariants}
+                    variants={dotVariants}
                     initial="hidden"
                     animate={isInView ? "visible" : "hidden"}
                     custom={item.id}
                     onClick={() => setActivePhase(activePhase === item.id ? -1 : item.id)}
                     whileHover={{
-                      scale: 1.05,
+                      scale: 1.2,
+                      rotate: 10,
+                      boxShadow: "0 10px 30px rgba(0, 0, 0, 0.2)",
+                      transition: { duration: 0.3 }
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {item.icon}
+                  </motion.div>
+                  <h3 className="hidden md:block text-xl md:pl-20 md:text-3xl font-bold text-slate-600">
+                    {item.phase}
+                  </h3>
+                </div>
+
+                <div className="relative pl-20 pr-4 md:pl-4 w-full">
+                  <h3 className="md:hidden block text-2xl mb-4 text-left font-bold text-slate-600">
+                    {item.phase}
+                  </h3>
+                  <motion.div
+                    className={cn(
+                      "bg-white/80 backdrop-blur-sm rounded-2xl md:rounded-3xl p-4 md:p-8 border border-white/50 shadow-xl transition-all duration-300 cursor-pointer",
+                      activePhase === item.id ? "shadow-2xl ring-4 ring-red-500/20" : ""
+                    )}
+                    variants={cardVariants}
+                    initial="hidden"
+                    animate={isInView ? "visible" : "hidden"}
+                    custom={item.id}
+                    whileHover={{
+                      scale: 1.02,
                       y: -5,
+                      boxShadow: "0 25px 50px rgba(0, 0, 0, 0.15)",
                       transition: { duration: 0.3 }
                     }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <motion.div
-                      className={cn(
-                        "bg-white/80 backdrop-blur-sm rounded-2xl md:rounded-3xl p-4 md:p-8 border border-white/50 shadow-xl transition-all duration-300",
-                        activePhase === item.id ? "shadow-2xl ring-4 ring-blue-500/20" : ""
-                      )}
-                      whileHover={{
-                        boxShadow: "0 25px 50px rgba(0, 0, 0, 0.15)",
-                        transition: { duration: 0.3 }
-                      }}
-                    >
-                      {/* Header */}
+                    <DrawerTrigger className="w-full text-left">
                       <div className="mb-4 md:mb-6">
                         <motion.div
                           className={cn(
                             "inline-flex items-center px-3 py-1.5 md:px-4 md:py-2 rounded-xl md:rounded-2xl text-white font-bold text-xs md:text-sm mb-2 md:mb-3 shadow-lg",
                             "bg-gradient-to-r " + item.color
                           )}
-                          initial={{ opacity: 0, scale: 0.8, x: item.position === "left" ? -50 : 50 }}
-                          animate={{
-                            opacity: isInView ? 1 : 0,
-                            scale: isInView ? 1 : 0.8,
-                            x: isInView ? 0 : (item.position === "left" ? -50 : 50),
-                            transition: { delay: item.id * 0.3 + 1.5, duration: 0.6 }
-                          }}
                           whileHover={{ scale: 1.1, transition: { duration: 0.2 } }}
                         >
-                          {item.phase}
-                        </motion.div>
-                        <motion.h3
-                          className="text-lg md:text-xl font-bold text-slate-800 mb-1 md:mb-2"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{
-                            opacity: isInView ? 1 : 0,
-                            y: isInView ? 0 : 20,
-                            transition: { delay: item.id * 0.3 + 1.7, duration: 0.6 }
-                          }}
-                        >
                           {item.title}
-                        </motion.h3>
-                        <motion.p
-                          className="text-xs md:text-sm font-medium text-slate-600"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{
-                            opacity: isInView ? 1 : 0,
-                            y: isInView ? 0 : 20,
-                            transition: { delay: item.id * 0.3 + 1.9, duration: 0.6 }
-                          }}
-                        >
+                        </motion.div>
+                        <h4 className="text-lg md:text-xl font-bold text-slate-800 mb-1 md:mb-2">
                           {item.subtitle}
-                        </motion.p>
+                        </h4>
                       </div>
 
-                      {/* Description */}
-                      <motion.p
-                        className="text-sm md:text-base text-slate-700 mb-4 md:mb-6 leading-relaxed"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{
-                          opacity: isInView ? 1 : 0,
-                          y: isInView ? 0 : 20,
-                          transition: { delay: item.id * 0.3 + 2.1, duration: 0.6 }
-                        }}
-                      >
+                      <p className="text-sm md:text-base text-slate-700 mb-4 md:mb-6 leading-relaxed">
                         {item.description}
-                      </motion.p>
-                      <DrawerTrigger className="w-full p-0 bg-transparent border-0 hover:bg-transparent cursor-pointer">
+                      </p>
+                      
                       <div className="text-center">
-                        <span className="text-xs text-blue-600 font-medium">Nhấn để xem chi tiết →</span>
+                        <span className="text-xs text-red-600 font-medium">Nhấn để xem chi tiết →</span>
                       </div>
                     </DrawerTrigger>
-
-                    </motion.div>
                   </motion.div>
-                </motion.div>
+                </div>
+              </div>
 
-                <DrawerContent className="w-full p-4">
-                  <DrawerHeader className="flex flex-row items-center justify-between">
-                    <div>
-                      <DrawerTitle className="text-2xl font-bold">{item.title}</DrawerTitle>
-                    </div>
-                    <DrawerClose className="p-2 hover:bg-slate-100 rounded-full transition-colors">
-                      <X className="w-5 h-5" />
-                    </DrawerClose>
-                  </DrawerHeader>
-                    {item.modalContent}
-                </DrawerContent>
-              </Drawer>
-            ))}
-          </motion.div>
-        </motion.div>
+              <DrawerContent className="w-full p-4">
+                <DrawerHeader className="flex flex-row items-center justify-between">
+                  <div>
+                    <DrawerTitle className="text-2xl font-bold">{item.title}</DrawerTitle>
+                  </div>
+                  <DrawerClose className="p-2 hover:bg-slate-100 rounded-full transition-colors">
+                    <X className="w-5 h-5" />
+                  </DrawerClose>
+                </DrawerHeader>
+                {item.modalContent}
+              </DrawerContent>
+            </Drawer>
+          ))}
+          
+          {/* Animated timeline line */}
+          <div
+            style={{
+              height: height + "px",
+            }}
+            className="absolute md:left-8 left-8 top-0 overflow-hidden w-[2px] bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-neutral-200 to-transparent to-[99%] [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)]"
+          >
+            <motion.div
+              style={{
+                height: heightTransform,
+                opacity: opacityTransform,
+              }}
+              className="absolute inset-x-0 top-0 w-[2px] bg-gradient-to-t from-red-500 via-red-600 to-transparent from-[0%] via-[10%] rounded-full"
+            />
+          </div>
+        </div>
       </div>
     </motion.section>
   );

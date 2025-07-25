@@ -1,22 +1,13 @@
 "use client";
 
-import React, { useRef, useState, useCallback, useMemo } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import React, { useRef, useMemo } from "react";
+import { motion, useInView } from "framer-motion";
 import WorldMap from "@/components/ui/world-map";
-import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
 import { cn } from "@/lib/utils";
 import { 
-  Globe, 
-  TrendingUp, 
-  Users, 
-  MapPin, 
   Briefcase, 
-  Star, 
   Sparkles, 
-  ArrowRight,
-  Building,
-  DollarSign
 } from "lucide-react";
 
 const CareerOpportunitiesSection = () => {
@@ -148,7 +139,7 @@ const CareerOpportunitiesSection = () => {
     >
       {/* Enhanced Background */}
       <motion.div 
-        className="absolute inset-0 bg-gradient-to-br from-blue-50/40 via-purple-50/30 to-cyan-50/40 dark:from-blue-950/20 dark:via-purple-950/20 dark:to-cyan-950/20"
+        className="absolute inset-0"
         initial={{ opacity: 0, scale: 1.1 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 2 }}
@@ -157,30 +148,45 @@ const CareerOpportunitiesSection = () => {
       {/* Floating Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Animated Sparkles */}
-        {[...Array(8)].map((_, i) => (
-          <motion.div
-            key={`sparkle-${i}`}
-            className="absolute"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            variants={animationVariants.sparkle}
-            initial="hidden"
-            animate={{
-              opacity: [0, 1, 0],
-              scale: [0, 1, 0],
-              transition: {
-                duration: 2,
-                repeat: Infinity,
-                repeatType: "loop" as const,
-                delay: Math.random() * 2
-              }
-            }}
-          >
-            <Sparkles className="w-4 h-4 text-yellow-400" />
-          </motion.div>
-        ))}
+        {[...Array(8)].map((_, i) => {
+          // Use deterministic positioning based on index to avoid hydration mismatch
+          const positions = [
+            { left: 15, top: 20 },
+            { left: 85, top: 35 },
+            { left: 25, top: 70 },
+            { left: 75, top: 15 },
+            { left: 45, top: 85 },
+            { left: 65, top: 50 },
+            { left: 10, top: 60 },
+            { left: 90, top: 80 }
+          ];
+          const position = positions[i] || { left: 50, top: 50 };
+          
+          return (
+            <motion.div
+              key={`sparkle-${i}`}
+              className="absolute"
+              style={{
+                left: `${position.left}%`,
+                top: `${position.top}%`,
+              }}
+              variants={animationVariants.sparkle}
+              initial="hidden"
+              animate={{
+                opacity: [0, 1, 0],
+                scale: [0, 1, 0],
+                transition: {
+                  duration: 2,
+                  repeat: Infinity,
+                  repeatType: "loop" as const,
+                  delay: i * 0.25 // Use index-based delay instead of Math.random()
+                }
+              }}
+            >
+              <Sparkles className="w-4 h-4 text-red-400" />
+            </motion.div>
+          );
+        })}
       </div>
       
       <div className="mx-auto">
@@ -194,9 +200,9 @@ const CareerOpportunitiesSection = () => {
               className="flex justify-center mb-6"
               variants={animationVariants.badge}
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-200/50 dark:border-blue-800/50">
-                <Briefcase className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                <span className="text-sm font-semibold text-blue-700 dark:text-blue-300">Cơ hội nghề nghiệp</span>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-red-500/10 to-red-600/10 border border-red-200/50 dark:border-red-800/50">
+                  <Briefcase className="w-4 h-4 text-red-600 dark:text-red-400" />
+                  <span className="text-sm font-semibold text-red-700 dark:text-red-300">Cơ hội nghề nghiệp</span>
               </div>
             </motion.div>
 
@@ -206,8 +212,8 @@ const CareerOpportunitiesSection = () => {
                 <motion.h2 
                   className={cn(
                     "text-3xl font-bold p-4 leading-tight",
-                    "bg-gradient-to-r from-gray-900 via-blue-900 to-gray-900 bg-clip-text text-transparent",
-                    "dark:from-white dark:via-blue-100 dark:to-white"
+                    "bg-gradient-to-r from-gray-900 via-red-900 to-gray-900 bg-clip-text text-transparent",
+                    "dark:from-white dark:via-red-100 dark:to-white"
                   )}
                   variants={animationVariants.title}
                   whileHover={{ 
@@ -216,7 +222,7 @@ const CareerOpportunitiesSection = () => {
                   }}
                 >
                   Triển vọng Nghề nghiệp
-                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
                     Rộng mở
                   </span>
                 </motion.h2>

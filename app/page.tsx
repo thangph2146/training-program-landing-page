@@ -10,15 +10,9 @@ import InternshipSection from "@/components/sections/internship-section";
 export default function Home() {
   return (
     <>
-      <div id="hero-section">
         <HeroSection />
-      </div>
-      <div id="target-section">
         <TargetSection />
-      </div>
-      <div id="program-timeline-section">
         <ProgramTimelineSection />
-      </div>
       <div id="featured-courses-section">
         <FeaturedCoursesSection />
       </div>
