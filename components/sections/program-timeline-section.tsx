@@ -52,21 +52,6 @@ export function ProgramTimelineSection() {
             }
           };
 
-  const cardVariants = {
-    hidden: { opacity: 0, x: 100, y: 50 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 15,
-        duration: 0.8
-      }
-    }
-  };
-
   const programSections = [
     {
       id: 0,

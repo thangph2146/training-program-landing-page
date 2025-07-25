@@ -151,7 +151,7 @@ export default function TargetSection() {
               </motion.p>
 
               <motion.div 
-                className="prose prose-sm sm:prose-base lg:prose-lg dark:prose-invert max-w-none"
+                className="flex flex-col lg:flex-row prose prose-sm sm:prose-base lg:prose-lg dark:prose-invert max-w-none"
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ 
                   opacity: 1, 
@@ -164,6 +164,7 @@ export default function TargetSection() {
                 viewport={{ once: true }}
               >
                 <motion.div
+                  className="lg:w-3/10 lg:pr-8"
                   initial={{ opacity: 0, scale: 0.8, rotateY: -15 }}
                   whileInView={{ 
                     opacity: 1, 
@@ -183,8 +184,7 @@ export default function TargetSection() {
                     transition: { duration: 0.3 }
                   }}
                 >
-                  <AspectRatio ratio={16 / 9} className="mb-4 sm:mb-6 lg:mb-8">
-                    {item?.image && (
+                  {item?.image && ( <AspectRatio ratio={9 / 12} className="mb-4 sm:mb-6 lg:mb-8">
                       <Image
                         src={item.image}
                         alt="blog thumbnail"
@@ -192,10 +192,10 @@ export default function TargetSection() {
                         className="rounded-lg object-cover"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
                       />
-                    )}
                   </AspectRatio>
+                  )}
                 </motion.div>
-                <div className="text-sm sm:text-base lg:text-lg leading-relaxed">
+                <div className="lg:w-7/10 lg:pl-8 text-sm sm:text-base lg:text-lg leading-relaxed">
                   {item.description}
                 </div>
               </motion.div>
