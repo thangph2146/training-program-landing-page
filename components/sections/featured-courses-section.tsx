@@ -1,11 +1,8 @@
 "use client";
 
-import React, { useRef, useState, useCallback, useMemo, useEffect } from 'react';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { PointerHighlight } from "@/components/ui/pointer-highlight";
+import React from "react";
 import { Badge } from "@/components/ui/badge";
-import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerClose } from "@/components/ui/drawer";
-import { cn } from "@/lib/utils";
+import CustomizableCarousel from "@/components/ui/customizable-carousel";
 import {
   TrendingUp,
   Calculator,
@@ -14,12 +11,8 @@ import {
   Globe,
   Star,
   Users,
-  X,
-  Sparkles,
+  Award,
   GraduationCap,
-  ChevronRight,
-  Play,
-  ChevronLeft,
 } from "lucide-react";
 
 interface Course {
@@ -647,596 +640,65 @@ const featuredCourses: Course[] = [
 ];
 
 export function FeaturedCoursesSection() {
-  const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
-  const [focusedCard, setFocusedCard] = useState<string | null>(null);
-  const [activeCourse, setActiveCourse] = useState(0);
-  const [autoplay, setAutoplay] = useState(true);
 
-  const handleCardHover = useCallback((courseId: string | null) => {
-    setHoveredCard(courseId);
-  }, []);
-
-  const handleCardFocus = useCallback((courseId: string | null) => {
-    setFocusedCard(courseId);
-  }, []);
-
-  const handleNext = useCallback(() => {
-    setActiveCourse((prev) => (prev + 1) % featuredCourses.length);
-  }, []);
-
-  const handlePrev = useCallback(() => {
-    setActiveCourse((prev) => (prev - 1 + featuredCourses.length) % featuredCourses.length);
-  }, []);
-
-  const isActive = useCallback((index: number) => {
-    return index === activeCourse;
-  }, [activeCourse]);
-
-  useEffect(() => {
-    if (autoplay && isInView) {
-      const interval = setInterval(handleNext, 5000);
-      return () => clearInterval(interval);
-    }
-  }, [autoplay, isInView, handleNext]);
-
-  const randomRotateY = (index: number = 0) => {
-    // Use index-based rotation to avoid hydration mismatch
-    return (index % 3 - 1) * 7; // Returns -7, 0, or 7 based on index
+  // Custom card sections với thiết kế tối giản và dễ nhìn
+  const customCardSections = {
+    header: (
+      <div className="flex items-center gap-4 mb-6">
+        <div className="p-3 rounded-xl bg-gradient-to-br from-blue-100 to-blue-200 group-hover:from-blue-200 group-hover:to-blue-300 transition-all duration-300">
+          <GraduationCap className="w-6 h-6 text-blue-600" />
+        </div>
+        <div className="flex-1">
+          <Badge variant="outline" className="mb-2 text-xs font-medium bg-blue-50 text-blue-700 border-blue-200">
+            Khóa học nổi bật
+          </Badge>
+          <h3 className="text-lg font-bold text-slate-800 leading-tight">
+            Chương trình đào tạo chuyên sâu
+          </h3>
+        </div>
+      </div>
+    ),
+    body: (
+      <div className="space-y-4">
+        <div className="flex items-start gap-3">
+          <Star className="w-5 h-5 text-slate-500 mt-0.5 flex-shrink-0" />
+          <div>
+            <h4 className="font-semibold text-slate-800 mb-1">Kiến thức chuyên môn</h4>
+            <p className="text-sm text-slate-600">Nội dung cập nhật theo chuẩn quốc tế</p>
+          </div>
+        </div>
+        <div className="flex items-start gap-3">
+          <Award className="w-5 h-5 text-slate-500 mt-0.5 flex-shrink-0" />
+          <div>
+            <h4 className="font-semibold text-slate-800 mb-1">Thực hành ứng dụng</h4>
+            <p className="text-sm text-slate-600">Kết hợp lý thuyết và thực tiễn</p>
+          </div>
+        </div>
+      </div>
+    )
   };
 
-
-  // Optimized animation variants with useMemo
-  const animationVariants = useMemo(() => ({
-    container: {
-      hidden: { opacity: 0 },
-      visible: {
-        opacity: 1,
-        transition: {
-          staggerChildren: 0.1,
-          delayChildren: 0.2
-        }
-      }
-    },
-    header: {
-      hidden: { opacity: 0, y: -50 },
-      visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-          type: "spring" as const,
-          stiffness: 100,
-          damping: 15,
-          duration: 0.8
-        }
-      }
-    },
-    card: {
-      hidden: {
-        opacity: 0,
-        y: 100,
-        scale: 0.8
-      },
-      visible: {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        transition: {
-          type: "spring" as const,
-          stiffness: 100,
-          damping: 15,
-          duration: 0.6
-        }
-      }
-    },
-    icon: {
-      hidden: { scale: 0, rotate: -180 },
-      visible: {
-        scale: 1,
-        rotate: 0,
-        transition: {
-          type: "spring" as const,
-          stiffness: 200,
-          damping: 20,
-          delay: 0.2
-        }
-      }
-    },
-    highlight: {
-      hidden: { opacity: 0, x: -20 },
-      visible: {
-        opacity: 1,
-        x: 0,
-        transition: {
-          staggerChildren: 0.1
-        }
-      }
-    },
-    sparkle: {
-      hidden: { scale: 0, opacity: 0 },
-      visible: {
-        scale: [0, 1.2, 1],
-        opacity: [0, 1, 0.8],
-        transition: {
-          duration: 2,
-          repeat: Infinity,
-          repeatType: "reverse" as const
-        }
-      }
-    }
-  }), []);
+  // Chuyển đổi dữ liệu courses thành format phù hợp với CustomizableCarousel
+  const carouselItems = featuredCourses.map(course => ({
+    id: course.id,
+    title: course.title,
+    description: course.description,
+    color: course.color.includes('red') ? 'blue' : course.color, // Thay đổi màu đỏ thành xanh dương
+    modalContent: course.modalContent
+  }));
 
   return (
-    <motion.section
-      ref={ref}
-      className="py-6 bg-gradient-to-br from-slate-50 via-slate-100/50 to-blue-50/30 relative overflow-hidden"
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
-      variants={animationVariants.container}
-      role="region"
-      aria-labelledby="featured-courses-title"
-      aria-describedby="featured-courses-description"
-    >
-      {/* Professional Academic Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-r from-blue-900/8 to-slate-800/8 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-slate-900/8 to-blue-800/8 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-slate-100/15 to-blue-100/15 rounded-full blur-3xl" />
-        
-        {/* Academic Grid Pattern */}
-        <div className="absolute inset-0 opacity-[0.015]">
-          <div className="h-full w-full" style={{
-            backgroundImage: `linear-gradient(rgba(30, 41, 59, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(30, 41, 59, 0.1) 1px, transparent 1px)`,
-            backgroundSize: '80px 80px'
-          }} />
-        </div>
-        
-        {/* Floating animated elements */}
-        {[...Array(6)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 bg-slate-400/30 rounded-full"
-            style={{
-              top: `${20 + (i * 15)}%`,
-              left: `${10 + (i * 12)}%`,
-            }}
-            variants={animationVariants.sparkle}
-            initial="hidden"
-            animate="visible"
-            transition={{ delay: i * 0.2 }}
-          />
-        ))}
-        
-        {[...Array(4)].map((_, i) => (
-          <motion.div
-            key={`sparkle-${i}`}
-            className="absolute"
-            style={{
-              top: `${30 + (i * 20)}%`,
-              right: `${15 + (i * 10)}%`,
-            }}
-            variants={animationVariants.sparkle}
-            initial="hidden"
-            animate="visible"
-            transition={{ delay: i * 0.3 }}
-          >
-            <Sparkles className="w-4 h-4 text-red-400/40" />
-          </motion.div>
-        ))}
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Enhanced Header */}
-        <motion.div className="text-center mb-6" variants={animationVariants.header}>
-          <div className='w-full flex justify-center lg:justify-start'>
-            <PointerHighlight>
-              <h2 
-                id="featured-courses-title"
-                className="text-3xl font-bold bg-gradient-to-r from-slate-700 via-red-700 to-red-800 bg-clip-text text-transparent p-4 leading-tight"
-              >
-                Các Môn Học Nổi Bật
-              </h2>
-            </PointerHighlight>
-          </div>
-        </motion.div>
-
-        {/* Enhanced Courses Carousel */}
-        <motion.div
-          className="relative grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20"
-          variants={animationVariants.container}
-          role="list"
-          aria-label="Danh sách các môn học nổi bật"
-        >
-          {/* Course Cards Stack */}
-          <div className="relative h-96 w-full">
-            <AnimatePresence>
-              {featuredCourses.map((course, index) => {
-                const IconComponent = course.icon;
-                const isHovered = hoveredCard === course.id;
-                const isFocused = focusedCard === course.id;
-                const isActiveCard = isActive(index);
-              
-                return (
-                  <motion.div
-                    key={course.id}
-                    className="absolute inset-0 origin-bottom"
-                    initial={{
-                      opacity: 0,
-                      scale: 0.9,
-                      z: -100,
-                      rotate: randomRotateY(),
-                    }}
-                    animate={{
-                      opacity: isActiveCard ? 1 : 0.7,
-                      scale: isActiveCard ? 1 : 0.95,
-                      z: isActiveCard ? 0 : -100,
-                      rotate: isActiveCard ? 0 : randomRotateY(),
-                      zIndex: isActiveCard
-                        ? 40
-                        : featuredCourses.length + 2 - index,
-                      y: isActiveCard ? [0, -20, 0] : 0,
-                    }}
-                    exit={{
-                      opacity: 0,
-                      scale: 0.9,
-                      z: 100,
-                      rotate: randomRotateY(index),
-                    }}
-                    transition={{
-                      duration: 0.6,
-                      ease: "easeInOut",
-                    }}
-                    onMouseEnter={() => setAutoplay(false)}
-                    onMouseLeave={() => setAutoplay(true)}
-                  >
-                    <Drawer>
-                      <motion.article
-                        className={cn(
-                          "group cursor-pointer w-full h-full relative",
-                          "transform-gpu transition-all duration-300"
-                        )}
-                        variants={animationVariants.card}
-                        whileHover={{
-                          scale: 1.05,
-                          y: -8,
-                          transition: { type: "spring", stiffness: 400, damping: 25 }
-                        }}
-                        whileTap={{ scale: 0.97 }}
-                        onHoverStart={() => handleCardHover(course.id)}
-                        onHoverEnd={() => handleCardHover(null)}
-                        onFocus={() => handleCardFocus(course.id)}
-                        onBlur={() => handleCardFocus(null)}
-                        role="listitem"
-                        tabIndex={0}
-                        aria-label={`Môn học ${course.title} - ${course.description}`}
-                      >
-                        <motion.div
-                          className={cn(
-                            "bg-white/95 backdrop-blur-md rounded-3xl p-8 border h-full relative overflow-hidden",
-                            "shadow-xl hover:shadow-2xl transition-all duration-500",
-                            "border-white/80 hover:border-white/90",
-                            (isHovered || isFocused || isActiveCard) && "ring-2 ring-red-500/30 ring-offset-2 ring-offset-transparent"
-                          )}
-                          style={{
-                            boxShadow: (isHovered || isFocused || isActiveCard)
-                              ? "0 32px 64px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(239, 68, 68, 0.1)" 
-                              : "0 20px 40px -8px rgba(0, 0, 0, 0.1)"
-                          }}
-                        >
-                          {/* Dynamic background gradient based on course */}
-                          <motion.div
-                            className={cn(
-                              "absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-500",
-                              index % 6 === 0 && "bg-gradient-to-br from-blue-50/80 to-cyan-50/80",
-                              index % 6 === 1 && "bg-gradient-to-br from-green-50/80 to-emerald-50/80",
-                              index % 6 === 2 && "bg-gradient-to-br from-purple-50/80 to-violet-50/80",
-                              index % 6 === 3 && "bg-gradient-to-br from-red-50/80 to-rose-50/80",
-                              index % 6 === 4 && "bg-gradient-to-br from-orange-50/80 to-amber-50/80",
-                              index % 6 === 5 && "bg-gradient-to-br from-teal-50/80 to-cyan-50/80"
-                            )}
-                            animate={{ opacity: (isHovered || isFocused || isActiveCard) ? 1 : 0 }}
-                          />
-
-                          {/* Floating decorative elements */}
-                          <motion.div
-                            className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                            initial={{ scale: 0, rotate: -180 }}
-                            animate={{ 
-                              scale: (isHovered || isFocused || isActiveCard) ? 1 : 0, 
-                              rotate: (isHovered || isFocused || isActiveCard) ? 0 : -180,
-                              opacity: (isHovered || isFocused || isActiveCard) ? 1 : 0
-                            }}
-                            transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                          >
-                            <div className="w-8 h-8 bg-gradient-to-br from-red-400/20 to-red-500/20 rounded-full flex items-center justify-center">
-                              <Sparkles className="w-4 h-4 text-red-500" />
-                            </div>
-                          </motion.div>
-
-                          {/* Focus indicator for accessibility */}
-                          <AnimatePresence>
-                            {isFocused && (
-                              <motion.div
-                                className="absolute inset-0 border-2 border-red-500 rounded-3xl"
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.95 }}
-                                transition={{ duration: 0.2 }}
-                              />
-                            )}
-                          </AnimatePresence>
-
-                          <div className="relative z-10">
-                            {/* Enhanced Header */}
-                            <div className="flex items-start gap-5 mb-8">
-                              <motion.div
-                                className={cn(
-                                  "p-4 rounded-2xl flex-shrink-0 transition-all duration-300",
-                                  "bg-gradient-to-br from-slate-100 to-slate-200",
-                                  "group-hover:from-red-100 group-hover:to-red-200",
-                                  "shadow-lg group-hover:shadow-xl"
-                                )}
-                                variants={animationVariants.icon}
-                                whileHover={{
-                                  rotate: [0, -8, 8, 0],
-                                  scale: 1.1,
-                                  transition: { duration: 0.6, ease: "easeInOut" }
-                                }}
-                              >
-                                <IconComponent className="w-7 h-7 text-slate-700 group-hover:text-red-700 transition-colors" />
-                              </motion.div>
-                              
-                              <div className="flex-1 min-w-0">
-                                <motion.div
-                                  initial={{ opacity: 0, y: 20 }}
-                                  animate={{ opacity: 1, y: 0 }}
-                                  transition={{ delay: 0.3 + index * 0.1 }}
-                                >
-                                  <Badge 
-                                    variant="secondary" 
-                                    className={cn(
-                                      "mb-4 text-xs font-medium transition-all duration-300",
-                                      "bg-slate-100/80 text-slate-700 border border-slate-200/50",
-                                      "group-hover:bg-red-100/80 group-hover:text-red-700 group-hover:border-red-200/50"
-                                    )}
-                                  >
-                                    {course.category}
-                                  </Badge>
-                                  
-                                  <h3 className={cn(
-                                    "text-xl font-bold mb-3 leading-tight transition-all duration-300",
-                                    "text-slate-800 group-hover:text-slate-900",
-                                    "group-hover:bg-gradient-to-r group-hover:from-slate-800 group-hover:to-blue-800",
-                                    "group-hover:bg-clip-text group-hover:text-transparent"
-                                  )}>
-                                    {course.title}
-                                  </h3>
-                                </motion.div>
-                              </div>
-                            </div>
-
-                            {/* Enhanced Description */}
-                            <motion.p
-                              className="text-slate-600 mb-8 leading-relaxed group-hover:text-slate-700 transition-colors duration-300"
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: 1 }}
-                              transition={{ delay: 0.4 + index * 0.1 }}
-                            >
-                              {course.description}
-                            </motion.p>
-
-                            {/* Course Highlights */}
-                            <motion.div
-                              className="mb-8"
-                              variants={animationVariants.highlight}
-                              initial="hidden"
-                              animate="visible"
-                              transition={{ delay: 0.5 + index * 0.1 }}
-                            >
-                              <div className="flex flex-wrap gap-2">
-                                {course.highlights.map((highlight, highlightIndex) => (
-                                  <motion.span
-                                    key={highlight}
-                                    className={cn(
-                                      "inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium",
-                                      "bg-slate-100/80 text-slate-700 border border-slate-200/50",
-                                      "group-hover:bg-blue-50/80 group-hover:text-blue-700 group-hover:border-blue-200/50",
-                                      "transition-all duration-300"
-                                    )}
-                                    initial={{ opacity: 0, scale: 0.8 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: 0.6 + index * 0.1 + highlightIndex * 0.1 }}
-                                  >
-                                    <Star className="w-3 h-3" />
-                                    {highlight}
-                                  </motion.span>
-                                ))}
-                              </div>
-                            </motion.div>
-
-                            {/* Enhanced CTA */}
-                            <motion.div
-                              className="pt-6 border-t border-slate-200/60"
-                              initial={{ opacity: 0, y: 20 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 0.7 + index * 0.1 }}
-                            >
-                              <DrawerTrigger className="w-full p-0 bg-transparent hover:bg-transparent group/trigger">
-                                <motion.div
-                                  className={cn(
-                                    "flex items-center justify-between p-2 rounded-2xl transition-all duration-300 cursor-pointer",
-                                    "bg-gradient-to-r from-slate-50/80 to-slate-100/80",
-                                    "hover:from-blue-50/80 hover:to-indigo-50/80",
-                                    "border border-slate-200/50 hover:border-blue-200/50",
-                                    "shadow-sm hover:shadow-md"
-                                  )}
-                                  whileHover={{ y: -2, scale: 1.02 }}
-                                  whileTap={{ y: 0, scale: 0.98 }}
-                                >
-                                  <div className="flex items-center gap-3">
-                                    <div className={cn(
-                                      "w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300",
-                                      "bg-slate-200/80 group-hover/trigger:bg-blue-200/80"
-                                    )}>
-                                      <Play className="w-4 h-4 text-slate-600 group-hover/trigger:text-blue-600" />
-                                    </div>
-                                    <span className="text-sm text-slate-700 group-hover/trigger:text-slate-900">
-                                      Xem chi tiết khóa học
-                                    </span>
-                                  </div>
-                                  
-                                  <motion.div
-                                    className="flex items-center gap-1 text-slate-500 group-hover/trigger:text-blue-600"
-                                    whileHover={{ x: 4 }}
-                                  >
-                                    <ChevronRight className="h-5 w-5" />
-                                  </motion.div>
-                                </motion.div>
-                              </DrawerTrigger>
-                            </motion.div>
-                          </div>
-                        </motion.div>
-                      </motion.article>
-
-                      <DrawerContent className="w-full mx-auto">
-                        <DrawerHeader className="flex flex-row items-center justify-between">
-                          <div>
-                            <DrawerTitle className="text-2xl font-bold">{course.title}</DrawerTitle>
-                          </div>
-                          <DrawerClose className="p-2 hover:bg-slate-100 rounded-full transition-colors">
-                            <X className="w-5 h-5" />
-                          </DrawerClose>
-                        </DrawerHeader>
-                        <div className="px-4 pb-4 max-h-[70vh] overflow-y-auto">
-                          {course.modalContent}
-                        </div>
-                      </DrawerContent>
-                    </Drawer>
-                  </motion.div>
-                );
-              })}
-            </AnimatePresence>
-          </div>
-
-          {/* Course Details Panel */}
-          <div className="flex flex-col justify-between py-4">
-            <motion.div
-              key={activeCourse}
-              initial={{
-                y: 20,
-                opacity: 0,
-              }}
-              animate={{
-                y: 0,
-                opacity: 1,
-              }}
-              exit={{
-                y: -20,
-                opacity: 0,
-              }}
-              transition={{
-                duration: 0.3,
-                ease: "easeInOut",
-              }}
-            >
-              <Badge 
-                variant="secondary" 
-                className="mb-4 text-xs font-medium bg-slate-100/80 text-slate-700 border border-slate-200/50"
-              >
-                {featuredCourses[activeCourse].category}
-              </Badge>
-              
-              <h3 className="text-3xl font-bold text-slate-800 mb-4">
-                {featuredCourses[activeCourse].title}
-              </h3>
-              
-              <motion.p className="text-lg text-slate-600 mb-6 leading-relaxed">
-                {featuredCourses[activeCourse].description.split(" ").map((word, index) => (
-                  <motion.span
-                    key={index}
-                    initial={{
-                      filter: "blur(10px)",
-                      opacity: 0,
-                      y: 5,
-                    }}
-                    animate={{
-                      filter: "blur(0px)",
-                      opacity: 1,
-                      y: 0,
-                    }}
-                    transition={{
-                      duration: 0.2,
-                      ease: "easeInOut",
-                      delay: 0.02 * index,
-                    }}
-                    className="inline-block"
-                  >
-                    {word}&nbsp;
-                  </motion.span>
-                ))}
-              </motion.p>
-              
-              <div className="mb-6">
-                <h4 className="text-sm font-semibold text-slate-700 mb-3">Điểm nổi bật:</h4>
-                <div className="flex flex-wrap gap-2">
-                  {featuredCourses[activeCourse].highlights.map((highlight, index) => (
-                    <motion.span
-                      key={highlight}
-                      className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-red-50/80 text-red-700 border border-red-200/50"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.1 + index * 0.05 }}
-                    >
-                      <Star className="w-3 h-3" />
-                      {highlight}
-                    </motion.span>
-                  ))}
-                </div>
-              </div>
-              
-              <div className="text-sm text-slate-500 mb-4">
-                <span className="font-medium">Cấp độ:</span> {featuredCourses[activeCourse].level}
-              </div>
-            </motion.div>
-            
-            {/* Navigation Controls */}
-            <div className="flex gap-4 pt-8">
-              <button
-                onClick={handlePrev}
-                className="group/button flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 transition-colors duration-200"
-                aria-label="Khóa học trước"
-              >
-                <ChevronLeft className="h-6 w-6 text-slate-600 transition-transform duration-300 group-hover/button:scale-110" />
-              </button>
-              <button
-                onClick={handleNext}
-                className="group/button flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 transition-colors duration-200"
-                aria-label="Khóa học tiếp theo"
-              >
-                <ChevronRight className="h-6 w-6 text-slate-600 transition-transform duration-300 group-hover/button:scale-110" />
-              </button>
-            </div>
-            
-            {/* Course Indicators */}
-            <div className="flex gap-2 mt-4">
-              {featuredCourses.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setActiveCourse(index)}
-                  className={cn(
-                    "w-2 h-2 rounded-full transition-all duration-200",
-                    isActive(index) 
-                      ? "bg-red-500 w-8" 
-                      : "bg-slate-300 hover:bg-slate-400"
-                  )}
-                  aria-label={`Chuyển đến khóa học ${index + 1}`}
-                />
-              ))}
-            </div>
-          </div>
-        </motion.div>
-      </div>
-    </motion.section>
+   <CustomizableCarousel
+      items={carouselItems}
+      customCardSections={customCardSections}
+      title="Môn học nổi bật"
+      autoplayInterval={6000}
+      enableAutoplay={false}
+      customColors={{
+        primary: "red",
+        secondary: "slate",
+        accent: "red"
+      }}
+    />
   );
 }

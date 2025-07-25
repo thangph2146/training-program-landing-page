@@ -40,9 +40,7 @@ export default function Home() {
         <ProgramTimelineSection />
       
       {/* Featured Courses Section */}
-      <section id="featured-courses" className="min-h-screen">
         <FeaturedCoursesSection />
-      </section>
       
       {/* Career Timeline Section */}
       <section id="career-timeline" className="min-h-screen">
