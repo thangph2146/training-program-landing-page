@@ -1,17 +1,34 @@
 'use client'
 
-import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import React, { useRef, useState, useCallback, useMemo } from 'react';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { PointerHighlight } from '@/components/ui/pointer-highlight';
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import {
+  Drawer,
+  DrawerTrigger,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerClose
+} from '@/components/ui/drawer';
 import {
   Briefcase,
   Building2,
   Award,
   TrendingUp,
   CheckCircle,
-  Target
+  Target,
+  X,
+  Users,
+  Calendar,
+  MapPin,
+  ArrowRight,
+  Clock,
+  Star,
+  ExternalLink
 } from 'lucide-react';
 
 interface InternshipProgram {
@@ -29,76 +46,94 @@ interface InternshipProgram {
 }
 
 const InternshipSection: React.FC = () => {
-  const ref = useRef(null);
+  const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [focusedCard, setFocusedCard] = useState<number | null>(null);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2
+  const handleCardHover = useCallback((index: number | null) => {
+    setHoveredCard(index);
+  }, []);
+
+  const handleCardFocus = useCallback((index: number | null) => {
+    setFocusedCard(index);
+  }, []);
+
+  const animationVariants = useMemo(() => ({
+    container: {
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: {
+          staggerChildren: 0.12,
+          delayChildren: 0.15
+        }
+      }
+    },
+    header: {
+      hidden: { opacity: 0, y: -40, scale: 0.9 },
+      visible: {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        transition: {
+          type: "spring" as const,
+          stiffness: 120,
+          damping: 18,
+          duration: 0.6
+        }
+      }
+    },
+    card: {
+      hidden: { opacity: 0, y: 60, scale: 0.9 },
+      visible: {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        transition: {
+          type: "spring" as const,
+          stiffness: 120,
+          damping: 20,
+          duration: 0.5
+        }
+      }
+    },
+    icon: {
+      hidden: { scale: 0, rotate: -90 },
+      visible: {
+        scale: 1,
+        rotate: 0,
+        transition: {
+          type: "spring" as const,
+          stiffness: 180,
+          damping: 15,
+          delay: 0.2
+        }
+      }
+    },
+    listItem: {
+      hidden: { opacity: 0, x: -20 },
+      visible: {
+        opacity: 1,
+        x: 0,
+        transition: {
+          type: "spring" as const,
+          stiffness: 140,
+          damping: 20
+        }
+      }
+    },
+    highlight: {
+      hidden: { scaleX: 0 },
+      visible: {
+        scaleX: 1,
+        transition: {
+          duration: 0.6,
+          ease: "easeInOut"
+        }
       }
     }
-  };
-
-  const headerVariants = {
-    hidden: { opacity: 0, y: -60, scale: 0.8 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        type: "spring" as const,
-        stiffness: 100,
-        damping: 15,
-        duration: 0.8
-      }
-    }
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 80, rotateX: -15 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      rotateX: 0,
-      transition: {
-        type: "spring" as const,
-        stiffness: 100,
-        damping: 20,
-        duration: 0.7
-      }
-    }
-  };
-
-  const iconVariants = {
-    hidden: { scale: 0, rotate: -180 },
-    visible: {
-      scale: 1,
-      rotate: 0,
-      transition: {
-        type: "spring" as const,
-        stiffness: 200,
-        damping: 15,
-        delay: 0.3
-      }
-    }
-  };
-
-  const listItemVariants = {
-    hidden: { opacity: 0, x: -30 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        type: "spring" as const,
-        stiffness: 120,
-        damping: 20
-      }
-    }
-  };
+  }), []);
 
   const internshipPrograms: InternshipProgram[] = [
     {
@@ -232,69 +267,144 @@ const InternshipSection: React.FC = () => {
   return (
     <motion.section
       ref={ref}
-      className="py-16 lg:py-24 relative overflow-hidden"
+      className="py-8 lg:py-12 relative overflow-hidden"
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
-      variants={containerVariants}
+      variants={animationVariants.container}
+      role="region"
+      aria-labelledby="internship-section-title"
     >
-      {/* Background */}
+      {/* Enhanced Background */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-b from-zinc-50 via-slate-100 to-zinc-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700"
-        initial={{ opacity: 0, scale: 1.1 }}
+        className="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-white to-purple-50/30 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700"
+        initial={{ opacity: 0, scale: 1.05 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.2 }}
+        transition={{ duration: 1 }}
+      />
+      
+      {/* Decorative Elements */}
+      <motion.div
+        className="absolute top-20 left-10 w-32 h-32 bg-blue-100/20 rounded-full blur-3xl"
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.3, 0.5, 0.3]
+        }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+      <motion.div
+        className="absolute bottom-20 right-10 w-40 h-40 bg-purple-100/20 rounded-full blur-3xl"
+        animate={{
+          scale: [1.2, 1, 1.2],
+          opacity: [0.5, 0.3, 0.5]
+        }}
+        transition={{
+          duration: 5,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1
+        }}
       />
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* Header */}
+        {/* Enhanced Header */}
         <motion.div
-          className="text-center mb-12 md:mb-16"
-          variants={headerVariants}
+          className="text-center mb-16 lg:mb-20"
+          variants={animationVariants.header}
         >
-          <div className='w-full flex justify-end'>
+          <div className="w-full flex justify-center mb-6">
             <PointerHighlight>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white p-4">
+              <h2 
+                id="internship-section-title"
+                className="text-3xl md:text-4xl lg:text-6xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent p-4 leading-tight"
+              >
                 Cơ hội Thực tập Nghề nghiệp
               </h2>
             </PointerHighlight>
           </div>
 
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-4xl mx-auto space-y-4">
             <TextGenerateEffect
-              words="Giúp sinh viên tích lũy kinh nghiệm thực tế và phát triển kỹ năng nghề nghiệp."
-              className="text-lg text-gray-600 dark:text-gray-300"
+              words="Giúp sinh viên tích lũy kinh nghiệm thực tế và phát triển kỹ năng nghề nghiệp qua các chương trình thực tập chất lượng cao."
+              className="text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed"
             />
+            
+            <motion.div
+              className="flex flex-wrap justify-center gap-4 mt-8"
+              variants={animationVariants.container}
+            >
+              {[
+                { icon: <Briefcase className="w-4 h-4" />, text: "6+ Lĩnh vực" },
+                { icon: <Users className="w-4 h-4" />, text: "50+ Đối tác" },
+                { icon: <Award className="w-4 h-4" />, text: "95% Hài lòng" },
+                { icon: <TrendingUp className="w-4 h-4" />, text: "80% Được tuyển dụng" }
+              ].map((stat, index) => (
+                <motion.div
+                  key={index}
+                  className="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full shadow-sm border border-gray-100"
+                  variants={animationVariants.listItem}
+                  whileHover={{ scale: 1.05, y: -2 }}
+                >
+                  <span className="text-blue-600">{stat.icon}</span>
+                  <span className="text-sm font-medium text-gray-700">{stat.text}</span>
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
         </motion.div>
 
-        {/* Programs Grid */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 md:mb-16"
-          variants={containerVariants}
-        >
-          {internshipPrograms.map((program, index) => (
-            <motion.div
-              key={index}
-              variants={cardVariants}
-              whileHover={{
-                scale: 1.05,
-                y: -10,
-                rotateY: 5,
-                transition: { type: "spring", stiffness: 300, damping: 20 }
-              }}
-              whileTap={{ scale: 0.95 }}
-              className="perspective-1000"
-            >
-              <Card className="h-full relative overflow-hidden group cursor-pointer">
-                {/* Animated background overlay */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-purple-50/50 opacity-0 group-hover:opacity-100"
-                  transition={{ duration: 0.3 }}
-                />
-
-                <CardHeader className="relative z-10">
+        {/* Enhanced Programs Grid */}
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8 mb-16 lg:mb-20"
+            variants={animationVariants.container}
+          >
+            {internshipPrograms.map((program, index) => (
+              <motion.div
+                key={index}
+                variants={animationVariants.card}
+                whileHover={{
+                  scale: 1.03,
+                  y: -8,
+                  transition: { type: "spring", stiffness: 400, damping: 25 }
+                }}
+                whileTap={{ scale: 0.98 }}
+                onHoverStart={() => handleCardHover(index)}
+                onHoverEnd={() => handleCardHover(null)}
+                onFocus={() => handleCardFocus(index)}
+                onBlur={() => handleCardFocus(null)}
+                className="group perspective-1000"
+                role="article"
+                tabIndex={0}
+                aria-label={`Chương trình thực tập: ${program.title}`}
+              >
+                <Card className="h-full relative overflow-hidden cursor-pointer border-0 shadow-lg hover:shadow-2xl transition-all duration-300 bg-white/90 backdrop-blur-sm">
+                  {/* Enhanced background overlay */}
                   <motion.div
-                    className="flex items-center gap-3 mb-2"
+                    className="absolute inset-0 bg-gradient-to-br from-blue-50/60 via-white/40 to-purple-50/60"
+                    initial={{ opacity: 0 }}
+                    animate={{ 
+                      opacity: hoveredCard === index || focusedCard === index ? 1 : 0 
+                    }}
+                    transition={{ duration: 0.3 }}
+                  />
+                  
+                  {/* Highlight border */}
+                  <motion.div
+                    className="absolute inset-0 rounded-lg border-2 border-blue-200"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ 
+                      opacity: hoveredCard === index || focusedCard === index ? 1 : 0,
+                      scale: hoveredCard === index || focusedCard === index ? 1 : 0.95
+                    }}
+                    transition={{ duration: 0.2 }}
+                  />
+
+                <CardHeader className="relative z-10 pb-4">
+                  <motion.div
+                    className="flex items-center gap-3 mb-4"
                     initial="hidden"
                     animate="visible"
                     variants={{
@@ -309,30 +419,19 @@ const InternshipSection: React.FC = () => {
                     }}
                   >
                     <motion.div
-                      variants={iconVariants}
+                      className="p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl text-white shadow-lg"
                       whileHover={{
-                        rotate: 360,
-                        scale: 1.2,
-                        transition: { duration: 0.5 }
+                        scale: 1.1,
+                        rotate: 5,
+                        boxShadow: "0 10px 25px rgba(59, 130, 246, 0.3)"
                       }}
+                      transition={{ type: "spring", stiffness: 400, damping: 15 }}
                     >
                       {program.icon}
                     </motion.div>
                     <motion.span
-                      className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full"
-                      variants={{
-                        hidden: { opacity: 0, scale: 0 },
-                        visible: {
-                          opacity: 1,
-                          scale: 1,
-                          transition: {
-                            type: "spring",
-                            stiffness: 200,
-                            damping: 15
-                          }
-                        }
-                      }}
-                      whileHover={{ scale: 1.1 }}
+                      className="text-xs bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800 px-3 py-1 rounded-full border border-blue-200 font-medium"
+                      whileHover={{ scale: 1.05 }}
                     >
                       {program.badge}
                     </motion.span>
@@ -342,25 +441,49 @@ const InternshipSection: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 + index * 0.1 }}
                   >
-                    <CardTitle className="text-xl group-hover:text-blue-600 transition-colors">
+                    <CardTitle className="text-xl font-bold group-hover:text-blue-600 transition-colors duration-300 mb-3">
                       {program.title}
                     </CardTitle>
-                    <CardDescription className="text-sm text-gray-500">
+                    <CardDescription className="text-sm text-gray-500 leading-relaxed">
                       {program.duration} • {program.type}
                     </CardDescription>
                   </motion.div>
                 </CardHeader>
-                <CardContent className="relative z-10">
+                <CardContent className="relative z-10 pt-0">
                   <motion.p
-                    className="text-gray-600 mb-4"
+                    className="text-gray-600 mb-4 leading-relaxed"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.5 + index * 0.1 }}
                   >
                     {program.description}
                   </motion.p>
+                  
+                  {/* Quick Info */}
+                  <motion.div 
+                    className="grid grid-cols-2 gap-3 mb-4"
+                    initial="hidden"
+                    animate="visible"
+                    variants={animationVariants.container}
+                  >
+                    <motion.div 
+                      className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg"
+                      variants={animationVariants.listItem}
+                    >
+                      <Clock className="w-4 h-4 text-blue-600" />
+                      <span className="text-xs font-medium text-gray-700">{program.duration}</span>
+                    </motion.div>
+                    <motion.div 
+                      className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg"
+                      variants={animationVariants.listItem}
+                    >
+                      <MapPin className="w-4 h-4 text-green-600" />
+                      <span className="text-xs font-medium text-gray-700">{program.level}</span>
+                    </motion.div>
+                  </motion.div>
+
                   <motion.div
-                    className="space-y-3"
+                    className="space-y-4"
                     initial="hidden"
                     animate="visible"
                     variants={{
@@ -374,8 +497,12 @@ const InternshipSection: React.FC = () => {
                       }
                     }}
                   >
-                    <motion.div variants={listItemVariants}>
-                      <h4 className="font-semibold text-sm mb-2">Yêu cầu:</h4>
+                    {/* Requirements Preview */}
+                    <div>
+                      <h4 className="font-semibold text-sm mb-2 flex items-center gap-2">
+                        <Target className="w-4 h-4 text-blue-600" />
+                        Yêu cầu chính:
+                      </h4>
                       <ul className="text-sm text-gray-600 space-y-1">
                         {program.requirements.slice(0, 2).map((req, idx) => (
                           <motion.li
@@ -388,54 +515,260 @@ const InternshipSection: React.FC = () => {
                               type: "spring",
                               stiffness: 120
                             }}
+                            whileHover={{ x: 4 }}
                           >
-                            <motion.div
-                              initial={{ scale: 0 }}
-                              animate={{ scale: 1 }}
-                              transition={{
-                                delay: 0.8 + index * 0.1 + idx * 0.1,
-                                type: "spring",
-                                stiffness: 200
-                              }}
-                            >
-                              <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                            </motion.div>
+                            <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
                             {req}
                           </motion.li>
                         ))}
-                      </ul>
-                    </motion.div>
-                    <motion.div variants={listItemVariants}>
-                      <h4 className="font-semibold text-sm mb-2">Lợi ích:</h4>
-                      <ul className="text-sm text-gray-600 space-y-1">
-                        {program.benefits.slice(0, 2).map((benefit, idx) => (
-                          <motion.li
-                            key={idx}
-                            className="flex items-start gap-2"
+                        {program.requirements.length > 2 && (
+                          <motion.li 
+                            className="text-sm text-blue-600 font-medium ml-6"
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
-                            transition={{
-                              delay: 0.9 + index * 0.1 + idx * 0.1,
-                              type: "spring",
-                              stiffness: 120
-                            }}
                           >
-                            <motion.div
-                              initial={{ scale: 0 }}
-                              animate={{ scale: 1 }}
-                              transition={{
-                                delay: 1.0 + index * 0.1 + idx * 0.1,
-                                type: "spring",
-                                stiffness: 200
-                              }}
-                            >
-                              <Award className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
-                            </motion.div>
-                            {benefit}
+                            +{program.requirements.length - 2} yêu cầu khác...
                           </motion.li>
-                        ))}
+                        )}
                       </ul>
-                    </motion.div>
+                    </div>
+                    
+                    {/* CTA Button */}
+                    <Drawer>
+                      <DrawerTrigger asChild>
+                        <motion.button
+                          className="w-full mt-4 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 group"
+                          whileHover={{ 
+                            scale: 1.02, 
+                            y: -2,
+                            boxShadow: "0 10px 25px rgba(59, 130, 246, 0.3)"
+                          }}
+                          whileTap={{ scale: 0.98 }}
+                          aria-label={`Xem chi tiết chương trình ${program.title}`}
+                        >
+                          <span>Xem chi tiết</span>
+                          <motion.div
+                            className="group-hover:translate-x-1 transition-transform duration-200"
+                          >
+                            <ArrowRight className="w-4 h-4" />
+                          </motion.div>
+                        </motion.button>
+                      </DrawerTrigger>
+                        <DrawerContent className="max-h-[90vh] bg-white">
+                          <DrawerHeader className="border-b border-gray-100 bg-gradient-to-r from-blue-50 to-purple-50">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-4">
+                                <motion.div 
+                                  className="p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl text-white shadow-lg"
+                                  initial={{ scale: 0, rotate: -180 }}
+                                  animate={{ scale: 1, rotate: 0 }}
+                                  transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                                >
+                                  {program.icon}
+                                </motion.div>
+                                <div>
+                                  <DrawerTitle className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                                    {program.title}
+                                  </DrawerTitle>
+                                  <div className="flex items-center gap-2 mt-2">
+                                    <div className="px-3 py-1 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800 rounded-full text-sm font-medium border border-blue-200">
+                                      {program.badge}
+                                    </div>
+                                    <div className="flex items-center gap-1 text-yellow-500">
+                                      <Star className="w-4 h-4 fill-current" />
+                                      <span className="text-sm font-medium text-gray-700">4.8</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <DrawerClose asChild>
+                                <motion.button 
+                                  className="p-2 hover:bg-white/80 rounded-full transition-all duration-200 border border-gray-200"
+                                  whileHover={{ scale: 1.1, rotate: 90 }}
+                                  whileTap={{ scale: 0.9 }}
+                                  aria-label="Đóng"
+                                >
+                                  <X className="w-5 h-5 text-gray-600" />
+                                </motion.button>
+                              </DrawerClose>
+                            </div>
+                            <DrawerDescription className="text-gray-600 mt-4 text-base leading-relaxed">
+                              {program.description}
+                            </DrawerDescription>
+                          </DrawerHeader>
+                          
+                          <div className="p-6 overflow-y-auto space-y-8">
+                            {/* Enhanced Basic Information */}
+                            <motion.div 
+                              className="grid grid-cols-1 md:grid-cols-3 gap-4"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.1, staggerChildren: 0.1 }}
+                            >
+                              <motion.div 
+                                className="flex items-center gap-3 p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border border-blue-200 hover:shadow-md transition-all duration-200"
+                                whileHover={{ scale: 1.02, y: -2 }}
+                              >
+                                <div className="p-2 bg-blue-500 rounded-lg">
+                                  <Calendar className="w-5 h-5 text-white" />
+                                </div>
+                                <div>
+                                  <p className="text-sm font-semibold text-gray-900">Thời gian</p>
+                                  <p className="text-sm text-blue-700 font-medium">{program.duration}</p>
+                                </div>
+                              </motion.div>
+                              <motion.div 
+                                className="flex items-center gap-3 p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-xl border border-green-200 hover:shadow-md transition-all duration-200"
+                                whileHover={{ scale: 1.02, y: -2 }}
+                              >
+                                <div className="p-2 bg-green-500 rounded-lg">
+                                  <MapPin className="w-5 h-5 text-white" />
+                                </div>
+                                <div>
+                                  <p className="text-sm font-semibold text-gray-900">Hình thức</p>
+                                  <p className="text-sm text-green-700 font-medium">{program.type}</p>
+                                </div>
+                              </motion.div>
+                              <motion.div 
+                                className="flex items-center gap-3 p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl border border-purple-200 hover:shadow-md transition-all duration-200"
+                                whileHover={{ scale: 1.02, y: -2 }}
+                              >
+                                <div className="p-2 bg-purple-500 rounded-lg">
+                                  <Users className="w-5 h-5 text-white" />
+                                </div>
+                                <div>
+                                  <p className="text-sm font-semibold text-gray-900">Trình độ</p>
+                                  <p className="text-sm text-purple-700 font-medium">{program.level}</p>
+                                </div>
+                              </motion.div>
+                            </motion.div>
+                            
+                            {/* Enhanced Partners Section */}
+                            <motion.div
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.2 }}
+                            >
+                              <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                                <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg">
+                                  <Building2 className="w-5 h-5 text-white" />
+                                </div>
+                                Đối tác tuyển dụng
+                                <span className="text-sm bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-medium">
+                                  {program.partners.length}+ công ty
+                                </span>
+                              </h3>
+                              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                                {program.partners.map((partner, partnerIndex) => (
+                                  <motion.div
+                                    key={partnerIndex}
+                                    className="px-4 py-3 bg-gradient-to-r from-gray-50 to-gray-100 border border-gray-200 rounded-xl text-gray-700 text-sm font-medium text-center hover:shadow-md transition-all duration-200"
+                                    whileHover={{ scale: 1.02, y: -1 }}
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: partnerIndex * 0.05 }}
+                                  >
+                                    {partner}
+                                  </motion.div>
+                                ))}
+                              </div>
+                            </motion.div>
+                            
+                            {/* Enhanced Requirements */}
+                            <motion.div
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.3 }}
+                            >
+                              <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                                <div className="p-2 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg">
+                                  <Target className="w-5 h-5 text-white" />
+                                </div>
+                                Yêu cầu tham gia
+                              </h3>
+                              <div className="grid gap-3">
+                                {program.requirements.map((req, reqIndex) => (
+                                  <motion.div
+                                    key={reqIndex}
+                                    className="flex items-start gap-3 p-4 bg-green-50 border border-green-200 rounded-xl hover:shadow-md transition-all duration-200"
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: reqIndex * 0.1 }}
+                                    whileHover={{ scale: 1.01, x: 4 }}
+                                  >
+                                    <div className="p-1 bg-green-500 rounded-full">
+                                      <CheckCircle className="w-4 h-4 text-white" />
+                                    </div>
+                                    <span className="text-gray-700 font-medium">{req}</span>
+                                  </motion.div>
+                                ))}
+                              </div>
+                            </motion.div>
+                            
+                            {/* Enhanced Benefits */}
+                            <motion.div
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.4 }}
+                            >
+                              <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                                <div className="p-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg">
+                                  <Award className="w-5 h-5 text-white" />
+                                </div>
+                                Lợi ích nhận được
+                              </h3>
+                              <div className="grid gap-3">
+                                {program.benefits.map((benefit, benefitIndex) => (
+                                  <motion.div
+                                    key={benefitIndex}
+                                    className="flex items-start gap-3 p-4 bg-purple-50 border border-purple-200 rounded-xl hover:shadow-md transition-all duration-200"
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: benefitIndex * 0.1 }}
+                                    whileHover={{ scale: 1.01, x: 4 }}
+                                  >
+                                    <div className="p-1 bg-purple-500 rounded-full">
+                                      <TrendingUp className="w-4 h-4 text-white" />
+                                    </div>
+                                    <span className="text-gray-700 font-medium">{benefit}</span>
+                                  </motion.div>
+                                ))}
+                              </div>
+                            </motion.div>
+
+                            {/* Enhanced Call to Action */}
+                            <motion.div 
+                              className="pt-6 border-t border-gray-200"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.5 }}
+                            >
+                              <div className="space-y-4">
+                                <motion.button 
+                                  className="w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3 group"
+                                  whileHover={{ 
+                                    scale: 1.02, 
+                                    y: -2,
+                                    boxShadow: "0 15px 30px rgba(59, 130, 246, 0.4)"
+                                  }}
+                                  whileTap={{ scale: 0.98 }}
+                                >
+                                  <span>Đăng ký tham gia ngay</span>
+                                  <motion.div
+                                    className="group-hover:translate-x-1 transition-transform duration-200"
+                                  >
+                                    <ExternalLink className="w-5 h-5" />
+                                  </motion.div>
+                                </motion.button>
+                                
+                                <p className="text-center text-sm text-gray-500">
+                                  Hoặc liên hệ hotline: <span className="font-semibold text-blue-600">1900 1234</span> để được tư vấn
+                                </p>
+                              </div>
+                            </motion.div>
+                          </div>
+                        </DrawerContent>
+                      </Drawer>
                   </motion.div>
                 </CardContent>
               </Card>

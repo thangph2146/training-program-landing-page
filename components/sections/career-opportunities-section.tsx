@@ -54,7 +54,7 @@ const CareerOpportunitiesSection = () => {
   return (
     <motion.section 
       ref={ref}
-      className="py-16 lg:py-24 h-screen relative overflow-hidden"
+      className="py-6 h-screen relative overflow-hidden"
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       variants={containerVariants}
@@ -135,127 +135,6 @@ const CareerOpportunitiesSection = () => {
              },
            ]}
          />
-        </motion.div>
-
-        {/* Statistics */}
-        <motion.div 
-          className="absolute bottom-8 left-8 right-8"
-          initial={{ opacity: 0, y: 100 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 1, type: "spring", stiffness: 100 }}
-        >
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-6"
-            variants={{
-              hidden: { opacity: 0 },
-              visible: {
-                opacity: 1,
-                transition: {
-                  staggerChildren: 0.2,
-                  delayChildren: 1.2
-                }
-              }
-            }}
-            initial="hidden"
-            animate="visible"
-          >
-            <motion.div 
-              className="bg-white/80 backdrop-blur-sm rounded-lg p-6 text-center"
-              variants={{
-                hidden: { opacity: 0, y: 50, scale: 0.8 },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  scale: 1,
-                  transition: {
-                    type: "spring",
-                    stiffness: 120,
-                    damping: 15
-                  }
-                }
-              }}
-              whileHover={{
-                scale: 1.05,
-                y: -5,
-                boxShadow: "0 20px 40px rgba(59, 130, 246, 0.15)",
-                transition: { duration: 0.3 }
-              }}
-            >
-              <motion.div 
-                className="text-3xl font-bold text-blue-600 mb-2"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 1.5, type: "spring", stiffness: 200 }}
-              >
-                85%
-              </motion.div>
-              <div className="text-sm text-slate-600">Tỷ lệ có việc làm sau tốt nghiệp</div>
-            </motion.div>
-            <motion.div 
-              className="bg-white/80 backdrop-blur-sm rounded-lg p-6 text-center"
-              variants={{
-                hidden: { opacity: 0, y: 50, scale: 0.8 },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  scale: 1,
-                  transition: {
-                    type: "spring",
-                    stiffness: 120,
-                    damping: 15
-                  }
-                }
-              }}
-              whileHover={{
-                scale: 1.05,
-                y: -5,
-                boxShadow: "0 20px 40px rgba(34, 197, 94, 0.15)",
-                transition: { duration: 0.3 }
-              }}
-            >
-              <motion.div 
-                className="text-3xl font-bold text-green-600 mb-2"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 1.7, type: "spring", stiffness: 200 }}
-              >
-                15-25M
-              </motion.div>
-              <div className="text-sm text-slate-600">Mức lương khởi điểm (VNĐ/tháng)</div>
-            </motion.div>
-            <motion.div 
-              className="bg-white/80 backdrop-blur-sm rounded-lg p-6 text-center"
-              variants={{
-                hidden: { opacity: 0, y: 50, scale: 0.8 },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  scale: 1,
-                  transition: {
-                    type: "spring",
-                    stiffness: 120,
-                    damping: 15
-                  }
-                }
-              }}
-              whileHover={{
-                scale: 1.05,
-                y: -5,
-                boxShadow: "0 20px 40px rgba(147, 51, 234, 0.15)",
-                transition: { duration: 0.3 }
-              }}
-            >
-              <motion.div 
-                className="text-3xl font-bold text-purple-600 mb-2"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 1.9, type: "spring", stiffness: 200 }}
-              >
-                500+
-              </motion.div>
-              <div className="text-sm text-slate-600">Đối tác tuyển dụng</div>
-            </motion.div>
-          </motion.div>
         </motion.div>
       </div>
     </motion.section>

@@ -55,7 +55,7 @@ export default function TargetSection() {
     <motion.section 
       ref={ref}
       id="target-section" 
-      className="py-16 lg:py-24 bg-gradient-to-b from-zinc-50 via-gray-100 to-zinc-50 relative overflow-hidden"
+      className="py-6 bg-gradient-to-b from-zinc-50 via-gray-100 to-zinc-50 relative overflow-hidden"
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       variants={containerVariants}

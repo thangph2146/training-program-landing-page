@@ -6,12 +6,10 @@ import CareerOpportunitiesSection from "@/components/sections/career-opportuniti
 import FeaturedCoursesSection from "@/components/sections/featured-courses-section";
 import FeaturedFacultySection from "@/components/sections/featured-faculty-section";
 import InternshipSection from "@/components/sections/internship-section";
-import { Navbar } from "@/components/layouts/navbar";
 
 export default function Home() {
   return (
     <>
-      <Navbar />
       <div id="hero-section">
         <HeroSection />
       </div>
