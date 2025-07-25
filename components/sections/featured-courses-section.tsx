@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useMemo } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
-import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { Badge } from "@/components/ui/badge";
 import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerClose } from "@/components/ui/drawer";
+import { cn } from "@/lib/utils";
 import {
   TrendingUp,
   Calculator,
@@ -13,13 +13,12 @@ import {
   Database,
   Globe,
   Star,
-  CheckCircle,
   Users,
-  ArrowRight,
-  Clock,
-  BookOpen,
-  Award,
-  X
+  X,
+  Sparkles,
+  GraduationCap,
+  ChevronRight,
+  Play,
 } from "lucide-react";
 
 interface Course {
@@ -660,115 +659,168 @@ export default function FeaturedCoursesSection() {
     setFocusedCard(courseId);
   }, []);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
-  };
 
-  const headerVariants = {
-    hidden: { opacity: 0, y: -50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring" as const,
-        stiffness: 100,
-        damping: 15,
-        duration: 0.8
+  // Optimized animation variants with useMemo
+  const animationVariants = useMemo(() => ({
+    container: {
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: {
+          staggerChildren: 0.1,
+          delayChildren: 0.2
+        }
       }
-    }
-  };
-
-  const cardVariants = {
-    hidden: {
-      opacity: 0,
-      y: 100,
-      scale: 0.8
     },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        type: "spring" as const,
-        stiffness: 100,
-        damping: 15,
-        duration: 0.6
+    header: {
+      hidden: { opacity: 0, y: -50 },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+          type: "spring" as const,
+          stiffness: 100,
+          damping: 15,
+          duration: 0.8
+        }
+      }
+    },
+    card: {
+      hidden: {
+        opacity: 0,
+        y: 100,
+        scale: 0.8
+      },
+      visible: {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        transition: {
+          type: "spring" as const,
+          stiffness: 100,
+          damping: 15,
+          duration: 0.6
+        }
+      }
+    },
+    icon: {
+      hidden: { scale: 0, rotate: -180 },
+      visible: {
+        scale: 1,
+        rotate: 0,
+        transition: {
+          type: "spring" as const,
+          stiffness: 200,
+          damping: 20,
+          delay: 0.2
+        }
+      }
+    },
+    highlight: {
+      hidden: { opacity: 0, x: -20 },
+      visible: {
+        opacity: 1,
+        x: 0,
+        transition: {
+          staggerChildren: 0.1
+        }
+      }
+    },
+    sparkle: {
+      hidden: { scale: 0, opacity: 0 },
+      visible: {
+        scale: [0, 1.2, 1],
+        opacity: [0, 1, 0.8],
+        transition: {
+          duration: 2,
+          repeat: Infinity,
+          repeatType: "reverse" as const
+        }
       }
     }
-  };
-
-  const iconVariants = {
-    hidden: { scale: 0, rotate: -180 },
-    visible: {
-      scale: 1,
-      rotate: 0,
-      transition: {
-        type: "spring" as const,
-        stiffness: 200,
-        damping: 20,
-        delay: 0.2
-      }
-    }
-  };
-
-  const highlightVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
+  }), []);
 
   return (
     <motion.section
       ref={ref}
-      className="py-6 bg-gradient-to-b from-zinc-50 via-slate-100 to-zinc-50 relative overflow-hidden"
+      className="py-6 bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/40 relative overflow-hidden"
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
-      variants={containerVariants}
+      variants={animationVariants.container}
+      role="region"
       aria-labelledby="featured-courses-title"
+      aria-describedby="featured-courses-description"
     >
-      {/* Background decorative elements */}
+      {/* Enhanced Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-200/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-200/20 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-r from-blue-200/30 to-cyan-200/30 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-purple-200/30 to-pink-200/30 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-indigo-100/20 to-purple-100/20 rounded-full blur-3xl" />
+        
+        {/* Floating animated elements */}
+        {[...Array(6)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-2 h-2 bg-blue-400/40 rounded-full"
+            style={{
+              top: `${20 + (i * 15)}%`,
+              left: `${10 + (i * 12)}%`,
+            }}
+            variants={animationVariants.sparkle}
+            initial="hidden"
+            animate="visible"
+            transition={{ delay: i * 0.2 }}
+          />
+        ))}
+        
+        {[...Array(4)].map((_, i) => (
+          <motion.div
+            key={`sparkle-${i}`}
+            className="absolute"
+            style={{
+              top: `${30 + (i * 20)}%`,
+              right: `${15 + (i * 10)}%`,
+            }}
+            variants={animationVariants.sparkle}
+            initial="hidden"
+            animate="visible"
+            transition={{ delay: i * 0.3 }}
+          >
+            <Sparkles className="w-4 h-4 text-purple-400/60" />
+          </motion.div>
+        ))}
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header */}
-        <motion.div className="text-center mb-12 lg:mb-16" variants={headerVariants}>
-          <div className='w-full flex justify-center lg:justify-end'>
+        {/* Enhanced Header */}
+        <motion.div className="text-center mb-6" variants={animationVariants.header}>
+          {/* Badge */}
+          <motion.div 
+            className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-700 rounded-full text-sm font-medium mb-6 border border-blue-200/50"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2 }}
+          >
+            <GraduationCap className="w-4 h-4" />
+            <span>Chương trình đào tạo chuyên sâu</span>
+          </motion.div>
+          
+          <div className='w-full flex justify-center lg:justify-start'>
             <PointerHighlight>
               <h2 
                 id="featured-courses-title"
-                className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-800 p-4 leading-tight"
+                className="text-3xl font-bold bg-gradient-to-r from-slate-800 via-blue-800 to-indigo-800 bg-clip-text text-transparent p-4 leading-tight"
               >
                 Các Môn Học Nổi Bật
               </h2>
             </PointerHighlight>
           </div>
-          <div className="max-w-3xl mx-auto mt-4">
-            <TextGenerateEffect
-              words="Chương trình đào tạo toàn diện với các môn học hiện đại, kết hợp lý thuyết và thực hành để phát triển năng lực chuyên môn cao."
-              className="text-lg lg:text-xl text-slate-600 leading-relaxed"
-            />
-          </div>
         </motion.div>
 
-        {/* Courses Grid */}
+        {/* Enhanced Courses Grid */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8"
-          variants={containerVariants}
+          className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10"
+          variants={animationVariants.container}
           role="list"
           aria-label="Danh sách các môn học nổi bật"
         >
@@ -777,18 +829,22 @@ export default function FeaturedCoursesSection() {
               const IconComponent = course.icon;
               const isHovered = hoveredCard === course.id;
               const isFocused = focusedCard === course.id;
+              const isActive = isHovered || isFocused;
               
               return (
                 <Drawer key={course.id}>
-                  <motion.div
-                    className="group cursor-pointer w-full h-full"
-                    variants={cardVariants}
+                  <motion.article
+                    className={cn(
+                      "group cursor-pointer w-full h-full relative",
+                      "transform-gpu transition-all duration-300"
+                    )}
+                    variants={animationVariants.card}
                     whileHover={{
-                      scale: 1.02,
-                      y: -8,
+                      scale: 1.03,
+                      y: -12,
                       transition: { type: "spring", stiffness: 400, damping: 25 }
                     }}
-                    whileTap={{ scale: 0.98 }}
+                    whileTap={{ scale: 0.97 }}
                     onHoverStart={() => handleCardHover(course.id)}
                     onHoverEnd={() => handleCardHover(null)}
                     onFocus={() => handleCardFocus(course.id)}
@@ -798,45 +854,81 @@ export default function FeaturedCoursesSection() {
                     aria-label={`Môn học ${course.title} - ${course.description}`}
                   >
                     <motion.div
-                      className="bg-white/90 backdrop-blur-sm rounded-2xl lg:rounded-3xl p-6 lg:p-8 border border-white/60 shadow-lg hover:shadow-2xl h-full relative overflow-hidden transition-all duration-300"
+                      className={cn(
+                        "bg-white/95 backdrop-blur-md rounded-3xl p-8 border h-full relative overflow-hidden",
+                        "shadow-xl hover:shadow-2xl transition-all duration-500",
+                        "border-white/80 hover:border-white/90",
+                        isActive && "ring-2 ring-blue-500/30 ring-offset-2 ring-offset-transparent"
+                      )}
                       style={{
-                        boxShadow: isHovered || isFocused 
-                          ? "0 25px 50px -12px rgba(0, 0, 0, 0.25)" 
-                          : "0 10px 25px -5px rgba(0, 0, 0, 0.1)"
+                        boxShadow: isActive 
+                          ? "0 32px 64px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(59, 130, 246, 0.1)" 
+                          : "0 20px 40px -8px rgba(0, 0, 0, 0.1)"
                       }}
                     >
-                      {/* Animated background gradient */}
+                      {/* Dynamic background gradient based on course */}
                       <motion.div
-                        className="absolute inset-0 bg-gradient-to-br from-blue-50/60 to-purple-50/60 rounded-2xl lg:rounded-3xl"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: isHovered || isFocused ? 1 : 0 }}
-                        transition={{ duration: 0.3 }}
+                        className={cn(
+                          "absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-500",
+                          index % 6 === 0 && "bg-gradient-to-br from-blue-50/80 to-cyan-50/80",
+                          index % 6 === 1 && "bg-gradient-to-br from-green-50/80 to-emerald-50/80",
+                          index % 6 === 2 && "bg-gradient-to-br from-purple-50/80 to-violet-50/80",
+                          index % 6 === 3 && "bg-gradient-to-br from-red-50/80 to-rose-50/80",
+                          index % 6 === 4 && "bg-gradient-to-br from-orange-50/80 to-amber-50/80",
+                          index % 6 === 5 && "bg-gradient-to-br from-teal-50/80 to-cyan-50/80"
+                        )}
+                        animate={{ opacity: isActive ? 1 : 0 }}
                       />
 
+                      {/* Floating decorative elements */}
+                      <motion.div
+                        className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        initial={{ scale: 0, rotate: -180 }}
+                        animate={{ 
+                          scale: isActive ? 1 : 0, 
+                          rotate: isActive ? 0 : -180,
+                          opacity: isActive ? 1 : 0
+                        }}
+                        transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                      >
+                        <div className="w-8 h-8 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full flex items-center justify-center">
+                          <Sparkles className="w-4 h-4 text-blue-500" />
+                        </div>
+                      </motion.div>
+
                       {/* Focus indicator for accessibility */}
-                      {isFocused && (
-                        <motion.div
-                          className="absolute inset-0 border-2 border-blue-500 rounded-2xl lg:rounded-3xl"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ duration: 0.2 }}
-                        />
-                      )}
+                      <AnimatePresence>
+                        {isFocused && (
+                          <motion.div
+                            className="absolute inset-0 border-2 border-blue-500 rounded-3xl"
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            transition={{ duration: 0.2 }}
+                          />
+                        )}
+                      </AnimatePresence>
 
                       <div className="relative z-10">
-                        {/* Header */}
-                        <div className="flex items-start gap-4 mb-6">
+                        {/* Enhanced Header */}
+                        <div className="flex items-start gap-5 mb-8">
                           <motion.div
-                            className="p-3 bg-gradient-to-b from-blue-100 to-indigo-100 rounded-xl lg:rounded-2xl group-hover:from-blue-200 group-hover:to-indigo-200 transition-all duration-300 flex-shrink-0"
-                            variants={iconVariants}
+                            className={cn(
+                              "p-4 rounded-2xl flex-shrink-0 transition-all duration-300",
+                              "bg-gradient-to-br from-slate-100 to-slate-200",
+                              "group-hover:from-blue-100 group-hover:to-indigo-100",
+                              "shadow-lg group-hover:shadow-xl"
+                            )}
+                            variants={animationVariants.icon}
                             whileHover={{
-                              rotate: [0, -10, 10, 0],
+                              rotate: [0, -8, 8, 0],
                               scale: 1.1,
                               transition: { duration: 0.6, ease: "easeInOut" }
                             }}
                           >
-                            <IconComponent className="w-6 h-6 lg:w-7 lg:h-7 text-slate-700" />
+                            <IconComponent className="w-7 h-7 text-slate-700 group-hover:text-blue-700 transition-colors" />
                           </motion.div>
+                          
                           <div className="flex-1 min-w-0">
                             <motion.div
                               initial={{ opacity: 0, y: 20 }}
@@ -845,20 +937,30 @@ export default function FeaturedCoursesSection() {
                             >
                               <Badge 
                                 variant="secondary" 
-                                className="mb-3 text-xs font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
+                                className={cn(
+                                  "mb-4 text-xs font-medium transition-all duration-300",
+                                  "bg-slate-100/80 text-slate-700 border border-slate-200/50",
+                                  "group-hover:bg-blue-100/80 group-hover:text-blue-700 group-hover:border-blue-200/50"
+                                )}
                               >
                                 {course.category}
                               </Badge>
-                              <h3 className="text-xl lg:text-2xl font-bold text-slate-800 mb-2 leading-tight group-hover:text-slate-900 transition-colors">
+                              
+                              <h3 className={cn(
+                                "text-xl font-bold mb-3 leading-tight transition-all duration-300",
+                                "text-slate-800 group-hover:text-slate-900",
+                                "group-hover:bg-gradient-to-r group-hover:from-slate-800 group-hover:to-blue-800",
+                                "group-hover:bg-clip-text group-hover:text-transparent"
+                              )}>
                                 {course.title}
                               </h3>
                             </motion.div>
                           </div>
                         </div>
 
-                        {/* Description */}
+                        {/* Enhanced Description */}
                         <motion.p
-                          className="text-slate-600 mb-6 leading-relaxed text-sm lg:text-base group-hover:text-slate-700 transition-colors"
+                          className="text-slate-600 mb-8 leading-relaxed group-hover:text-slate-700 transition-colors duration-300"
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           transition={{ delay: 0.4 + index * 0.1 }}
@@ -866,36 +968,78 @@ export default function FeaturedCoursesSection() {
                           {course.description}
                         </motion.p>
 
-                        {/* Level and CTA */}
+                        {/* Course Highlights */}
                         <motion.div
-                          className="pt-4 border-t border-slate-200/60"
+                          className="mb-8"
+                          variants={animationVariants.highlight}
+                          initial="hidden"
+                          animate="visible"
+                          transition={{ delay: 0.5 + index * 0.1 }}
+                        >
+                          <div className="flex flex-wrap gap-2">
+                            {course.highlights.map((highlight, highlightIndex) => (
+                              <motion.span
+                                key={highlight}
+                                className={cn(
+                                  "inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium",
+                                  "bg-slate-100/80 text-slate-700 border border-slate-200/50",
+                                  "group-hover:bg-blue-50/80 group-hover:text-blue-700 group-hover:border-blue-200/50",
+                                  "transition-all duration-300"
+                                )}
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: 0.6 + index * 0.1 + highlightIndex * 0.1 }}
+                              >
+                                <Star className="w-3 h-3" />
+                                {highlight}
+                              </motion.span>
+                            ))}
+                          </div>
+                        </motion.div>
+
+                        {/* Enhanced CTA */}
+                        <motion.div
+                          className="pt-6 border-t border-slate-200/60"
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.7 + index * 0.1 }}
                         >
-                          <DrawerTrigger className="w-full h-full p-0 bg-transparent hover:bg-transparent group/trigger">
-                            {/* Enhanced CTA */}
+                          <DrawerTrigger className="w-full p-0 bg-transparent hover:bg-transparent group/trigger">
                             <motion.div
-                              className="flex items-center justify-between p-3 bg-slate-50/80 hover:bg-slate-100/80 rounded-xl transition-all duration-300 group-hover/trigger:shadow-md cursor-pointer"
-                              whileHover={{ y: -2 }}
-                              whileTap={{ y: 0 }}
+                              className={cn(
+                                "flex items-center justify-between p-2 rounded-2xl transition-all duration-300 cursor-pointer",
+                                "bg-gradient-to-r from-slate-50/80 to-slate-100/80",
+                                "hover:from-blue-50/80 hover:to-indigo-50/80",
+                                "border border-slate-200/50 hover:border-blue-200/50",
+                                "shadow-sm hover:shadow-md"
+                              )}
+                              whileHover={{ y: -2, scale: 1.02 }}
+                              whileTap={{ y: 0, scale: 0.98 }}
                             >
-                              <span className="text-sm font-medium text-slate-700 group-hover/trigger:text-slate-900">
-                                Xem chi tiết khóa học
-                              </span>
+                              <div className="flex items-center gap-3">
+                                <div className={cn(
+                                  "w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300",
+                                  "bg-slate-200/80 group-hover/trigger:bg-blue-200/80"
+                                )}>
+                                  <Play className="w-4 h-4 text-slate-600 group-hover/trigger:text-blue-600" />
+                                </div>
+                                <span className="text-sm text-slate-700 group-hover/trigger:text-slate-900">
+                                  Xem chi tiết khóa học
+                                </span>
+                              </div>
+                              
                               <motion.div
-                                className="flex items-center gap-1 text-slate-500 group-hover/trigger:text-slate-700"
+                                className="flex items-center gap-1 text-slate-500 group-hover/trigger:text-blue-600"
                                 whileHover={{ x: 4 }}
                               >
-                                <ArrowRight className="h-4 w-4" />
+                                <ChevronRight className="h-5 w-5" />
                               </motion.div>
                             </motion.div>
                           </DrawerTrigger>
                         </motion.div>
-
                       </div>
                     </motion.div>
-                  </motion.div>
+                  </motion.article>
 
                   <DrawerContent className="w-full mx-auto">
                     <DrawerHeader className="flex flex-row items-center justify-between">
@@ -914,24 +1058,6 @@ export default function FeaturedCoursesSection() {
               );
             })}
           </AnimatePresence>
-        </motion.div>
-
-        {/* Additional CTA Section */}
-        <motion.div
-          className="text-center mt-12 lg:mt-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ delay: 0.8, duration: 0.6 }}
-        >
-          <motion.div
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full font-medium shadow-lg hover:shadow-xl transition-all duration-300"
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Award className="h-5 w-5" />
-            <span>Khám phá toàn bộ chương trình đào tạo</span>
-            <ArrowRight className="h-4 w-4" />
-          </motion.div>
         </motion.div>
       </div>
     </motion.section>

@@ -1,16 +1,21 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerClose } from "@/components/ui/drawer";
-import { BookOpen, Target, CheckCircle, GraduationCap, Star, Award, Lightbulb, Briefcase, MapPin, TrendingUp, Clock, X } from "lucide-react";
+import { BookOpen, Target, CheckCircle, GraduationCap, Star, Award, Lightbulb, Briefcase, MapPin, TrendingUp, Clock, X, Sparkles, Zap, Badge } from "lucide-react";
 
 export function CareerTimelineSection() {
   const [activePhase, setActivePhase] = useState<number>(0);
+  const [isClient, setIsClient] = useState(false);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Animation variants
   const containerVariants = {
@@ -599,17 +604,34 @@ export function CareerTimelineSection() {
     }
   ];
 
+  // Fixed seed values for consistent rendering
+  const seedValues = useMemo(() => [
+    { size: 120, x: 15, y: 20, delay: 0 },
+    { size: 80, x: 85, y: 15, delay: 0.5 },
+    { size: 100, x: 10, y: 70, delay: 1 },
+    { size: 60, x: 90, y: 80, delay: 1.5 },
+    { size: 140, x: 50, y: 10, delay: 2 }
+  ], []);
+
+  const sparklePositions = useMemo(() => [
+    { x: 20, y: 30, delay: 0.2 },
+    { x: 80, y: 25, delay: 0.8 },
+    { x: 30, y: 75, delay: 1.4 },
+    { x: 70, y: 85, delay: 2.0 },
+    { x: 60, y: 40, delay: 2.6 }
+  ], []);
+
   return (
     <motion.section
       ref={ref}
-      className="py-6 bg-gradient-to-b from-zinc-50 via-gray-100 to-zinc-50 relative overflow-hidden"
+      className="py-6 bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20 relative overflow-hidden"
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       variants={containerVariants}
     >
-      {/* Animated background elements */}
+      {/* Enhanced Background Effects */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-orange-50/50"
+        className="absolute inset-0 bg-gradient-to-br from-blue-50/40 via-purple-50/20 to-orange-50/30"
         initial={{ opacity: 0, scale: 1.2 }}
         animate={{
           opacity: isInView ? 1 : 0,
@@ -618,41 +640,107 @@ export function CareerTimelineSection() {
         }}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header */}
-        <motion.div
-          className="text-center mb-16"
-          variants={headerVariants}
-        >
-          <div className='w-full flex justify-start'>
-            <PointerHighlight>
-              <motion.h2
-                className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-800 p-4"
-                initial={{ opacity: 0, x: -100 }}
-                animate={{
-                  opacity: isInView ? 1 : 0,
-                  x: isInView ? 0 : -100,
-                  transition: { delay: 0.3, duration: 0.8, type: "spring", stiffness: 100 }
-                }}
-              >
-                Lộ trình phát triển sự nghiệp
-              </motion.h2>
-            </PointerHighlight>
-          </div>
-          <motion.div
-            className="max-w-3xl mx-auto"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{
-              opacity: isInView ? 1 : 0,
-              y: isInView ? 0 : 30,
-              transition: { delay: 0.6, duration: 0.8 }
-            }}
-          >
-            <TextGenerateEffect
-              words="4 năm đầy thú vị và cơ hội phát triển không giới hạn."
-              className="text-lg text-slate-600"
+      {/* Floating Background Elements */}
+      {isClient && (
+        <div className="absolute inset-0">
+          {seedValues.map((seed, index) => (
+            <motion.div
+              key={index}
+              className="absolute rounded-full opacity-10"
+              style={{
+                width: `${seed.size}px`,
+                height: `${seed.size}px`,
+                left: `${seed.x}%`,
+                top: `${seed.y}%`,
+                background: index % 3 === 0 ? 'linear-gradient(135deg, #3b82f6, #8b5cf6)' : 
+                           index % 3 === 1 ? 'linear-gradient(135deg, #8b5cf6, #ec4899)' : 
+                           'linear-gradient(135deg, #06b6d4, #3b82f6)'
+              }}
+              animate={{
+                y: [-20, 20, -20],
+                x: [-10, 10, -10],
+                rotate: [0, 180, 360],
+                scale: [1, 1.1, 1]
+              }}
+              transition={{
+                duration: 8 + index * 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: seed.delay
+              }}
             />
-          </motion.div>
+          ))}
+        </div>
+      )}
+
+      {/* Animated Sparkles */}
+      {isClient && (
+        <AnimatePresence>
+          {sparklePositions.map((sparkle, index) => (
+            <motion.div
+              key={index}
+              className="absolute z-10"
+              style={{
+                left: `${sparkle.x}%`,
+                top: `${sparkle.y}%`
+              }}
+              initial={{ opacity: 0, scale: 0, rotate: -180 }}
+              animate={{
+                opacity: [0, 1, 0],
+                scale: [0, 1, 0],
+                rotate: [0, 180, 360]
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: sparkle.delay
+              }}
+            >
+              <Sparkles className="w-6 h-6 text-blue-400" />
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      )}
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Enhanced Header */}
+          <motion.div
+            className="text-center mb-16 lg:mb-20"
+            variants={headerVariants}
+          >
+            {/* Badge */}
+            <motion.div 
+              className="flex justify-center mb-6"
+              initial={{ opacity: 0, scale: 0, rotate: -180 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.3 }}
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 backdrop-blur-sm border border-blue-200/30 rounded-full">
+                <MapPin className="w-4 h-4 text-blue-600" />
+                <span className="text-sm font-semibold text-blue-700 dark:text-blue-400">
+                  Hành trình 4 năm phát triển
+                </span>
+                <TrendingUp className="w-4 h-4 text-purple-600" />
+              </div>
+            </motion.div>
+
+            <div className='w-full flex justify-center mb-6'>
+              <PointerHighlight>
+                <motion.h2
+                  className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent p-4 leading-tight"
+                  initial={{ opacity: 0, x: -100 }}
+                  animate={{
+                    opacity: isInView ? 1 : 0,
+                    x: isInView ? 0 : -100,
+                    transition: { delay: 0.3, duration: 0.8, type: "spring", stiffness: 100 }
+                  }}
+                >
+                  Lộ trình phát triển sự nghiệp
+                </motion.h2>
+              </PointerHighlight>
+            </div>
+
         </motion.div>
 
         {/* Timeline */}

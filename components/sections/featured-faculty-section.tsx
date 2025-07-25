@@ -1,12 +1,13 @@
 'use client'
 
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState, useMemo } from 'react';
+import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { PointerHighlight } from '@/components/ui/pointer-highlight';
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { GraduationCap, Award, BookOpen, Users, Star, User } from 'lucide-react';
-import { motion, useInView } from 'framer-motion';
+import { GraduationCap, Award, BookOpen, Users, Star, User, Sparkles, Zap, Badge as BadgeIcon } from 'lucide-react';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
 
 interface FacultyMember {
   name: string;
@@ -21,8 +22,13 @@ interface FacultyMember {
 }
 
 const FeaturedFacultySection: React.FC = () => {
+  const [isClient, setIsClient] = useState(false);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Animation variants
   const containerVariants = {
@@ -185,17 +191,32 @@ const FeaturedFacultySection: React.FC = () => {
     }
   ];
 
+  // Fixed seed values for consistent rendering
+  const seedValues = useMemo(() => [
+    { size: 100, x: 20, y: 15, delay: 0 },
+    { size: 80, x: 80, y: 25, delay: 0.5 },
+    { size: 120, x: 15, y: 75, delay: 1 },
+    { size: 60, x: 85, y: 85, delay: 1.5 }
+  ], []);
+
+  const sparklePositions = useMemo(() => [
+    { x: 25, y: 20, delay: 0.3 },
+    { x: 75, y: 30, delay: 0.9 },
+    { x: 30, y: 80, delay: 1.5 },
+    { x: 70, y: 70, delay: 2.1 }
+  ], []);
+
   return (
     <motion.section 
       ref={ref}
-      className="py-6 bg-gradient-to-b from-zinc-50 via-gray-100 to-zinc-50 relative overflow-hidden"
+      className="py-6 bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20 relative overflow-hidden"
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       variants={containerVariants}
     >
-      {/* Animated background elements */}
+      {/* Enhanced Background Effects */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-indigo-50/50"
+        className="absolute inset-0 bg-gradient-to-br from-blue-50/40 via-purple-50/20 to-indigo-50/30"
         initial={{ opacity: 0, scale: 1.2 }}
         animate={{ 
           opacity: isInView ? 1 : 0, 
@@ -203,6 +224,68 @@ const FeaturedFacultySection: React.FC = () => {
           transition: { duration: 2, ease: "easeOut" }
         }}
       />
+
+      {/* Floating Background Elements */}
+      {isClient && (
+        <div className="absolute inset-0">
+          {seedValues.map((seed, index) => (
+            <motion.div
+              key={index}
+              className="absolute rounded-full opacity-10"
+              style={{
+                width: `${seed.size}px`,
+                height: `${seed.size}px`,
+                left: `${seed.x}%`,
+                top: `${seed.y}%`,
+                background: index % 2 === 0 ? 'linear-gradient(135deg, #3b82f6, #8b5cf6)' : 
+                           'linear-gradient(135deg, #8b5cf6, #06b6d4)'
+              }}
+              animate={{
+                y: [-15, 15, -15],
+                x: [-8, 8, -8],
+                rotate: [0, 180, 360],
+                scale: [1, 1.1, 1]
+              }}
+              transition={{
+                duration: 6 + index * 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: seed.delay
+              }}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Animated Sparkles */}
+      {isClient && (
+        <AnimatePresence>
+          {sparklePositions.map((sparkle, index) => (
+            <motion.div
+              key={index}
+              className="absolute z-10"
+              style={{
+                left: `${sparkle.x}%`,
+                top: `${sparkle.y}%`
+              }}
+              initial={{ opacity: 0, scale: 0, rotate: -180 }}
+              animate={{
+                opacity: [0, 1, 0],
+                scale: [0, 1, 0],
+                rotate: [0, 180, 360]
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: sparkle.delay
+              }}
+            >
+              <Sparkles className="w-5 h-5 text-purple-400" />
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      )}
       
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
@@ -210,10 +293,10 @@ const FeaturedFacultySection: React.FC = () => {
           className="text-center mb-12 md:mb-16"
           variants={headerVariants}
         >
-          <div>
+          <div className="flex justify-center">
             <PointerHighlight>
               <motion.h2 
-                className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-gray-900 dark:text-white p-4"
+                className="text-3xl font-bold text-gray-900 dark:text-white p-4"
                 initial={{ opacity: 0, x: -100 }}
                 animate={{ 
                   opacity: isInView ? 1 : 0, 

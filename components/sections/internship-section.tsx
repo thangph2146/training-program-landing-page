@@ -1,7 +1,8 @@
 'use client'
 
-import React, { useRef, useState, useCallback, useMemo } from 'react';
+import React, { useRef, useState, useCallback, useMemo, useEffect } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { cn } from '@/lib/utils';
 import { PointerHighlight } from '@/components/ui/pointer-highlight';
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
@@ -28,7 +29,11 @@ import {
   ArrowRight,
   Clock,
   Star,
-  ExternalLink
+  ExternalLink,
+  Sparkles,
+  GraduationCap,
+  Zap,
+  Badge
 } from 'lucide-react';
 
 interface InternshipProgram {
@@ -50,6 +55,11 @@ const InternshipSection: React.FC = () => {
   const isInView = useInView(ref, { once: true, amount: 0.1 });
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const [focusedCard, setFocusedCard] = useState<number | null>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handleCardHover = useCallback((index: number | null) => {
     setHoveredCard(index);
@@ -276,38 +286,83 @@ const InternshipSection: React.FC = () => {
     >
       {/* Enhanced Background */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-white to-purple-50/30 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700"
+        className="absolute inset-0 bg-gradient-to-br from-blue-50/40 via-purple-50/30 to-cyan-50/40 dark:from-blue-950/20 dark:via-purple-950/20 dark:to-cyan-950/20"
         initial={{ opacity: 0, scale: 1.05 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1 }}
+        transition={{ duration: 1.5 }}
       />
       
-      {/* Decorative Elements */}
-      <motion.div
-        className="absolute top-20 left-10 w-32 h-32 bg-blue-100/20 rounded-full blur-3xl"
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3]
-        }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      />
-      <motion.div
-        className="absolute bottom-20 right-10 w-40 h-40 bg-purple-100/20 rounded-full blur-3xl"
-        animate={{
-          scale: [1.2, 1, 1.2],
-          opacity: [0.5, 0.3, 0.5]
-        }}
-        transition={{
-          duration: 5,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 1
-        }}
-      />
+      {/* Floating Background Elements */}
+      {isClient && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {/* Fixed positioned floating elements */}
+          {[
+            { size: 120, left: 10, top: 15, color: "blue", duration: 4, delay: 0 },
+            { size: 80, left: 85, top: 25, color: "purple", duration: 5, delay: 1 },
+            { size: 100, left: 20, top: 70, color: "cyan", duration: 3.5, delay: 0.5 },
+            { size: 90, left: 75, top: 80, color: "blue", duration: 4.5, delay: 1.5 }
+          ].map((circle, i) => (
+            <motion.div
+              key={i}
+              className={cn(
+                "absolute rounded-full blur-3xl opacity-20",
+                circle.color === "blue" && "bg-blue-400",
+                circle.color === "purple" && "bg-purple-400",
+                circle.color === "cyan" && "bg-cyan-400"
+              )}
+              style={{
+                width: `${circle.size}px`,
+                height: `${circle.size}px`,
+                left: `${circle.left}%`,
+                top: `${circle.top}%`,
+              }}
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.2, 0.4, 0.2],
+                y: [0, -20, 0]
+              }}
+              transition={{
+                duration: circle.duration,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: circle.delay
+              }}
+            />
+          ))}
+
+          {/* Animated Sparkles */}
+          {[
+            { left: 15, top: 20 },
+            { left: 80, top: 30 },
+            { left: 30, top: 60 },
+            { left: 70, top: 75 },
+            { left: 90, top: 50 },
+            { left: 25, top: 85 }
+          ].map((position, i) => (
+            <motion.div
+              key={`sparkle-${i}`}
+              className="absolute"
+              style={{
+                left: `${position.left}%`,
+                top: `${position.top}%`,
+              }}
+              animate={{
+                opacity: [0, 1, 0],
+                scale: [0, 1, 0],
+                rotate: [0, 180, 360]
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                repeatType: "loop" as const,
+                delay: i * 0.5
+              }}
+            >
+              <Sparkles className="w-4 h-4 text-yellow-400" />
+            </motion.div>
+          ))}
+        </div>
+      )}
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Enhanced Header */}
@@ -315,45 +370,33 @@ const InternshipSection: React.FC = () => {
           className="text-center mb-16 lg:mb-20"
           variants={animationVariants.header}
         >
+          {/* Badge */}
+          <motion.div 
+            className="flex justify-center mb-6"
+            initial={{ opacity: 0, scale: 0, rotate: -180 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.3 }}
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 backdrop-blur-sm border border-blue-200/30 rounded-full">
+              <GraduationCap className="w-4 h-4 text-blue-600" />
+              <span className="text-sm font-semibold text-blue-700 dark:text-blue-400">
+                Chương trình Thực tập Chuyên nghiệp
+              </span>
+              <Zap className="w-4 h-4 text-purple-600" />
+            </div>
+          </motion.div>
+
           <div className="w-full flex justify-center mb-6">
             <PointerHighlight>
               <h2 
                 id="internship-section-title"
-                className="text-3xl md:text-4xl lg:text-6xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent p-4 leading-tight"
+                className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent p-4 leading-tight"
               >
                 Cơ hội Thực tập Nghề nghiệp
               </h2>
             </PointerHighlight>
           </div>
 
-          <div className="max-w-4xl mx-auto space-y-4">
-            <TextGenerateEffect
-              words="Giúp sinh viên tích lũy kinh nghiệm thực tế và phát triển kỹ năng nghề nghiệp qua các chương trình thực tập chất lượng cao."
-              className="text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed"
-            />
-            
-            <motion.div
-              className="flex flex-wrap justify-center gap-4 mt-8"
-              variants={animationVariants.container}
-            >
-              {[
-                { icon: <Briefcase className="w-4 h-4" />, text: "6+ Lĩnh vực" },
-                { icon: <Users className="w-4 h-4" />, text: "50+ Đối tác" },
-                { icon: <Award className="w-4 h-4" />, text: "95% Hài lòng" },
-                { icon: <TrendingUp className="w-4 h-4" />, text: "80% Được tuyển dụng" }
-              ].map((stat, index) => (
-                <motion.div
-                  key={index}
-                  className="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full shadow-sm border border-gray-100"
-                  variants={animationVariants.listItem}
-                  whileHover={{ scale: 1.05, y: -2 }}
-                >
-                  <span className="text-blue-600">{stat.icon}</span>
-                  <span className="text-sm font-medium text-gray-700">{stat.text}</span>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
         </motion.div>
 
         {/* Enhanced Programs Grid */}

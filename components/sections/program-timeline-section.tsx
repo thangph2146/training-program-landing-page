@@ -484,7 +484,7 @@ export function ProgramTimelineSection() {
           <div className='w-full flex justify-end'>
             <PointerHighlight>
               <motion.h2
-                className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-800 p-4"
+                className="text-3xl font-bold text-slate-800 p-4"
                 whileHover={{
                   scale: 1.05,
                   color: "#3b82f6",
