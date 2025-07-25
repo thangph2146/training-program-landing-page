@@ -606,6 +606,7 @@ export function TargetSection() {
 
   return (
     <CustomizableCarousel
+      id="target-section"
       items={targetCarouselItems}
       customCardSections={customCardSections}
       title="Mục tiêu của chương trình đào tạo"

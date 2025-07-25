@@ -111,6 +111,7 @@ interface InfoPanelProps {
 
 // Main Carousel Props
 interface CustomizableCarouselProps {
+  id?: string;
   items: CarouselItem[];
   title?: string;
   description?: string;
@@ -454,6 +455,7 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
 
 // Main Customizable Carousel Component
 export default function CustomizableCarousel({
+  id,
   items,
   title,
   description,
@@ -622,6 +624,7 @@ export default function CustomizableCarousel({
 
   return (
     <motion.section
+      id={id}
       ref={ref}
       className={cn(
         "w-full min-h-[100vh] h-fit flex flex-col items-center justify-center py-6 bg-gradient-to-br from-slate-50 via-slate-100/50 to-blue-50/30 relative overflow-hidden",
