@@ -31,36 +31,28 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-        <HeroSection />
-      
+      <HeroSection />
+
       {/* Target Section */}
-        <TargetSection />
-      
+      <TargetSection />
+
       {/* Program Timeline Section */}
-        <ProgramTimelineSection />
-      
+      <ProgramTimelineSection />
+
       {/* Featured Courses Section */}
-        <FeaturedCoursesSection />
-      
+      <FeaturedCoursesSection />
+
       {/* Career Timeline Section */}
-      <section id="career-timeline" className="min-h-screen">
-        <CareerTimelineSection />
-      </section>
-      
+      <CareerTimelineSection />
+
       {/* Featured Faculty Section */}
-      <section id="featured-faculty" className="min-h-screen">
-        <FeaturedFacultySection />
-      </section>
-      
+      <FeaturedFacultySection />
+
       {/* Internship Section */}
-      <section id="internship" className="min-h-screen">
-        <InternshipSection />
-      </section>
-      
+      <InternshipSection />
+
       {/* Career Opportunities Section */}
-      <section id="career-opportunities" className="min-h-screen">
-        <CareerOpportunitiesSection />
-      </section>
+      <CareerOpportunitiesSection />
 
       {/* Scroll Navigation Components */}
       {/* <ScrollIndicator

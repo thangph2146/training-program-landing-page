@@ -62,7 +62,7 @@ export function FeaturedFacultySection() {
               </div>
             </div>
             <p className="text-slate-50 leading-relaxed">
-              Lãnh đạo HUB trong quá trình chuyển đổi số và phát triển mạng lưới hợp tác quốc tế, 
+              Lãnh đạo HUB trong quá trình chuyển đổi số và phát triển mạng lưới hợp tác quốc tế,
               tiên phong trong đổi mới giáo dục đại học.
             </p>
           </div>
@@ -72,8 +72,8 @@ export function FeaturedFacultySection() {
             {/* Profile Image */}
             <div className="flex justify-center mb-6">
               <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-slate-200">
-                <img 
-                  src="https://data.hub.edu.vn/resource/Common/danguyvien/708d3521-46d2-4270-82da-10ae4b8714d1.JPG" 
+                <img
+                  src="https://data.hub.edu.vn/resource/Common/danguyvien/708d3521-46d2-4270-82da-10ae4b8714d1.JPG"
                   alt="PGS.TS. Nguyễn Đức Trung"
                   className="w-full h-full object-cover"
                 />
@@ -197,7 +197,7 @@ export function FeaturedFacultySection() {
               </div>
             </div>
             <p className="text-blue-50 leading-relaxed">
-              Chuyên gia hàng đầu về Quản trị Nhân lực và Tâm lý Tổ chức, 
+              Chuyên gia hàng đầu về Quản trị Nhân lực và Tâm lý Tổ chức,
               dẫn dắt các chương trình đào tạo hiện đại tại HUB.
             </p>
           </div>
@@ -207,8 +207,8 @@ export function FeaturedFacultySection() {
             {/* Profile Image */}
             <div className="flex justify-center mb-6">
               <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-blue-200">
-                <img 
-                  src="https://data.hub.edu.vn/resource/Common/danguyvien/a8f5c2d1-3e4b-4c7a-9f8e-1b2c3d4e5f6g.JPG" 
+                <img
+                  src="https://data.hub.edu.vn/resource/Common/danguyvien/a8f5c2d1-3e4b-4c7a-9f8e-1b2c3d4e5f6g.JPG"
                   alt="TS. Lê Thị Minh Huệ"
                   className="w-full h-full object-cover"
                 />
@@ -332,7 +332,7 @@ export function FeaturedFacultySection() {
               </div>
             </div>
             <p className="text-green-50 leading-relaxed">
-              Chuyên gia hàng đầu về Tài chính Doanh nghiệp và Đầu tư, 
+              Chuyên gia hàng đầu về Tài chính Doanh nghiệp và Đầu tư,
               kết hợp kinh nghiệm thực tiễn từ ngành ngân hàng với giảng dạy.
             </p>
           </div>
@@ -342,8 +342,8 @@ export function FeaturedFacultySection() {
             {/* Profile Image */}
             <div className="flex justify-center mb-6">
               <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-green-200">
-                <img 
-                  src="https://data.hub.edu.vn/resource/Common/danguyvien/b9e6d3f2-4f5c-5d8e-af9f-2c3d4e5f6g7h.JPG" 
+                <img
+                  src="https://data.hub.edu.vn/resource/Common/danguyvien/b9e6d3f2-4f5c-5d8e-af9f-2c3d4e5f6g7h.JPG"
                   alt="TS. Trần Văn Đức"
                   className="w-full h-full object-cover"
                 />
@@ -451,14 +451,12 @@ export function FeaturedFacultySection() {
   ];
 
   return (
-    <section className="py-16 bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20">
-        <CustomizableCarousel
-          id="featured-faculty-section"
-          items={facultyCarouselItems}
-          title="Đội ngũ Giảng viên Xuất sắc"
-          customCardSections={customCardSections}
-          autoplayInterval={5000}
-        />
-    </section>
+    <CustomizableCarousel
+      id="featured-faculty-section"
+      items={facultyCarouselItems}
+      title="Đội ngũ Giảng viên Xuất sắc"
+      customCardSections={customCardSections}
+      autoplayInterval={5000}
+    />
   );
 }

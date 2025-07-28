@@ -392,14 +392,14 @@ const InfoPanel: React.FC<InfoPanelProps> = ({
       <div className="flex gap-4 pt-8">
         <button
           onClick={onPrev}
-          className="group/button flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 transition-colors duration-200"
+          className="group/button flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 transition-colors duration-200 cursor-pointer"
           aria-label="Mục trước"
         >
           <ChevronLeft className="h-6 w-6 text-slate-600 transition-transform duration-300 group-hover/button:scale-110" />
         </button>
         <button
           onClick={onNext}
-          className="group/button flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 transition-colors duration-200"
+          className="group/button flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 transition-colors duration-200 cursor-pointer"
           aria-label="Mục tiếp theo"
         >
           <ChevronRight className="h-6 w-6 text-slate-600 transition-transform duration-300 group-hover/button:scale-110" />
