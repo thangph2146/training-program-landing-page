@@ -195,17 +195,6 @@ const CareerOpportunitiesSection = () => {
             className="text-center mb-20"
             variants={animationVariants.header}
           >
-            {/* Badge */}
-            <motion.div 
-              className="flex justify-center mb-6"
-              variants={animationVariants.badge}
-            >
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-red-500/10 to-red-600/10 border border-red-200/50 dark:border-red-800/50">
-                  <Briefcase className="w-4 h-4 text-red-600 dark:text-red-400" />
-                  <span className="text-sm font-semibold text-red-700 dark:text-red-300">Cơ hội nghề nghiệp</span>
-              </div>
-            </motion.div>
-
             {/* Title */}
             <div className='w-full flex justify-center mb-8'>
               <PointerHighlight>
@@ -222,7 +211,7 @@ const CareerOpportunitiesSection = () => {
                   }}
                 >
                   Triển vọng Nghề nghiệp
-                  <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent ml-2">
                     Rộng mở
                   </span>
                 </motion.h2>

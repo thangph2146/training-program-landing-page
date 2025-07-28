@@ -33,20 +33,15 @@ import {
   Sparkles,
   GraduationCap,
   Zap,
-  Badge
 } from 'lucide-react';
 
 interface InternshipProgram {
   title: string;
-  duration: string;
   type: string;
   description: string;
-  requirements: string[];
-  benefits: string[];
   partners: string[];
   icon: React.ReactNode;
   badge: string;
-  level: string;
   src: string;
 }
 
@@ -148,128 +143,56 @@ const InternshipSection: React.FC = () => {
   const internshipPrograms: InternshipProgram[] = [
     {
       title: "Thực tập Tài chính - Ngân hàng",
-      duration: "3-6 tháng",
       type: "Thực tập có lương",
       description: "Trải nghiệm thực tế tại các ngân hàng, công ty tài chính hàng đầu, học hỏi quy trình nghiệp vụ và phát triển kỹ năng chuyên môn.",
-      requirements: [
-        "Sinh viên năm 3, 4 ngành Tài chính - Ngân hàng",
-        "GPA từ 2.5 trở lên",
-        "Kỹ năng giao tiếp tốt"
-      ],
-      benefits: [
-        "Lương thực tập 3-5 triệu/tháng",
-        "Cơ hội được tuyển dụng chính thức",
-        "Chứng chỉ hoàn thành từ doanh nghiệp"
-      ],
       partners: ["Vietcombank", "BIDV", "Techcombank", "MB Bank"],
       icon: <Briefcase className="w-6 h-6" />,
       badge: "Phổ biến",
-      level: "Trung cấp",
       src: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     },
     {
       title: "Kiến tập Quản trị Kinh doanh",
-      duration: "2-4 tháng",
       type: "Kiến tập học tập",
       description: "Tham quan, học hỏi mô hình quản trị tại các doanh nghiệp lớn, hiểu rõ quy trình vận hành và chiến lược kinh doanh.",
-      requirements: [
-        "Sinh viên năm 2, 3 ngành Quản trị",
-        "Có tinh thần học hỏi cao",
-        "Kỹ năng làm việc nhóm"
-      ],
-      benefits: [
-        "Hiểu rõ môi trường doanh nghiệp",
-        "Xây dựng mạng lưới quan hệ",
-        "Báo cáo kiến tập được công nhận"
-      ],
       partners: ["Vingroup", "FPT", "Saigon Co.op", "Masan Group"],
       icon: <Building2 className="w-6 h-6" />,
       badge: "Mới",
-      level: "Cơ bản",
       src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     },
     {
       title: "Thực tập Khoa học Dữ liệu",
-      duration: "4-6 tháng",
       type: "Thực tập dự án",
       description: "Tham gia các dự án phân tích dữ liệu thực tế, ứng dụng AI/ML trong giải quyết bài toán kinh doanh của doanh nghiệp.",
-      requirements: [
-        "Sinh viên năm 3, 4 ngành Data Science",
-        "Thành thạo Python, SQL",
-        "Hiểu biết về Machine Learning"
-      ],
-      benefits: [
-        "Làm việc với dữ liệu thực tế",
-        "Mentor 1-1 từ chuyên gia",
-        "Portfolio dự án chuyên nghiệp"
-      ],
       partners: ["VNG", "Tiki", "Shopee", "Grab"],
       icon: <TrendingUp className="w-6 h-6" />,
       badge: "Hot",
-      level: "Nâng cao",
       src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     },
     {
       title: "Thực tập Marketing Digital",
-      duration: "3-5 tháng",
       type: "Thực tập sáng tạo",
       description: "Thực hiện các chiến dịch marketing online, quản lý social media, phân tích hiệu quả quảng cáo cho các thương hiệu.",
-      requirements: [
-        "Sinh viên ngành Marketing, Truyền thông",
-        "Sáng tạo, am hiểu social media",
-        "Kỹ năng thiết kế cơ bản"
-      ],
-      benefits: [
-        "Thực hiện chiến dịch thực tế",
-        "Học công cụ marketing chuyên nghiệp",
-        "Cơ hội phát triển personal brand"
-      ],
       partners: ["Unilever", "P&G", "Coca-Cola", "Nestle"],
       icon: <Target className="w-6 h-6" />,
       badge: "Sáng tạo",
-      level: "Trung cấp",
       src: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     },
     {
       title: "Kiến tập Luật Kinh tế",
-      duration: "2-3 tháng",
       type: "Kiến tập chuyên môn",
       description: "Tham quan tòa án, văn phòng luật sư, học hỏi quy trình xử lý các vụ việc pháp lý trong lĩnh vực kinh tế.",
-      requirements: [
-        "Sinh viên ngành Luật Kinh tế",
-        "Hiểu biết pháp luật cơ bản",
-        "Kỹ năng nghiên cứu, phân tích"
-      ],
-      benefits: [
-        "Tiếp xúc môi trường pháp lý thực tế",
-        "Học hỏi từ luật sư kinh nghiệm",
-        "Hiểu rõ quy trình tố tụng"
-      ],
       partners: ["Tòa án TP.HCM", "Công ty Luật ANVI", "Công ty Luật Bình Minh"],
       icon: <Award className="w-6 h-6" />,
       badge: "Chuyên môn",
-      level: "Trung cấp",
       src: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     },
     {
       title: "Thực tập Kế toán - Kiểm toán",
-      duration: "3-4 tháng",
       type: "Thực tập nghiệp vụ",
       description: "Thực hành công việc kế toán, kiểm toán tại các công ty kiểm toán độc lập và doanh nghiệp lớn.",
-      requirements: [
-        "Sinh viên năm 3, 4 ngành Kế toán",
-        "Thành thạo Excel, phần mềm kế toán",
-        "Tỉ mỉ, chính xác cao"
-      ],
-      benefits: [
-        "Thực hành nghiệp vụ kế toán thực tế",
-        "Chuẩn bị cho các kỳ thi chứng chỉ",
-        "Cơ hội làm việc tại Big 4"
-      ],
       partners: ["PwC", "Deloitte", "EY", "KPMG"],
       icon: <CheckCircle className="w-6 h-6" />,
       badge: "Uy tín",
-      level: "Chuyên nghiệp",
       src: "https://images.unsplash.com/photo-1554224154-26032fced8bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     }
   ];
@@ -487,9 +410,6 @@ const InternshipSection: React.FC = () => {
                     <CardTitle className="text-xl font-bold group-hover:text-blue-600 transition-colors duration-300 mb-3">
                       {program.title}
                     </CardTitle>
-                    <CardDescription className="text-sm text-gray-500 leading-relaxed">
-                      {program.duration} • {program.type}
-                    </CardDescription>
                   </motion.div>
                 </CardHeader>
                 <CardContent className="relative z-10 pt-0">
@@ -502,29 +422,6 @@ const InternshipSection: React.FC = () => {
                     {program.description}
                   </motion.p>
                   
-                  {/* Quick Info */}
-                  <motion.div 
-                    className="grid grid-cols-2 gap-3 mb-4"
-                    initial="hidden"
-                    animate="visible"
-                    variants={animationVariants.container}
-                  >
-                    <motion.div 
-                      className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg"
-                      variants={animationVariants.listItem}
-                    >
-                      <Clock className="w-4 h-4 text-blue-600" />
-                      <span className="text-xs font-medium text-gray-700">{program.duration}</span>
-                    </motion.div>
-                    <motion.div 
-                      className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg"
-                      variants={animationVariants.listItem}
-                    >
-                      <MapPin className="w-4 h-4 text-green-600" />
-                      <span className="text-xs font-medium text-gray-700">{program.level}</span>
-                    </motion.div>
-                  </motion.div>
-
                   <motion.div
                     className="space-y-4"
                     initial="hidden"
@@ -540,42 +437,6 @@ const InternshipSection: React.FC = () => {
                       }
                     }}
                   >
-                    {/* Requirements Preview */}
-                    <div>
-                      <h4 className="font-semibold text-sm mb-2 flex items-center gap-2">
-                        <Target className="w-4 h-4 text-blue-600" />
-                        Yêu cầu chính:
-                      </h4>
-                      <ul className="text-sm text-gray-600 space-y-1">
-                        {program.requirements.slice(0, 2).map((req, idx) => (
-                          <motion.li
-                            key={idx}
-                            className="flex items-start gap-2"
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{
-                              delay: 0.7 + index * 0.1 + idx * 0.1,
-                              type: "spring",
-                              stiffness: 120
-                            }}
-                            whileHover={{ x: 4 }}
-                          >
-                            <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                            {req}
-                          </motion.li>
-                        ))}
-                        {program.requirements.length > 2 && (
-                          <motion.li 
-                            className="text-sm text-blue-600 font-medium ml-6"
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                          >
-                            +{program.requirements.length - 2} yêu cầu khác...
-                          </motion.li>
-                        )}
-                      </ul>
-                    </div>
-                    
                     {/* CTA Button */}
                     <Drawer>
                       <DrawerTrigger asChild>
@@ -649,18 +510,6 @@ const InternshipSection: React.FC = () => {
                               transition={{ delay: 0.1, staggerChildren: 0.1 }}
                             >
                               <motion.div 
-                                className="flex items-center gap-3 p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border border-blue-200 hover:shadow-md transition-all duration-200"
-                                whileHover={{ scale: 1.02, y: -2 }}
-                              >
-                                <div className="p-2 bg-blue-500 rounded-lg">
-                                  <Calendar className="w-5 h-5 text-white" />
-                                </div>
-                                <div>
-                                  <p className="text-sm font-semibold text-gray-900">Thời gian</p>
-                                  <p className="text-sm text-blue-700 font-medium">{program.duration}</p>
-                                </div>
-                              </motion.div>
-                              <motion.div 
                                 className="flex items-center gap-3 p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-xl border border-green-200 hover:shadow-md transition-all duration-200"
                                 whileHover={{ scale: 1.02, y: -2 }}
                               >
@@ -670,18 +519,6 @@ const InternshipSection: React.FC = () => {
                                 <div>
                                   <p className="text-sm font-semibold text-gray-900">Hình thức</p>
                                   <p className="text-sm text-green-700 font-medium">{program.type}</p>
-                                </div>
-                              </motion.div>
-                              <motion.div 
-                                className="flex items-center gap-3 p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl border border-purple-200 hover:shadow-md transition-all duration-200"
-                                whileHover={{ scale: 1.02, y: -2 }}
-                              >
-                                <div className="p-2 bg-purple-500 rounded-lg">
-                                  <Users className="w-5 h-5 text-white" />
-                                </div>
-                                <div>
-                                  <p className="text-sm font-semibold text-gray-900">Trình độ</p>
-                                  <p className="text-sm text-purple-700 font-medium">{program.level}</p>
                                 </div>
                               </motion.div>
                             </motion.div>
@@ -716,69 +553,7 @@ const InternshipSection: React.FC = () => {
                                 ))}
                               </div>
                             </motion.div>
-                            
-                            {/* Enhanced Requirements */}
-                            <motion.div
-                              initial={{ opacity: 0, y: 20 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 0.3 }}
-                            >
-                              <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-3">
-                                <div className="p-2 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg">
-                                  <Target className="w-5 h-5 text-white" />
-                                </div>
-                                Yêu cầu tham gia
-                              </h3>
-                              <div className="grid gap-3">
-                                {program.requirements.map((req, reqIndex) => (
-                                  <motion.div
-                                    key={reqIndex}
-                                    className="flex items-start gap-3 p-4 bg-green-50 border border-green-200 rounded-xl hover:shadow-md transition-all duration-200"
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: reqIndex * 0.1 }}
-                                    whileHover={{ scale: 1.01, x: 4 }}
-                                  >
-                                    <div className="p-1 bg-green-500 rounded-full">
-                                      <CheckCircle className="w-4 h-4 text-white" />
-                                    </div>
-                                    <span className="text-gray-700 font-medium">{req}</span>
-                                  </motion.div>
-                                ))}
-                              </div>
-                            </motion.div>
-                            
-                            {/* Enhanced Benefits */}
-                            <motion.div
-                              initial={{ opacity: 0, y: 20 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 0.4 }}
-                            >
-                              <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-3">
-                                <div className="p-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg">
-                                  <Award className="w-5 h-5 text-white" />
-                                </div>
-                                Lợi ích nhận được
-                              </h3>
-                              <div className="grid gap-3">
-                                {program.benefits.map((benefit, benefitIndex) => (
-                                  <motion.div
-                                    key={benefitIndex}
-                                    className="flex items-start gap-3 p-4 bg-purple-50 border border-purple-200 rounded-xl hover:shadow-md transition-all duration-200"
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: benefitIndex * 0.1 }}
-                                    whileHover={{ scale: 1.01, x: 4 }}
-                                  >
-                                    <div className="p-1 bg-purple-500 rounded-full">
-                                      <TrendingUp className="w-4 h-4 text-white" />
-                                    </div>
-                                    <span className="text-gray-700 font-medium">{benefit}</span>
-                                  </motion.div>
-                                ))}
-                              </div>
-                            </motion.div>
-
+                      
                             {/* Enhanced Call to Action */}
                             <motion.div 
                               className="pt-6 border-t border-gray-200"
